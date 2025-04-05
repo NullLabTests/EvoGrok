@@ -7,7 +7,7 @@
 - **Evolutionary Algorithm:** Agents evolve via selection, crossover, and mutation.
 - **Grok-2 Integration:** Query the Grok-2 model for suggestions to improve agent parameters.
 - **Database Logging:** Stores generation details and insights in a local SQLite database.
-- **Robust & Extensible:** Designed with logging, error handling, and convergence checking for production use.
+- **Robust & Extensible:** Designed with logging, error handling, and continuous operation for production use.
 
 ## Getting Started
 
@@ -15,7 +15,7 @@
 
 - Python 3.8+
 - Environment variable \`XAI_API_KEY\` set to your xAI API key.
-- Packages: \`openai\`, \`numpy\`
+- Packages: \`openai\`, \`numpy\` (and optionally \`torch\` for GPU usage)
 
 ### Installation
 
@@ -29,7 +29,7 @@ pip install -r requirements.txt
 
 ### Running the Project
 
-To start the evolutionary algorithm, simply run:
+To start the evolutionary algorithm (which runs indefinitely), simply run:
 
 \`\`\`bash
 python main.py
@@ -47,7 +47,7 @@ EvoGrok/
 
 ## Continuous Learning
 
-EvoGrok is designed to run continuously on high-end GPUs, evolving and learning over generations. You can adjust the parameters in \`main.py\` (such as \`GENERATIONS\` or \`CONVERGENCE_THRESHOLD\`) to let it run indefinitely.
+EvoGrok is designed to run continuously on high-end GPUs (if available) or CPUs, evolving and learning over generations. You can adjust the parameters in \`main.py\` to tailor its behavior.
 
 ## License
 

@@ -5,6 +5,15 @@ import numpy as np
 import logging
 from openai import OpenAI
 
+# Optionally use GPU if available (dummy GPU usage for demonstration)
+try:
+    import torch
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    logging.info(f"Using device: {device}")
+except ImportError:
+    device = None
+    logging.info("Torch not installed. Running on CPU.")
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -21,9 +30,8 @@ DB_PATH = "evo_w_grok.db"
 
 # Evolution parameters
 POPULATION_SIZE = 100
-GENERATIONS = 100
+# Run indefinitely by removing a generation limit
 MUTATION_RATE = 0.1
-CONVERGENCE_THRESHOLD = 0.001
 
 # Grok-2 query parameters
 GROK_QUERY_PROMPT = "Provide insights on the evolution of AI"
@@ -149,12 +157,12 @@ def evolve(population):
 
 def main():
     """
-    Main function to run the evolutionary algorithm.
+    Main function to run the evolutionary algorithm indefinitely.
     """
     initialize_db()
     population = [Agent() for _ in range(POPULATION_SIZE)]
-    last_best_fitness = 0
-    for generation in range(GENERATIONS):
+    generation = 0
+    while True:
         best_agent = max(population, key=lambda x: x.fitness())
         best_fitness = best_agent.fitness()
         prompt = construct_grok_prompt(best_agent)
@@ -165,10 +173,7 @@ def main():
         else:
             logging.warning(f"Generation {generation}: Grok-2 response missing.")
         population = evolve(population)
-        if abs(best_fitness - last_best_fitness) < CONVERGENCE_THRESHOLD:
-            logging.info(f"Convergence reached at generation {generation}.")
-            break
-        last_best_fitness = best_fitness
+        generation += 1
 
 if __name__ == "__main__":
     main()
