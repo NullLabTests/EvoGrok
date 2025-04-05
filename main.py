@@ -30,7 +30,7 @@ DB_PATH = "evo_w_grok.db"
 
 # Evolution parameters
 POPULATION_SIZE = 100
-# Run indefinitely by removing a generation limit
+# Run indefinitely by removing generation limit
 MUTATION_RATE = 0.1
 
 # Grok-2 query parameters
