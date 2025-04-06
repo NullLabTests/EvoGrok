@@ -46,9 +46,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Project File Tree
 
+```
 EvoGrok/
 ├── LICENSE
 ├── README.md
 ├── main.py
 └── requirements.txt
-
+```
