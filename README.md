@@ -17,33 +17,24 @@
 - Environment variable \`XAI_API_KEY\` set to your xAI API key.
 - Packages: \`openai\`, \`numpy\` (and optionally \`torch\` for GPU usage)
 
-### Installation
-
-Clone the repository and install the required packages:
-
-\`\`\`bash
-git clone https://github.com/${GITHUB_USERNAME}/${REPO_NAME}.git
-cd ${REPO_NAME}
-pip install -r requirements.txt
-\`\`\`
 
 ### Running the Project
 
 To start the evolutionary algorithm (which runs indefinitely), simply run:
 
-\`\`\`bash
+```bash
 python main.py
-\`\`\`
+```
 
 ## Project File Tree
 
-\`\`\`
+```
 EvoGrok/
 ├── LICENSE
 ├── README.md
 ├── main.py
 └── requirements.txt
-\`\`\`
+```
 
 ## Continuous Learning
 
