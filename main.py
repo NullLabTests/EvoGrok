@@ -5,7 +5,17 @@ import numpy as np
 import logging
 from openai import OpenAI
 
-# Optionally use GPU if available (dummy GPU usage for demonstration)
+# Configure logging early to avoid missing logs
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler("evo.log"),
+        logging.StreamHandler()
+    ]
+)
+
+# Optionally use GPU if available (for potential future use)
 try:
     import torch
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -14,33 +24,22 @@ except ImportError:
     device = None
     logging.info("Torch not installed. Running on CPU.")
 
-# Configure logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-
-# Load API Key from environment
+# Load xAI API Key
 XAI_API_KEY = os.getenv("XAI_API_KEY")
 if not XAI_API_KEY:
-    raise ValueError("XAI_API_KEY is not set. Please configure your environment.")
+    raise ValueError("XAI_API_KEY is not set in environment.")
 
-# Initialize xAI API client
+# Initialize Grok/xAI API client
 client = OpenAI(api_key=XAI_API_KEY, base_url="https://api.x.ai/v1")
 
-# SQLite database path
+# Database
 DB_PATH = "evo_w_grok.db"
 
-# Evolution parameters
+# Evolution config
 POPULATION_SIZE = 100
-# Run indefinitely by removing generation limit
 MUTATION_RATE = 0.1
 
-# Grok-2 query parameters
-GROK_QUERY_PROMPT = "Provide insights on the evolution of AI"
-
 class Agent:
-    """
-    Represents an agent in the evolutionary algorithm with parameters:
-    alpha, gamma, epsilon, and epsilon_decay.
-    """
     def __init__(self):
         self.alpha = random.uniform(0, 1)
         self.gamma = random.uniform(0, 1)
@@ -48,17 +47,9 @@ class Agent:
         self.epsilon_decay = random.uniform(0, 1)
 
     def fitness(self):
-        """
-        Calculate the fitness of the agent using a weighted sum.
-        Adjust weights as needed for your domain.
-        """
         return self.alpha * 0.4 + self.gamma * 0.3 + self.epsilon * 0.2 + self.epsilon_decay * 0.1
 
     def mutate(self):
-        """
-        Mutate the agent's parameters with a given mutation rate.
-        Values are clipped to remain within the [0, 1] interval.
-        """
         if random.random() < MUTATION_RATE:
             self.alpha = np.clip(self.alpha + random.uniform(-0.1, 0.1), 0, 1)
             self.gamma = np.clip(self.gamma + random.uniform(-0.1, 0.1), 0, 1)
@@ -66,9 +57,6 @@ class Agent:
             self.epsilon_decay = np.clip(self.epsilon_decay + random.uniform(-0.1, 0.1), 0, 1)
 
 def initialize_db():
-    """
-    Initialize the SQLite database and create the evolution_log table if it does not exist.
-    """
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
@@ -89,91 +77,86 @@ def initialize_db():
         """)
         conn.commit()
         conn.close()
-        logging.info("Database initialized successfully.")
+        logging.info("Database initialized.")
     except sqlite3.Error as e:
         logging.error(f"Database initialization failed: {e}")
 
-def log_generation(generation, best_agent, best_fitness, grok_query, grok_response, tokens_used):
-    """
-    Log the details of the current generation to the SQLite database.
-    """
+def log_generation(generation, agent, fitness, prompt, response, tokens):
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO evolution_log
-            (generation, best_alpha, best_gamma, best_epsilon, best_epsilon_decay, best_fitness, grok_query, grok_response, tokens_used)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (generation, best_agent.alpha, best_agent.gamma, best_agent.epsilon, best_agent.epsilon_decay,
-              best_fitness, grok_query, grok_response, tokens_used))
+            INSERT INTO evolution_log (
+                generation, best_alpha, best_gamma, best_epsilon, best_epsilon_decay,
+                best_fitness, grok_query, grok_response, tokens_used
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            generation, agent.alpha, agent.gamma, agent.epsilon,
+            agent.epsilon_decay, fitness, prompt, response, tokens
+        ))
         conn.commit()
         conn.close()
-        logging.info(f"Generation {generation} logged successfully.")
+        logging.info(f"Generation {generation} logged.")
     except sqlite3.Error as e:
-        logging.error(f"Logging generation {generation} failed: {e}")
+        logging.error(f"Failed to log generation {generation}: {e}")
 
-def construct_grok_prompt(best_agent):
-    """
-    Construct a prompt for the Grok-2 query based on the best agent's parameters.
-    """
-    return (f"Analyze these AI agent parameters: alpha={best_agent.alpha:.2f}, gamma={best_agent.gamma:.2f}, "
-            f"epsilon={best_agent.epsilon:.2f}, epsilon_decay={best_agent.epsilon_decay:.2f}. "
-            "Suggest improvements.")
+def construct_grok_prompt(agent):
+    return (
+        f"Analyze these AI agent parameters: alpha={agent.alpha:.2f}, gamma={agent.gamma:.2f}, "
+        f"epsilon={agent.epsilon:.2f}, epsilon_decay={agent.epsilon_decay:.2f}. "
+        "Suggest improvements."
+    )
 
 def query_grok(prompt):
-    """
-    Query the Grok-2 model with the given prompt and return the response and tokens used.
-    """
     try:
+        logging.info("Sending query to Grok-2...")
         response = client.chat.completions.create(
             model="grok-2",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=2048,
             temperature=0.7,
         )
-        tokens_used = response.usage.total_tokens if hasattr(response.usage, "total_tokens") else 2048
-        return response.choices[0].message.content, tokens_used
+        content = response.choices[0].message.content
+        tokens_used = getattr(response.usage, "total_tokens", 2048)
+        return content, tokens_used
     except Exception as e:
-        logging.error(f"Grok-2 query failed: {e}")
-        return None, 0
+        logging.warning(f"Grok query failed: {e}")
+        return f"[Mock Response] Insight based on: {prompt}", 0
 
 def evolve(population):
-    """
-    Evolve the population by selecting the best agents, creating offspring through crossover,
-    and applying mutation to the offspring.
-    """
-    selected_agents = sorted(population, key=lambda x: x.fitness(), reverse=True)[:int(POPULATION_SIZE / 2)]
+    survivors = sorted(population, key=lambda a: a.fitness(), reverse=True)[:POPULATION_SIZE // 2]
     offspring = []
-    for _ in range(int(POPULATION_SIZE / 2)):
-        parent1, parent2 = random.sample(selected_agents, 2)
+    for _ in range(POPULATION_SIZE // 2):
+        p1, p2 = random.sample(survivors, 2)
         child = Agent()
-        child.alpha = (parent1.alpha + parent2.alpha) / 2
-        child.gamma = (parent1.gamma + parent2.gamma) / 2
-        child.epsilon = (parent1.epsilon + parent2.epsilon) / 2
-        child.epsilon_decay = (parent1.epsilon_decay + parent2.epsilon_decay) / 2
+        child.alpha = (p1.alpha + p2.alpha) / 2
+        child.gamma = (p1.gamma + p2.gamma) / 2
+        child.epsilon = (p1.epsilon + p2.epsilon) / 2
+        child.epsilon_decay = (p1.epsilon_decay + p2.epsilon_decay) / 2
         child.mutate()
         offspring.append(child)
-    return selected_agents + offspring
+    return survivors + offspring
 
 def main():
-    """
-    Main function to run the evolutionary algorithm indefinitely.
-    """
     initialize_db()
     population = [Agent() for _ in range(POPULATION_SIZE)]
     generation = 0
+
     while True:
-        best_agent = max(population, key=lambda x: x.fitness())
-        best_fitness = best_agent.fitness()
+        logging.info(f"=== Generation {generation} ===")
+        best_agent = max(population, key=lambda a: a.fitness())
+        fitness = best_agent.fitness()
         prompt = construct_grok_prompt(best_agent)
-        grok_response, tokens_used = query_grok(prompt)
-        if grok_response:
-            log_generation(generation, best_agent, best_fitness, prompt, grok_response, tokens_used)
-            logging.info(f"Generation {generation}: Fitness = {best_fitness:.4f}")
-        else:
-            logging.warning(f"Generation {generation}: Grok-2 response missing.")
+
+        grok_response, tokens = query_grok(prompt)
+
+        log_generation(generation, best_agent, fitness, prompt, grok_response, tokens)
+        logging.info(f"Fitness: {fitness:.4f}")
+        logging.info(f"Grok insight: {grok_response[:200]}...")
+
         population = evolve(population)
         generation += 1
 
 if __name__ == "__main__":
     main()
+
