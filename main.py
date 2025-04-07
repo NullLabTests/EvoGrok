@@ -3,16 +3,17 @@ import sqlite3
 import random
 import numpy as np
 import logging
+import time
 from openai import OpenAI
 
-# Configure logging: to both file and console
+# Configure logging to file and console
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[logging.FileHandler("evo.log"), logging.StreamHandler()]
 )
 
-# Optionally use GPU if available (for future use)
+# Optionally use GPU if available (for future extensions)
 try:
     import torch
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -21,24 +22,23 @@ except ImportError:
     device = None
     logging.info("Torch not installed. Running on CPU.")
 
-# Load xAI API Key from the environment
+# Load xAI API Key from environment
 XAI_API_KEY = os.getenv("XAI_API_KEY")
 if not XAI_API_KEY:
     raise ValueError("XAI_API_KEY is not set. Please configure your environment.")
 
-# Initialize the xAI API (Grok-2)
+# Initialize the xAI API client (Grok-2)
 client = OpenAI(api_key=XAI_API_KEY, base_url="https://api.x.ai/v1")
 
-# SQLite database path
+# Database path for logging evolution
 DB_PATH = "evo_w_grok.db"
 
-# Evolution parameters
+# Evolutionary parameters
 POPULATION_SIZE = 100
 MUTATION_RATE = 0.15
 MAX_GENERATIONS = 1000
 
 # --------------------- Tool System ---------------------
-
 class Tool:
     def __init__(self, name: str, func: callable, description: str = ""):
         self.name = name
@@ -57,7 +57,7 @@ class ToolBox:
     def __init__(self):
         self.tools = {
             "lower": Tool("lower", lambda x: x.lower(), "Converts text to lowercase"),
-            "add": Tool("add", lambda x: str(eval(x)), "Adds numbers like '2 + 3'")
+            "add": Tool("add", lambda x: str(eval(x)), "Evaluates arithmetic expressions")
         }
     
     def get(self, name: str):
@@ -69,8 +69,7 @@ class ToolBox:
     def add_tool(self, name: str, func: callable, description: str):
         self.tools[name] = Tool(name, func, description)
 
-# --------------------- Agent with Tool Usage and Emergence ---------------------
-
+# --------------------- Agent with Emergent Behavior ---------------------
 class Agent:
     def __init__(self, toolbox: ToolBox):
         self.alpha = random.uniform(0, 1)
@@ -78,12 +77,11 @@ class Agent:
         self.epsilon = random.uniform(0, 1)
         self.epsilon_decay = random.uniform(0, 1)
         self.toolbox = toolbox
-        self.memory = []  # Records of (task, tool_name, result)
-        self.tool_preferences = {}  # Mapping from task to preferred tool
-        self.fitness_history = []  # Track fitness over time for self-reflection
+        self.memory = []  # Records (task, tool used, result)
+        self.tool_preferences = {}  # Map task to preferred tool
+        self.fitness_history = []  # Track fitness over generations for self-reflection
 
     def fitness(self):
-        # Base fitness is computed from params; bonus for successful tool use; bonus for tool diversity.
         base = self.alpha * 0.4 + self.gamma * 0.3 + self.epsilon * 0.2 + self.epsilon_decay * 0.1
         success_bonus = sum(1 for _, _, r in self.memory if "Success" in r) * 0.15
         coherence = self.calculate_coherence()
@@ -102,14 +100,13 @@ class Agent:
         if random.random() < MUTATION_RATE:
             delta = random.uniform(-0.15, 0.15)
             if self.fitness_history:
-                delta *= (1.0 - self.fitness_history[-1] / 3.0)  # Scale mutation based on fitness trend
+                delta *= (1.0 - self.fitness_history[-1] / 3.0)
             self.alpha = np.clip(self.alpha + delta, 0, 1)
             self.gamma = np.clip(self.gamma + delta * self.gamma, 0, 1)
             self.epsilon = np.clip(self.epsilon + delta * self.epsilon, 0, 1)
             self.epsilon_decay = np.clip(self.epsilon_decay + delta, 0, 1)
 
     def solve_task(self, task: str, input_data: str):
-        # Use preferred tool with probability (1 - epsilon) else choose random tool
         if task in self.tool_preferences and random.random() > self.epsilon:
             tool_name = self.tool_preferences[task]
         else:
@@ -124,8 +121,8 @@ class Agent:
         return result
 
     def reflect(self, result):
-        fitness = self.fitness()
-        self.fitness_history.append(fitness)
+        fitness_val = self.fitness()
+        self.fitness_history.append(fitness_val)
         if len(self.fitness_history) > 5:
             self.fitness_history.pop(0)
         if len(self.fitness_history) > 1:
@@ -136,7 +133,7 @@ class Agent:
                 self.alpha = min(1.0, self.alpha + 0.05)
 
     def request_tool(self, task: str):
-        prompt = f"Generate a lambda function for the task: {task}. For example, lambda x: x[::-1] to reverse a string, or lambda x: x.lower() to convert text to lowercase."
+        prompt = f"Generate a lambda function for the task: {task}. For example, use 'lambda x: x[::-1]' for reversing or 'lambda x: x.lower()' for lowercase conversion."
         try:
             response = client.chat.completions.create(
                 model="grok-2",
@@ -149,17 +146,37 @@ class Agent:
                 safe_locals = {}
                 exec(f"func = {code}", {"__builtins__": {}}, safe_locals)
                 tool_name = f"tool_{len(self.toolbox.tools)}"
-                self.toolbox.add_tool(tool_name, safe_locals["func"], f"For {task}")
+                self.toolbox.add_tool(tool_name, safe_locals["func"], f"Auto-generated for {task}")
                 logging.info(f"Added new tool: {tool_name} for task '{task}'")
                 return tool_name
             else:
-                logging.warning(f"Tool request did not return a lambda: {code}")
+                logging.warning(f"Tool request did not yield a lambda: {code}")
         except Exception as e:
             logging.error(f"Tool request failed: {e}")
         return None
 
-# --------------------- Database Logging ---------------------
+    def self_improve(self):
+        improvement_prompt = (
+            f"Analyze agent fitness history: {self.fitness_history}. Suggest parameter adjustments (alpha, gamma, epsilon, epsilon_decay) to enhance task-solving. Ensure all values remain between 0 and 1."
+        )
+        try:
+            response = client.chat.completions.create(
+                model="grok-2",
+                messages=[{"role": "user", "content": improvement_prompt}],
+                max_tokens=200,
+                temperature=0.8
+            )
+            suggestion = response.choices[0].message.content.strip()
+            logging.info(f"Self-improvement suggestion: {suggestion}")
+            # Simulate minor adjustment:
+            adjustment = random.uniform(-0.05, 0.05)
+            self.alpha = np.clip(self.alpha + adjustment, 0, 1)
+            return suggestion
+        except Exception as e:
+            logging.error(f"Self-improvement request failed: {e}")
+            return "No suggestion"
 
+# --------------------- Database Functions ---------------------
 def initialize_db():
     try:
         conn = sqlite3.connect(DB_PATH)
@@ -195,8 +212,8 @@ def log_generation(generation, agent, fitness, prompt, response, tokens):
                 best_fitness, grok_query, grok_response, tokens_used
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
-            generation, agent.alpha, agent.gamma, agent.epsilon,
-            agent.epsilon_decay, fitness, prompt, response, tokens
+            generation, agent.alpha, agent.gamma, agent.epsilon, agent.epsilon_decay,
+            fitness, prompt, response, tokens
         ))
         conn.commit()
         conn.close()
@@ -205,10 +222,11 @@ def log_generation(generation, agent, fitness, prompt, response, tokens):
         logging.error(f"Failed to log generation {generation}: {e}")
 
 def construct_grok_prompt(agent):
-    memory_summary = f"Memory: {len(agent.memory)} entries, {sum(1 for _,_,r in agent.memory if 'Success' in r)} successes."
-    return (f"Analyze this AI agent: alpha={agent.alpha:.2f}, gamma={agent.gamma:.2f}, "
+    memory_summary = (f"Memory: {len(agent.memory)} entries, "
+                      f"{sum(1 for _,_,r in agent.memory if 'Success' in r)} successes.")
+    return (f"Analyze this agent: alpha={agent.alpha:.2f}, gamma={agent.gamma:.2f}, "
             f"epsilon={agent.epsilon:.2f}, epsilon_decay={agent.epsilon_decay:.2f}. {memory_summary} "
-            "Suggest improvements for task-solving and adaptability.")
+            "Suggest improvements for adaptability and tool utilization.")
 
 def query_grok(prompt):
     try:
@@ -243,7 +261,6 @@ def evolve(population):
     return survivors + offspring
 
 # --------------------- Main Loop ---------------------
-
 def main():
     initialize_db()
     toolbox = ToolBox()
@@ -254,6 +271,8 @@ def main():
         ("Reverse String", "WORLD")
     ]
     generation = 0
+    stagnant_count = 0
+    last_avg_fitness = 0
 
     while generation < MAX_GENERATIONS:
         logging.info(f"=== Generation {generation} ===")
@@ -261,12 +280,22 @@ def main():
         fitness = best_agent.fitness()
         prompt = construct_grok_prompt(best_agent)
         
-        # For each task, try solving and request tool if needed.
         for task, input_data in tasks:
             result = best_agent.solve_task(task, input_data)
             logging.info(f"Task '{task}' with input '{input_data}' yielded: {result}")
             if "Failed" in result and random.random() < 0.4:
                 best_agent.request_tool(task)
+        
+        avg_fitness = sum(agent.fitness() for agent in population) / len(population)
+        if abs(avg_fitness - last_avg_fitness) < 0.01:
+            stagnant_count += 1
+        else:
+            stagnant_count = 0
+        last_avg_fitness = avg_fitness
+        if stagnant_count >= 5:
+            logging.info("Fitness plateau detected, initiating self-improvement.")
+            best_agent.self_improve()
+            stagnant_count = 0
         
         grok_response, tokens = query_grok(prompt)
         log_generation(generation, best_agent, fitness, prompt, grok_response, tokens)
@@ -275,6 +304,7 @@ def main():
         
         population = evolve(population)
         generation += 1
+        time.sleep(1)  # Throttle loop to prevent overload
 
 if __name__ == "__main__":
     main()
