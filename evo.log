@@ -801,3 +801,13 @@ Analysis of the current agent:
 2025-04-07 19:24:39,083 - INFO - Task 'Arithmetic Addition' with input '2 + 3' yielded: Success: 2 + 3
 2025-04-07 19:24:39,083 - INFO - Task 'Reverse String' with input 'WORLD' yielded: Success: world
 2025-04-07 19:24:39,084 - INFO - Sending query to Grok-2...
+=== Auto-Improve Cycle Started at Mon Apr  7 07:26:44 PM EDT 2025 ===
+=== Auto-Improve Cycle Completed at Mon Apr  7 07:26:45 PM EDT 2025 ===
+=== Auto-Improve Cycle Started at Mon Apr  7 07:27:25 PM EDT 2025 ===
+Response was: Failed to parse the request body as JSON: messages[1].?: expected `,` or `}` at line 5 column 310
+=== Auto-Improve Cycle Completed at Mon Apr  7 07:27:25 PM EDT 2025 ===
+=== Auto-Improve Cycle Started at Mon Apr  7 07:28:08 PM EDT 2025 ===
+Raw Grok API Response:
+Failed to parse the request body as JSON: messages[1].content: control character (\u0000-\u001F) found while parsing a string at line 6 column 0
+Error: Invalid JSON response from Grok API
+=== Auto-Improve Cycle Completed at Mon Apr  7 07:28:09 PM EDT 2025 ===
