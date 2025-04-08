@@ -21,10 +21,16 @@ def tentacle(input_data):
         # If evaluation fails, process the input based on its content
         if ',' in input_data:
             # Sort and join the items if it's a comma-separated list
-            return ','.join(sorted(input_data.split(',')))
-        elif input_data.strip().isdigit():
-            # If it's a single number, return it as a string
-            return str(input_data)
+            sorted_items = sorted(input_data.split(','))
+            # Reverse each item and join them
+            return ','.join(item[::-1] for item in sorted_items)
+        elif input_data.isdigit():
+            # If it's a single number, return its square and cube
+            number = int(input_data)
+            return f"square: {number ** 2}, cube: {number ** 3}"
+        elif input_data.replace(' ', '').isalpha():
+            # If it's a word (ignoring spaces), return its length and reverse
+            return f"length: {len(input_data)}, reverse: {input_data[::-1]}"
         else:
-            # For other inputs, return the lowercase version with spaces removed
-            return input_data.lower().replace(' ', '')
+            # For other inputs, reverse the string, convert to lowercase, and remove non-alphanumeric characters
+            return ''.join(char.lower() for char in input_data[::-1] if char.isalnum())
