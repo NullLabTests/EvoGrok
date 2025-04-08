@@ -1,14 +1,16 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
         lower_input = input_data.lower()
         if 'data analysis' in lower_input:
-            return "wikipedia data analysis html document detected"
+            return "data analysis html document detected"
         elif 'mathematics' in lower_input:
-            return "wikipedia mathematics html document detected"
+            return "mathematics html document detected"
         elif 'text processing' in lower_input:
-            return "wikipedia text processing html document detected"
+            return "text processing html document detected"
         else:
             return "generic html document detected"
     
@@ -47,15 +49,21 @@ def tentacle(input_data):
         if any(char.isdigit() for char in result):
             return f"string with digits detected: {result}"
         
-        # New feature: Check if the result contains any common programming keywords
-        programming_keywords = ['if', 'else', 'for', 'while', 'def', 'class', 'import']
-        if any(keyword in result.split() for keyword in programming_keywords):
-            return f"string with programming keywords detected: {result}"
-        
-        # New feature: Check if the result is a valid date (YYYY-MM-DD format)
-        import re
+        # Check if the result is a valid date (YYYY-MM-DD format)
         if re.match(r'^\d{4}-\d{2}-\d{2}$', result):
             return f"valid date detected: {result}"
+        
+        # Check if the result is a valid email address
+        if re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', result):
+            return f"valid email address detected: {result}"
+        
+        # New feature: Check if the result is a Wikipedia URL
+        if re.match(r'^https?://en\.wikipedia\.org/wiki/', result):
+            return f"wikipedia url detected: {result}"
+        
+        # New feature: Check if the result is a valid ISBN-10 or ISBN-13
+        if re.match(r'^(?=\d{10}$|(?=(?:\d{9})X$))\d{9}[\dX]$', result) or re.match(r'^(?=\d{13}$)\d{12}\d$', result):
+            return f"valid isbn detected: {result}"
         
         # If no special conditions are met, return the processed result
         return result

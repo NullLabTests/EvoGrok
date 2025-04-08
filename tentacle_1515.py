@@ -16,13 +16,26 @@ def tentacle(input_data):
             elif 'history' in lowercase_input:
                 return "wikipedia history html document detected"
             else:
-                return "generic html document detected"
+                # Check for additional keywords from the knowledge
+                if 'html5' in lowercase_input:
+                    return "html5 document detected"
+                else:
+                    return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string, lowercase it, and remove whitespace
-        return str(result).strip().lower()
+        result_str = str(result).strip().lower()
+        
+        # Check if the result is a number
+        if isinstance(result, (int, float)):
+            # Calculate and return the square root of the result
+            import math
+            square_root = math.sqrt(result)
+            return f"{result_str} (square root: {square_root:.2f})"
+        else:
+            return result_str
     except:
         # If evaluation fails, process the input as a string
         if isinstance(input_data, str):
@@ -37,15 +50,26 @@ def tentacle(input_data):
                 
                 # Check if the result looks like a list of numbers
                 if all(val.replace('.', '').replace('-', '').isdigit() for val in result.split(',')):
-                    # If it's a list of numbers, calculate and return their average
+                    # If it's a list of numbers, calculate and return their average and standard deviation
                     numbers = [float(val) for val in result.split(',')]
                     average = sum(numbers) / len(numbers)
-                    return f"average of {result}: {average:.2f}"
+                    import statistics
+                    std_dev = statistics.stdev(numbers)
+                    return f"average of {result}: {average:.2f}, standard deviation: {std_dev:.2f}"
                 else:
                     return result
             else:
-                # Convert the input to lowercase and remove any leading/trailing whitespace
-                return input_data.strip().lower()
+                # Check for specific keywords related to the knowledge
+                lowercase_input = input_data.lower()
+                if 'data analysis' in lowercase_input:
+                    return "data analysis related content detected"
+                elif 'mathematics' in lowercase_input:
+                    return "mathematics related content detected"
+                elif 'text processing' in lowercase_input:
+                    return "text processing related content detected"
+                else:
+                    # Convert the input to lowercase and remove any leading/trailing whitespace
+                    return input_data.strip().lower()
         else:
             # For non-string inputs, convert to string and lowercase
             return str(input_data).lower()
