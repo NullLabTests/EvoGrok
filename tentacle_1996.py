@@ -18,10 +18,10 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
-                elif 'machine learning' in lower_input:
-                    return "wikipedia machine learning html document detected"
-                elif 'artificial intelligence' in lower_input:
-                    return "wikipedia artificial intelligence html document detected"
+                elif 'history' in lower_input:
+                    return "wikipedia history html document detected"
+                elif 'technology' in lower_input:
+                    return "wikipedia technology html document detected"
                 else:
                     return "wikipedia generic html document detected"
             else:
@@ -33,30 +33,25 @@ def tentacle(input_data):
         
         # Process the result based on its type
         if isinstance(result, (int, float)):
-            # For numbers, return the sorted digits/characters, their sum, 
-            # the original result, and a classification of the number
+            # For numbers, return the sorted digits/characters, their sum, and the original result
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            number_type = "positive" if result > 0 else "negative" if result < 0 else "zero"
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}, type: {number_type}"
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
         elif isinstance(result, str):
-            # For strings, split, sort, remove duplicates, join, and count unique words
-            words = result.lower().split()
-            unique_words = sorted(set(words))
-            word_count = len(unique_words)
-            return f"unique words ({word_count}): {', '.join(unique_words)}"
+            # For strings, split, sort, remove duplicates, and join
+            sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
+            return ','.join(sorted_items)
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements, remove duplicates, join, and count unique items
-            unique_items = sorted(set(str(item).lower() for item in result))
-            item_count = len(unique_items)
-            return f"unique items ({item_count}): {', '.join(unique_items)}"
-        elif callable(result):
-            # For functions, return its name and docstring
-            return f"function: {result.__name__}, docstring: {result.__doc__ or 'None'}"
+            # For collections, sort elements, remove duplicates, and join
+            sorted_items = sorted(set(str(item).lower() for item in result))
+            return ','.join(sorted_items)
+        elif isinstance(result, dict):
+            # For dictionaries, sort keys, remove duplicates, and join key-value pairs
+            sorted_items = sorted(set(f"{k}:{v}".lower() for k, v in result.items()))
+            return ','.join(sorted_items)
         else:
-            # For other types, return a lowercase string representation, its length, 
-            # the original result, and its type
-            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}, type: {type(result).__name__}"
+            # For other types, return a lowercase string representation, its length, and the original result
+            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
     except Exception as e:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -75,9 +70,10 @@ def tentacle(input_data):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
             return ','.join(sorted_items)
-        elif callable(input_data):
-            # For functions, return its name and docstring
-            return f"function: {input_data.__name__}, docstring: {input_data.__doc__ or 'None'}"
+        elif isinstance(input_data, dict):
+            # For dictionaries, sort keys, remove duplicates, and join key-value pairs
+            sorted_items = sorted(set(f"{k}:{v}".lower() for k, v in input_data.items()))
+            return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation, its length, and the original input
-            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}, type: {type(input_data).__name__}"
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
