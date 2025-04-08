@@ -18,6 +18,10 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
+                elif 'history' in lower_input:
+                    return "wikipedia history html document detected"
+                elif 'technology' in lower_input:
+                    return "wikipedia technology html document detected"
                 else:
                     return "wikipedia generic html document detected"
             else:
@@ -29,21 +33,27 @@ def tentacle(input_data):
         
         # Process the result based on its type
         if isinstance(result, (int, float)):
-            # For numbers, return the sorted digits/characters, their sum, and the original result
+            # For numbers, return the sorted digits/characters, their sum, the original result, and a simple analysis
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
+            analysis = "positive" if result > 0 else "negative" if result < 0 else "zero"
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}, analysis: {analysis}"
         elif isinstance(result, str):
-            # For strings, split, sort, remove duplicates, and join
+            # For strings, split, sort, remove duplicates, join, and count unique items
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
-            return ','.join(sorted_items)
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique items: {unique_count}"
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements, remove duplicates, and join
+            # For collections, sort elements, remove duplicates, join, and provide statistics
             sorted_items = sorted(set(str(item).lower() for item in result))
-            return ','.join(sorted_items)
+            item_count = len(sorted_items)
+            total_length = sum(len(str(item)) for item in sorted_items)
+            avg_length = total_length / item_count if item_count > 0 else 0
+            return f"{','.join(sorted_items)}, items: {item_count}, avg length: {avg_length:.2f}"
         else:
-            # For other types, return a lowercase string representation, its length, and the original result
-            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
+            # For other types, return a lowercase string representation, its length, the original result, and type information
+            result_type = type(result).__name__
+            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}, type: {result_type}"
     except Exception as e:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -55,13 +65,20 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Split the input, sort it, remove duplicates, and join it back together
+            # Split the input, sort it, remove duplicates, join it back together, and provide statistics
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            return ','.join(sorted_items)
+            unique_count = len(sorted_items)
+            total_length = sum(len(item) for item in sorted_items)
+            avg_length = total_length / unique_count if unique_count > 0 else 0
+            return f"{','.join(sorted_items)}, unique items: {unique_count}, avg length: {avg_length:.2f}"
         elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements, remove duplicates, and join them
+            # If it's a collection, sort its elements, remove duplicates, join them, and provide statistics
             sorted_items = sorted(set(str(item).lower() for item in input_data))
-            return ','.join(sorted_items)
+            item_count = len(sorted_items)
+            total_length = sum(len(str(item)) for item in sorted_items)
+            avg_length = total_length / item_count if item_count > 0 else 0
+            return f"{','.join(sorted_items)}, items: {item_count}, avg length: {avg_length:.2f}"
         else:
             # For other types, return a lowercase string representation, its length, and the original input
-            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
+            input_type = type(input_data).__name__
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}, type: {input_type}"
