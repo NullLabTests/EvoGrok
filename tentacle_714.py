@@ -18,7 +18,7 @@ def tentacle(input_data):
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
-        # If evaluation fails, process the input as a string
+        # If evaluation fails, process the input as a string or other type
         if isinstance(input_data, str):
             if ',' in input_data:
                 # Sort and join comma-separated values
@@ -33,8 +33,8 @@ def tentacle(input_data):
                     words = input_data.lower().split()
                     return ' '.join(sorted(words))
                 else:
-                    # Return the input as a lowercase string
-                    return input_data.lower()
+                    # Return an empty string for empty input
+                    return ''
         else:
-            # For non-string inputs, convert to string and lowercase
+            # For non-string inputs, convert to lowercase string
             return str(input_data).lower()

@@ -34,8 +34,20 @@ def tentacle(input_data):
                 # If not a number, reverse the string
                 result = input_data[::-1].lower()
         
-        # New feature: Check if the result contains any HTML tags
+        # Check if the result contains any HTML tags
         if '<' in result and '>' in result:
             return f"string with html tags detected: {result}"
-        else:
-            return result
+        
+        # New feature: Check for common programming language keywords
+        programming_keywords = ['if', 'else', 'for', 'while', 'def', 'class', 'import']
+        if any(keyword in result.lower() for keyword in programming_keywords):
+            return f"potential code snippet detected: {result}"
+        
+        # New feature: Check for common data formats
+        if result.startswith('{'):
+            return f"potential JSON object detected: {result}"
+        elif result.startswith('['):
+            return f"potential JSON array detected: {result}"
+        
+        # If no special conditions are met, return the processed result
+        return result

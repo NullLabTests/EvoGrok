@@ -3,11 +3,11 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_data.lower():
-            return "data analysis html document detected"
+            return "wikipedia data analysis html document detected"
         elif 'mathematics' in input_data.lower():
-            return "mathematics html document detected"
+            return "wikipedia mathematics html document detected"
         elif 'text processing' in input_data.lower():
-            return "text processing html document detected"
+            return "wikipedia text processing html document detected"
         else:
             return "generic html document detected"
     
@@ -21,19 +21,20 @@ def tentacle(input_data):
         if ',' in input_data:
             # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove any empty strings that might result from leading/trailing commas
+            # Remove any empty strings and strip whitespace
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
-            return ','.join(cleaned_values)
+            # Join the cleaned values
+            result = ','.join(cleaned_values)
         else:
             # Convert the input to lowercase and remove leading/trailing whitespace
-            processed_input = input_data.strip().lower()
-            
-            # Check for specific patterns in the processed input
-            if processed_input.startswith('http') or processed_input.startswith('www'):
-                return f"url detected: {processed_input}"
-            elif any(char.isdigit() for char in processed_input):
-                return f"text with numbers detected: {processed_input}"
-            elif len(processed_input.split()) > 10:
-                return f"long text detected: {processed_input}"
-            else:
-                return processed_input
+            result = input_data.strip().lower()
+        
+        # Check for specific keywords in the processed input
+        if 'data analysis' in result:
+            return f"data analysis: {result}"
+        elif 'mathematics' in result:
+            return f"mathematics: {result}"
+        elif 'text processing' in result:
+            return f"text processing: {result}"
+        else:
+            return result
