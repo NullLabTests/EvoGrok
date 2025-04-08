@@ -1,14 +1,15 @@
 import json
+import re
 
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
-        if 'data analysis' in input_data.lower():
+        if re.search(r'data\s+analysis', input_data, re.IGNORECASE):
             return "data analysis html document detected"
-        elif 'mathematics' in input_data.lower():
+        elif re.search(r'mathematics', input_data, re.IGNORECASE):
             return "mathematics html document detected"
-        elif 'text processing' in input_data.lower():
+        elif re.search(r'text\s+processing', input_data, re.IGNORECASE):
             return "text processing html document detected"
         else:
             return "generic html document detected"
