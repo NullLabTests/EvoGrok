@@ -2,6 +2,8 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lowercase_input = input_data.lower()
+        
+        # Detect specific Wikipedia HTML document types
         if 'data analysis' in lowercase_input:
             return "wikipedia data analysis html document detected"
         elif 'mathematics' in lowercase_input:

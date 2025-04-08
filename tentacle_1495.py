@@ -1,19 +1,29 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lowercase_input = input_data.lower()
+        
+        # Check for specific Wikipedia HTML document types
         if 'data analysis' in lowercase_input:
             return "wikipedia data analysis html document detected"
         elif 'mathematics' in lowercase_input:
             return "wikipedia mathematics html document detected"
         elif 'text processing' in lowercase_input:
             return "wikipedia text processing html document detected"
+        elif 'programming' in lowercase_input:
+            return "wikipedia programming html document detected"
+        elif 'machine learning' in lowercase_input:
+            return "wikipedia machine learning html document detected"
         else:
             # Check for other specific HTML document types
-            if 'programming' in lowercase_input:
-                return "wikipedia programming html document detected"
-            elif 'machine learning' in lowercase_input:
-                return "wikipedia machine learning html document detected"
+            if 'blog' in lowercase_input:
+                return "blog html document detected"
+            elif 'news' in lowercase_input:
+                return "news html document detected"
+            elif 'forum' in lowercase_input:
+                return "forum html document detected"
             else:
                 return "generic html document detected"
     
@@ -44,10 +54,17 @@ def tentacle(input_data):
                         return f"email address detected: {input_data.lower()}"
                     else:
                         # Check for date patterns
-                        import re
                         date_pattern = r'^\d{4}-\d{2}-\d{2}$'
                         if re.match(date_pattern, input_data):
                             return f"date detected: {input_data}"
+                        # Check for time patterns
+                        time_pattern = r'^\d{2}:\d{2}(:\d{2})?$'
+                        if re.match(time_pattern, input_data):
+                            return f"time detected: {input_data}"
+                        # Check for phone number patterns
+                        phone_pattern = r'^\+?1?\s*\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$'
+                        if re.match(phone_pattern, input_data):
+                            return f"phone number detected: {input_data}"
                         else:
                             # If no specific pattern matches, return the input as a lowercase string
                             return str(input_data).lower()

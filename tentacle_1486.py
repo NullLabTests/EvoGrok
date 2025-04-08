@@ -43,5 +43,9 @@ def tentacle(input_data):
                 elif 'text processing' in input_data.lower():
                     return "text processing text detected"
                 else:
-                    # If no specific keywords are found, return the input as a lowercase string
-                    return str(input_data).lower()
+                    # If no specific keywords are found, check for potential HTML fragments
+                    if '<' in input_data and '>' in input_data:
+                        return "potential html fragment detected"
+                    else:
+                        # If no special cases are detected, return the input as a lowercase string
+                        return str(input_data).lower()

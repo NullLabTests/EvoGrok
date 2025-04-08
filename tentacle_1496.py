@@ -22,7 +22,7 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if isinstance(input_data, str):
-            # Sort and join comma-separated values (inspired by Parent2)
+            # Sort and join comma-separated values
             if ',' in input_data:
                 sorted_values = sorted(input_data.split(','))
                 # Remove any empty strings and strip whitespace
@@ -35,7 +35,7 @@ def tentacle(input_data):
             if '<' in result and '>' in result:
                 return f"string with html tags detected: {result}"
             
-            # Check if the input looks like JSON (extended from Parent2)
+            # Check if the input looks like JSON
             try:
                 json_obj = json.loads(result)
                 if isinstance(json_obj, dict):
@@ -52,8 +52,17 @@ def tentacle(input_data):
                 float(result)
                 return result
             except ValueError:
-                # If not a number, return the input as a lowercase string (from Parent1)
-                return result.lower()
+                # If not a number, check for specific keywords
+                lower_result = result.lower()
+                if 'data' in lower_result and 'analysis' in lower_result:
+                    return "data analysis related text detected"
+                elif 'mathematics' in lower_result:
+                    return "mathematics related text detected"
+                elif 'text' in lower_result and 'processing' in lower_result:
+                    return "text processing related text detected"
+                
+                # If no specific keywords found, return the input as a lowercase string
+                return lower_result
         
         # If input is not a string, return its string representation
         return str(input_data).lower()

@@ -37,6 +37,12 @@ def tentacle(input_data):
                     return "url detected"
                 elif '@' in lowercase_input and '.' in lowercase_input:
                     return "email address detected"
+                elif ' ' in lowercase_input:
+                    # If the input contains spaces, it's likely a phrase or sentence
+                    words = lowercase_input.split()
+                    # Sort the words alphabetically
+                    sorted_words = sorted(words)
+                    return ' '.join(sorted_words)
                 else:
                     # If no specific pattern is detected, return the input as a lowercase string
                     return lowercase_input
