@@ -55,15 +55,6 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Check for specific keywords related to the knowledge
-            lower_input = input_data.lower()
-            if 'data analysis' in lower_input:
-                return "data analysis related text detected"
-            elif 'mathematics' in lower_input:
-                return "mathematics related text detected"
-            elif 'text processing' in lower_input:
-                return "text processing related text detected"
-            
             # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
             return ','.join(sorted_items)
