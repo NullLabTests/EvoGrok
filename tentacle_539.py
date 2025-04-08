@@ -28,7 +28,15 @@ def tentacle(input_data):
             # Check if the input is a valid number (integer or float)
             try:
                 float(input_data)
-                return str(input_data).lower()
+                return str(float(input_data)).lower()
             except ValueError:
-                # If not a number, return the input as a lowercase string (from Parent1)
+                # If it's not a number, check for specific patterns
+                if input_data.lower().startswith('wiki:'):
+                    # Extract the topic after 'wiki:'
+                    topic = input_data[5:].strip().lower()
+                    if topic in ['data analysis', 'mathematics', 'text processing']:
+                        return f"wiki page about {topic} detected"
+                    else:
+                        return f"wiki page about {topic} detected"
+                # If no specific pattern is matched, return the input as a lowercase string (from Parent1)
                 return str(input_data).lower()

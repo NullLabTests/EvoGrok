@@ -25,5 +25,19 @@ def tentacle(input_data):
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
             return ','.join(cleaned_values)
         else:
-            # Convert the input to lowercase and remove leading/trailing whitespace
-            return input_data.strip().lower()
+            # Check if the input is a valid number (integer or float)
+            try:
+                float(input_data)
+                return str(float(input_data)).lower()
+            except ValueError:
+                # If not a number, check for specific patterns
+                if input_data.lower().startswith('wiki:'):
+                    # Process Wikipedia-related input
+                    topic = input_data[5:].strip().lower()
+                    if topic in ['data analysis', 'mathematics', 'text processing']:
+                        return f"wikipedia page on {topic} detected"
+                    else:
+                        return f"wikipedia page on {topic} detected (unknown topic)"
+                else:
+                    # If no special patterns, return the input as a lowercase string (from Parent1)
+                    return str(input_data).lower()

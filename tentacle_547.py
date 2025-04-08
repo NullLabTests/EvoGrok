@@ -15,18 +15,25 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return str(result).lower()
+        return f"mathematical result: {str(result).lower()}"
     except:
         # If evaluation fails, process the input based on its content
         if ',' in input_data:
             # Sort and join the items if it's a comma-separated list
-            return ','.join(sorted(input_data.split(',')))
+            sorted_items = sorted(input_data.split(','))
+            return f"sorted list: {','.join(sorted_items)}"
         elif input_data.isdigit():
             # If it's a number, return it as a string with a descriptive prefix
             return f"number: {input_data}"
         elif input_data.replace(' ', '').isalpha():
             # If it's a word (ignoring spaces), return it capitalized
-            return input_data.title()
+            return f"word: {input_data.title()}"
+        elif isinstance(input_data, (list, tuple, set)):
+            # If it's a collection, sort it and return as a string
+            return f"collection: {str(sorted(input_data))}"
+        elif callable(input_data):
+            # If it's a function, return its name and docstring
+            return f"function: {input_data.__name__} - {input_data.__doc__}"
         else:
-            # For any other input, return it as a lowercase string
-            return str(input_data).lower()
+            # For any other input, return it as a lowercase string with a prefix
+            return f"other: {str(input_data).lower()}"

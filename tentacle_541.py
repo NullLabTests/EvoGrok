@@ -14,8 +14,8 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, and sort its characters
+        return ''.join(sorted(str(result).lower()))
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -25,8 +25,9 @@ def tentacle(input_data):
             # Sort and join space-separated values
             return ' '.join(sorted(input_data.split()))
         elif input_data.isdigit():
-            # If the input is a single number, return its square
-            return str(int(input_data) ** 2)
+            # If the input is a single number, return its square and cube
+            number = int(input_data)
+            return f"square: {number ** 2}, cube: {number ** 3}"
         else:
-            # Return the input as a lowercase string
-            return str(input_data).lower()
+            # Reverse the input and return it as a lowercase string
+            return str(input_data)[::-1].lower()
