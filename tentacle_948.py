@@ -1,4 +1,5 @@
 import json
+import re
 
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
@@ -39,7 +40,7 @@ def tentacle(input_data):
                     # If it's valid JSON, return a string representation
                     return str(json_data).lower()
                 except json.JSONDecodeError:
-                    # If not JSON, check for specific keywords (new addition)
+                    # If not JSON, check for specific keywords (extended from Parent2)
                     lowercase_input = input_data.lower()
                     if 'data' in lowercase_input and 'analysis' in lowercase_input:
                         return "data analysis text detected"
@@ -48,5 +49,15 @@ def tentacle(input_data):
                     elif 'text' in lowercase_input and 'processing' in lowercase_input:
                         return "text processing text detected"
                     else:
-                        # If no specific keywords, return the input as a lowercase string (from Parent1)
+                        # Check for potential email addresses
+                        email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+                        if re.search(email_pattern, input_data):
+                            return "email address detected"
+                        
+                        # Check for potential URLs
+                        url_pattern = r'https?://(?:[-\w.]|(?:%[\da-fA-F]{2}))+'
+                        if re.search(url_pattern, input_data):
+                            return "url detected"
+                        
+                        # If no specific patterns or keywords, return the input as a lowercase string (from Parent1)
                         return str(input_data).lower()

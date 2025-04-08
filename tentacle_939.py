@@ -9,6 +9,7 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "text processing html document detected"
         else:
+            # If no specific type is detected, return a generic message
             return "generic html document detected"
     
     try:
@@ -21,8 +22,12 @@ def tentacle(input_data):
         if ',' in input_data:
             # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove any empty strings that might result from leading/trailing commas
+            # Remove any empty strings and strip whitespace
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
+            # If there's only one non-empty value, return it as lowercase
+            if len(cleaned_values) == 1:
+                return cleaned_values[0].lower()
+            # Otherwise, join the cleaned values
             return ','.join(cleaned_values)
         else:
             # Check if the input is a valid number (integer or float)
@@ -30,11 +35,19 @@ def tentacle(input_data):
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, check for specific patterns
-                if input_data.strip().lower().startswith('http'):
-                    return "url detected"
-                elif '@' in input_data and '.' in input_data:
-                    return "email address detected"
+                # If not a number, check for specific keywords
+                if 'data analysis' in input_data.lower():
+                    return "data analysis text detected"
+                elif 'mathematics' in input_data.lower():
+                    return "mathematics text detected"
+                elif 'text processing' in input_data.lower():
+                    return "text processing text detected"
                 else:
-                    # If no specific pattern is detected, return the input as a lowercase string
-                    return str(input_data).lower()
+                    # If no specific keywords are found, perform additional processing
+                    words = input_data.split()
+                    if len(words) > 1:
+                        # Return the first and last word, separated by an ellipsis
+                        return f"{words[0].lower()}...{words[-1].lower()}"
+                    else:
+                        # If only one word, return it as lowercase
+                        return input_data.lower()
