@@ -23,6 +23,6 @@ def tentacle(input_data):
         # If evaluation fails and input contains commas, sort and join
         if ',' in input_str:
             return ','.join(sorted(input_str.split(',')))
-        # If evaluation fails and input doesn't contain commas, return lowercase
+        # If no commas, return the input as a lowercase string
         else:
             return input_str.lower()
