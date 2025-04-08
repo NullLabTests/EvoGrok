@@ -19,7 +19,7 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join the comma-separated values
+            # Sort and join comma-separated values
             return ','.join(sorted(input_data.split(',')))
         else:
             # Return the input as a lowercase string

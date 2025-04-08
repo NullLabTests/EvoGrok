@@ -1,0 +1,26 @@
+import re
+
+def tentacle(input_data):
+    # Check if the input looks like the start of an HTML document
+    if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
+        # Detect the type of HTML document
+        if 'data analysis' in input_data.lower():
+            return "data analysis html document detected"
+        elif 'mathematics' in input_data.lower():
+            return "mathematics html document detected"
+        elif 'text processing' in input_data.lower():
+            return "text processing html document detected"
+        else:
+            return "generic html document detected"
+    
+    try:
+        # Attempt to evaluate the input as a mathematical expression
+        result = eval(input_data)
+        # Convert the result to a string and lowercase it
+        return f"mathematical result: {str(result).lower()}"
+    except:
+        # If evaluation fails, process the input as text
+        # Split the input into words, sort them, and join with commas
+        words = re.findall(r'\b\w+\b', str(input_data).lower())
+        sorted_words = sorted(set(words))  # Use set to remove duplicates
+        return ','.join(sorted_words)
