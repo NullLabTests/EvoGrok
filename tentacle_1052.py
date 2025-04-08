@@ -1,5 +1,3 @@
-import re
-
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -11,36 +9,38 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "wikipedia text processing html document detected"
         else:
-            # Extract the title from the HTML if possible
-            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
-            if title_match:
-                return f"wikipedia {title_match.group(1).lower()} html document detected"
-            else:
-                return "generic html document detected"
+            return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string, lowercase it, and reverse it
-        return str(result).lower()[::-1]
+        reversed_result = str(result).lower()[::-1]
+        # If the reversed result contains digits, return the sum of those digits
+        if any(char.isdigit() for char in reversed_result):
+            return str(sum(int(char) for char in reversed_result if char.isdigit()))
+        else:
+            return reversed_result
     except:
         # If evaluation fails, process the input as a string or other type
         if isinstance(input_data, str):
             if ',' in input_data:
                 # Sort and join comma-separated values
                 sorted_values = sorted(input_data.split(','))
-                # Capitalize the first letter of each sorted value
-                capitalized_values = [value.strip().capitalize() for value in sorted_values]
-                return ','.join(capitalized_values)
+                # Reverse each value, capitalize it, and join with semicolons
+                return ';'.join([value[::-1].capitalize() for value in sorted_values])
             else:
                 # Process the string further
                 words = input_data.split()
                 if len(words) > 1:
-                    # If multiple words, reverse them, join with underscores, and capitalize
-                    return '_'.join(reversed(words)).capitalize()
+                    # If multiple words, reverse them, join with hyphens, and convert to title case
+                    reversed_words = [word[::-1] for word in words]
+                    return '-'.join(reversed_words).title()
                 else:
-                    # If single word, return it in uppercase and reversed
-                    return input_data.upper()[::-1]
+                    # If single word, return it in uppercase, reversed, and with alternating case
+                    reversed_word = input_data.upper()[::-1]
+                    return ''.join(c.lower() if i % 2 else c for i, c in enumerate(reversed_word))
         else:
-            # For non-string inputs, convert to string, lowercase, and reverse
-            return str(input_data).lower()[::-1]
+            # For non-string inputs, convert to string, lowercase, reverse, and count unique characters
+            reversed_str = str(input_data).lower()[::-1]
+            return f"{reversed_str} (unique chars: {len(set(reversed_str))})"

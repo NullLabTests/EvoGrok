@@ -4,25 +4,28 @@ def tentacle(input_data):
         # Determine the type of HTML document based on the title
         lowercase_input = input_data.lower()
         if 'data analysis' in lowercase_input:
-            return "data analysis html document detected"
+            doc_type = "data analysis html document"
         elif 'mathematics' in lowercase_input:
-            return "mathematics html document detected"
+            doc_type = "mathematics html document"
         elif 'text processing' in lowercase_input:
-            return "text processing html document detected"
+            doc_type = "text processing html document"
         else:
-            # If no specific type is detected, process the content
-            content = lowercase_input.split('>', 1)[-1].split('<', 1)[0]
-            if content:
-                # Split the content into words, remove empty strings, sort, and join
-                words = [word for word in content.split() if word]
-                # Count the occurrences of each word
-                word_counts = {word: words.count(word) for word in set(words)}
-                # Sort the words by count (descending) and then alphabetically
-                sorted_words = sorted(word_counts.items(), key=lambda x: (-x[1], x[0]))
-                # Return the top 5 words with their counts
-                return ','.join(f"{word}:{count}" for word, count in sorted_words[:5])
-            else:
-                return "generic html document detected"
+            doc_type = "generic html document"
+        
+        # Extract and process the content
+        content = lowercase_input.split('>', 1)[-1].split('<', 1)[0]
+        if content:
+            # Split the content into words, remove empty strings, sort, and join
+            words = [word for word in content.split() if word]
+            # Count the occurrences of each word
+            word_counts = {word: words.count(word) for word in set(words)}
+            # Sort the words by count (descending) and then alphabetically
+            sorted_words = sorted(word_counts.items(), key=lambda x: (-x[1], x[0]))
+            # Return the document type and top 5 words with their counts
+            word_freq = ','.join(f"{word}:{count}" for word, count in sorted_words[:5])
+            return f"{doc_type} detected: {word_freq}"
+        else:
+            return f"{doc_type} detected: no content found"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -34,7 +37,7 @@ def tentacle(input_data):
         # Sort the words by count (descending) and then alphabetically
         sorted_words = sorted(word_counts.items(), key=lambda x: (-x[1], x[0]))
         # Return the top 5 words with their counts
-        return ','.join(f"{word}:{count}" for word, count in sorted_words[:5])
+        return f"math expression evaluated: {','.join(f'{word}:{count}' for word, count in sorted_words[:5])}"
     except:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, remove empty strings, sort, and join
@@ -44,4 +47,4 @@ def tentacle(input_data):
         # Sort the words by count (descending) and then alphabetically
         sorted_words = sorted(word_counts.items(), key=lambda x: (-x[1], x[0]))
         # Return the top 5 words with their counts
-        return ','.join(f"{word}:{count}" for word, count in sorted_words[:5])
+        return f"text processed: {','.join(f'{word}:{count}' for word, count in sorted_words[:5])}"

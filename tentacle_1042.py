@@ -15,8 +15,8 @@ def tentacle(input_data):
             content = lowercase_input.split('>', 1)[-1].split('<', 1)[0]
             if content:
                 # Split the content into words, remove empty strings, sort, and join
-                words = [word for word in content.split() if word]
-                return ','.join(sorted(words))
+                words = sorted([word for word in content.split() if word])
+                return f"html document detected: {','.join(words)}"
             else:
                 return "html document detected"
     
@@ -24,10 +24,10 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string, split it into words, remove empty strings, sort, and join
-        words = [word for word in str(result).split() if word]
-        return ','.join(sorted(words))
+        words = sorted([word for word in str(result).split() if word])
+        return f"math expression evaluated: {','.join(words)}"
     except:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, remove empty strings, sort, and join
-        words = [word for word in str(input_data).lower().split() if word]
-        return ','.join(sorted(words))
+        words = sorted([word for word in str(input_data).lower().split() if word])
+        return f"text processed: {','.join(words)}"
