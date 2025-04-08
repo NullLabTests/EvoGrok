@@ -1,4 +1,5 @@
 import json
+import re
 
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
@@ -11,6 +12,10 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "text processing html document detected"
         else:
+            # Extract the title if possible
+            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
+            if title_match:
+                return f"html document detected: {title_match.group(1).lower()}"
             return "generic html document detected"
     
     try:
@@ -23,7 +28,10 @@ def tentacle(input_data):
         if isinstance(input_data, str):
             if ',' in input_data:
                 # Sort and join comma-separated values
-                return ','.join(sorted(input_data.split(',')))
+                sorted_values = sorted(input_data.split(','))
+                # Remove any empty values
+                non_empty_values = [v.strip() for v in sorted_values if v.strip()]
+                return ','.join(non_empty_values)
             else:
                 # Attempt to parse as JSON
                 try:

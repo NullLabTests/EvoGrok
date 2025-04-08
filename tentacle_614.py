@@ -20,7 +20,15 @@ def tentacle(input_data):
         # If evaluation fails, process the input as a string
         if ',' in input_data:
             # Sort and join comma-separated values, then lowercase
-            return ','.join(sorted(input_data.split(','))).lower()
+            sorted_values = sorted(input_data.split(','))
+            # Check if all values are numeric
+            if all(value.strip().replace('.', '').isdigit() for value in sorted_values):
+                # If numeric, calculate the sum
+                total = sum(float(value.strip()) for value in sorted_values)
+                return f"numeric input sum: {total:.2f}"
+            else:
+                # If not numeric, return sorted values
+                return ','.join(sorted_values).lower()
         else:
             # Return the input as a lowercase string with a prefix
             return f"string input: {str(input_data).lower()}"
