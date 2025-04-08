@@ -19,24 +19,24 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove any empty strings that might result from leading/trailing commas
-            cleaned_values = [v.strip() for v in sorted_values if v.strip()]
-            # Convert each value to lowercase (new feature)
-            lowercased_values = [v.lower() for v in cleaned_values]
+            # Remove any leading/trailing whitespace from each value
+            cleaned_values = [value.strip() for value in sorted_values]
+            # Convert each value to lowercase
+            lowercased_values = [value.lower() for value in cleaned_values]
+            # Join the processed values
             return ','.join(lowercased_values)
         else:
-            # Check if the input is a valid number (integer or float)
+            # Check if the input is a valid number
             try:
                 float(input_data)
-                return str(float(input_data)).lower()
+                # If it's a number, return it as a lowercase string
+                return str(input_data).lower()
             except ValueError:
-                # If it's not a number, check for specific patterns (new feature)
-                if input_data.strip().lower().startswith('http'):
-                    return "url detected"
-                elif '@' in input_data and '.' in input_data:
-                    return "email address detected"
+                # If not a number, check if it's a palindrome
+                if input_data.lower() == input_data.lower()[::-1]:
+                    return f"palindrome detected: {input_data.lower()}"
                 else:
-                    # If no specific pattern is detected, return the input as a lowercase string
-                    return str(input_data).lower()
+                    # If not a palindrome, reverse the string and convert to lowercase
+                    return input_data[::-1].lower()

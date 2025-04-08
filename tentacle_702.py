@@ -1,12 +1,15 @@
+import json
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
-        if 'data analysis' in input_data.lower():
+        lowercase_input = input_data.lower()
+        if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
-        elif 'mathematics' in input_data.lower():
+        elif 'mathematics' in lowercase_input:
             return "mathematics html document detected"
-        elif 'text processing' in input_data.lower():
+        elif 'text processing' in lowercase_input:
             return "text processing html document detected"
         else:
             return "generic html document detected"
@@ -30,11 +33,20 @@ def tentacle(input_data):
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, check for specific patterns
-                if input_data.strip().lower().startswith('http'):
-                    return "url detected"
-                elif '@' in input_data and '.' in input_data:
-                    return "email address detected"
-                else:
-                    # If no specific pattern is detected, return the input as a lowercase string (from Parent1)
-                    return str(input_data).lower()
+                # If not a number, check if it's JSON-like
+                try:
+                    json_data = json.loads(input_data)
+                    # If it's valid JSON, return a string representation
+                    return str(json_data).lower()
+                except json.JSONDecodeError:
+                    # If not JSON, check for specific keywords (new addition)
+                    lowercase_input = input_data.lower()
+                    if 'data' in lowercase_input and 'analysis' in lowercase_input:
+                        return "data analysis text detected"
+                    elif 'mathematics' in lowercase_input:
+                        return "mathematics text detected"
+                    elif 'text' in lowercase_input and 'processing' in lowercase_input:
+                        return "text processing text detected"
+                    else:
+                        # If no specific keywords, return the input as a lowercase string (from Parent1)
+                        return str(input_data).lower()
