@@ -24,7 +24,8 @@ def tentacle(input_data):
             sorted_values = sorted(str(input_data).split(','))
             # Remove any empty strings that might result from leading/trailing commas
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
-            return ','.join(cleaned_values)
+            # Join the cleaned values and convert to lowercase
+            return ','.join(cleaned_values).lower()
         else:
             # Check if the input is a valid number
             try:

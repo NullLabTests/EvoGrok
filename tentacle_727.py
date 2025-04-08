@@ -21,8 +21,9 @@ def tentacle(input_data):
         if ',' in input_data:
             # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove any empty strings and convert to lowercase
-            cleaned_values = [value.strip().lower() for value in sorted_values if value.strip()]
+            # Remove any leading/trailing whitespace from each value
+            cleaned_values = [value.strip() for value in sorted_values]
+            # Join the cleaned and sorted values
             return ','.join(cleaned_values)
         else:
             # Check if the input is a valid number
@@ -30,18 +31,6 @@ def tentacle(input_data):
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, check for specific patterns
-                if input_data.strip().lower().startswith('wiki:'):
-                    # Extract the topic after 'wiki:'
-                    topic = input_data.strip().lower().split('wiki:')[1].strip()
-                    return f"wikipedia page about {topic} detected"
-                elif input_data.strip().lower().startswith('calc:'):
-                    # Attempt to evaluate the expression after 'calc:'
-                    try:
-                        result = eval(input_data.strip().lower().split('calc:')[1].strip())
-                        return str(result).lower()
-                    except:
-                        return "invalid calculation expression"
-                else:
-                    # If no special patterns, return the input as a lowercase string
-                    return str(input_data).lower()
+                # If not a number, reverse the string, capitalize the first letter, and add a prefix
+                reversed_string = input_data[::-1].lower()
+                return f"processed: {reversed_string.capitalize()}"

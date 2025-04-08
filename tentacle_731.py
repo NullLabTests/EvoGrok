@@ -19,21 +19,23 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove any leading/trailing whitespace from each value
-            cleaned_values = [value.strip() for value in sorted_values]
-            # Join the cleaned values with commas and lowercase the result
-            return ','.join(cleaned_values).lower()
+            # Remove any empty strings and convert to lowercase
+            cleaned_values = [value.strip().lower() for value in sorted_values if value.strip()]
+            return ','.join(cleaned_values)
         else:
-            # Check if the input is a string
-            if isinstance(input_data, str):
-                # Split the string into words
-                words = input_data.split()
-                # Sort the words alphabetically
-                sorted_words = sorted(words)
-                # Join the sorted words with spaces and lowercase the result
-                return ' '.join(sorted_words).lower()
-            else:
-                # For non-string inputs, convert to string and lowercase
+            # Check if the input is a valid number
+            try:
+                float(input_data)
                 return str(input_data).lower()
+            except ValueError:
+                # If not a number, check for specific patterns
+                if input_data.strip().lower().startswith('wikipedia'):
+                    return f"wikipedia page about {input_data.split(' ', 1)[1].lower()} detected"
+                else:
+                    # Check for mathematical expressions that couldn't be evaluated
+                    if any(op in input_data for op in ['+', '-', '*', '/', '**']):
+                        return f"unevaluated mathematical expression: {input_data.lower()}"
+                    # Return the input as a lowercase string
+                    return str(input_data).lower()

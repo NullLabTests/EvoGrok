@@ -25,5 +25,9 @@ def tentacle(input_data):
             cleaned_values = [value.strip() for value in sorted_values]
             return ','.join(cleaned_values).lower()
         else:
-            # Return the input as a lowercase string
-            return str(input_data).lower()
+            # Check if the input is a string and return it as a lowercase string
+            if isinstance(input_data, str):
+                return input_data.lower()
+            else:
+                # If the input is not a string, convert it to a string and return it lowercase
+                return str(input_data).lower()

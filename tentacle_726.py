@@ -31,6 +31,8 @@ def tentacle(input_data):
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, reverse the string and capitalize the first letter
+                # If not a number, reverse the string, capitalize the first letter,
+                # and append the length of the original string
                 reversed_string = input_data[::-1].lower()
-                return reversed_string.capitalize()
+                capitalized_reversed = reversed_string.capitalize()
+                return f"{capitalized_reversed} (length: {len(input_data)})"

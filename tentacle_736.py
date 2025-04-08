@@ -3,11 +3,11 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_data.lower():
-            return "data analysis html document detected"
+            return "wikipedia data analysis html document detected"
         elif 'mathematics' in input_data.lower():
-            return "mathematics html document detected"
+            return "wikipedia mathematics html document detected"
         elif 'text processing' in input_data.lower():
-            return "text processing html document detected"
+            return "wikipedia text processing html document detected"
         else:
             return "generic html document detected"
     
@@ -23,14 +23,18 @@ def tentacle(input_data):
             sorted_values = sorted(input_data.split(','))
             # Remove any leading/trailing whitespace from each value
             cleaned_values = [value.strip() for value in sorted_values]
-            # Join the cleaned and sorted values
-            return ','.join(cleaned_values)
+            # Join the cleaned values with commas
+            result = ','.join(cleaned_values).lower()
         else:
-            # Check if the input is a valid number
-            try:
-                float(input_data)
-                return str(input_data).lower()
-            except ValueError:
-                # If not a number, reverse the string and capitalize the first letter
-                reversed_string = input_data[::-1].lower()
-                return reversed_string.capitalize()
+            # Return the input as a lowercase string
+            result = str(input_data).lower()
+        
+        # Check if the result contains any of the HTML document types
+        if 'data analysis' in result:
+            return f"{result}, wikipedia data analysis html document detected"
+        elif 'mathematics' in result:
+            return f"{result}, wikipedia mathematics html document detected"
+        elif 'text processing' in result:
+            return f"{result}, wikipedia text processing html document detected"
+        else:
+            return result

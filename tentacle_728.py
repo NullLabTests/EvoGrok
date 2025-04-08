@@ -1,3 +1,5 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -13,7 +15,16 @@ def tentacle(input_data):
             # Extract the title from the HTML if possible
             title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
             if title_match:
-                return f"html document detected: {title_match.group(1).strip().lower()}"
+                title = title_match.group(1).strip().lower()
+                # Check if the title contains any of the known categories
+                if 'data' in title:
+                    return f"data-related html document detected: {title}"
+                elif 'math' in title or 'equation' in title:
+                    return f"math-related html document detected: {title}"
+                elif 'text' in title or 'processing' in title:
+                    return f"text processing-related html document detected: {title}"
+                else:
+                    return f"html document detected: {title}"
             else:
                 return "generic html document detected"
     
@@ -33,7 +44,20 @@ def tentacle(input_data):
             if all(value.replace('.', '', 1).isdigit() for value in cleaned_values):
                 return str(sum(float(value) for value in cleaned_values)).lower()
             else:
-                return ','.join(cleaned_values)
+                # Check if all values are valid numbers
+                if all(value.replace('.', '', 1).isdigit() for value in cleaned_values):
+                    return str(sum(float(value) for value in cleaned_values)).lower()
+                else:
+                    # If not all numbers, check for common text patterns in each value
+                    processed_values = []
+                    for value in cleaned_values:
+                        if value.isupper():
+                            processed_values.append(value.lower() + " (was all uppercase)")
+                        elif len(value) > 20:
+                            processed_values.append(value[:20].lower() + "... (truncated)")
+                        else:
+                            processed_values.append(value.lower())
+                    return ','.join(processed_values)
         else:
             # Check if the input is a valid number
             try:

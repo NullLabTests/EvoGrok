@@ -18,21 +18,16 @@ def tentacle(input_data):
         return str(result).lower()
     except:
         # If evaluation fails, process the input as a string
-        if ',' in input_data:
-            # Sort and join comma-separated values
-            sorted_values = sorted(input_data.split(','))
-            # Remove any empty strings and convert to lowercase
-            cleaned_values = [value.strip().lower() for value in sorted_values if value.strip()]
-            return ','.join(cleaned_values)
+        if isinstance(input_data, str):
+            if ',' in input_data:
+                # Sort and join comma-separated values
+                sorted_values = sorted(input_data.split(','))
+                # Remove any leading/trailing whitespace from each value
+                cleaned_values = [value.strip() for value in sorted_values]
+                return ','.join(cleaned_values).lower()
+            else:
+                # Return the input as a lowercase string
+                return input_data.lower()
         else:
-            # Check if the input is a valid number
-            try:
-                float(input_data)
-                return str(input_data).lower()
-            except ValueError:
-                # If not a number, check for specific patterns
-                if input_data.strip().lower().startswith('wikipedia'):
-                    return f"wikipedia page about {input_data.split(' ', 1)[1].lower()} detected"
-                else:
-                    # Return the input as a lowercase string
-                    return str(input_data).lower()
+            # For non-string inputs, convert to string and lowercase
+            return str(input_data).lower()
