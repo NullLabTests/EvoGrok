@@ -236,24 +236,33 @@ def evolve_tentacle():
 def test_tentacles():
     """Test a tentacle on a random challenge and update its performance."""
     try:
-        cursor.execute('SELECT * FROM challenges ORDER BY RANDOM() LIMIT 1')
+        available_domains = set()
+        for tentacle in tentacles.values():
+            available_domains.update(tentacle.domains)
+        logging.info(f"Available domains: {available_domains}")
+        
+        if not available_domains:
+            logging.warning("No tentacles available for any domain")
+            return -1.0
+        
+        placeholders = ','.join('?' * len(available_domains))
+        cursor.execute(f'SELECT * FROM challenges WHERE domain IN ({placeholders}) ORDER BY RANDOM() LIMIT 1', list(available_domains))
         challenge = cursor.fetchone()
         if not challenge:
+            logging.warning("No challenges found for available domains")
             return -1.0
         challenge_id, description, input_data, expected_output, domain = challenge
-        # Find tentacles for the domain
+        logging.info(f"Selected challenge {challenge_id} for domain: {domain}")
+        
         domain_tentacles = [t for t in tentacles.values() if domain in t.domains]
         if not domain_tentacles:
             logging.warning(f"No tentacles for domain: {domain}")
             return -1.0
-        # Select the best-performing tentacle
+        
         best_tentacle = max(domain_tentacles, key=lambda t: t.performance)
         output = best_tentacle.solve(input_data)
-        if str(output) == expected_output:
-            reward = 5.0
-            best_tentacle.performance += 1
-        else:
-            reward = 0.0
+        reward = 5.0 if str(output) == expected_output else 0.0
+        best_tentacle.performance += reward / 5.0
         cursor.execute('UPDATE tentacles SET performance = ? WHERE id = ?', (best_tentacle.performance, best_tentacle.id))
         conn.commit()
         logging.info(f"Tested tentacle {best_tentacle.id} on challenge {challenge_id}: Reward {reward}")
@@ -285,22 +294,36 @@ def fetch_knowledge():
         return -1.0
 
 def optimize_resources():
-    """Delete low-performing tentacles if CPU or memory usage exceeds 60%."""
+    """Delete low-performing tentacles if CPU or memory usage exceeds 60%, preserving domain coverage."""
     cpu = psutil.cpu_percent()
     mem = psutil.virtual_memory().percent
     if cpu > 60 or mem > 60:
-        cursor.execute('SELECT id FROM tentacles ORDER BY performance ASC LIMIT 1')
-        to_delete = cursor.fetchone()
-        if to_delete:
-            tentacle_id = to_delete[0]
-            cursor.execute('DELETE FROM tentacles WHERE id = ?', (tentacle_id,))
+        domain_tentacles = {}
+        for tentacle in tentacles.values():
+            for domain in tentacle.domains:
+                domain_tentacles.setdefault(domain, []).append(tentacle)
+        
+        deletable_tentacles = []
+        for tentacle in tentacles.values():
+            can_delete = True
+            for domain in tentacle.domains:
+                if len(domain_tentacles[domain]) <= 1:
+                    can_delete = False
+                    break
+            if can_delete:
+                deletable_tentacles.append(tentacle)
+        
+        if deletable_tentacles:
+            to_delete = min(deletable_tentacles, key=lambda t: t.performance)
+            cursor.execute('DELETE FROM tentacles WHERE id = ?', (to_delete.id,))
             conn.commit()
-            if tentacle_id in tentacles:
-                del tentacles[tentacle_id]
-            if os.path.exists(f"tentacle_{tentacle_id}.py"):
-                os.remove(f"tentacle_{tentacle_id}.py")
-            logging.info(f"Deleted tentacle {tentacle_id} due to high resource usage")
+            del tentacles[to_delete.id]
+            if os.path.exists(to_delete.file_path):
+                os.remove(to_delete.file_path)
+            logging.info(f"Deleted tentacle {to_delete.id} (domains: {to_delete.domains}) due to high resource usage")
             return 1.0
+        else:
+            logging.info("No tentacles deleted; preserving domain coverage")
     return 0.0
 
 # --- State Function ---
@@ -319,17 +342,21 @@ def get_state():
 # Initialize DQN agent (state size: 5, action size: 4)
 agent = DQNAgent(state_size=5, action_size=4)  # Actions: evolve, test, fetch, optimize
 
-# Seed initial tentacles if fewer than 2 exist
+# Seed initial tentacles if fewer than 3 exist
 cursor.execute('SELECT COUNT(*) FROM tentacles')
 tentacle_count = cursor.fetchone()[0]
-if tentacle_count < 2:
+if tentacle_count < 3:
     default_code1 = "def tentacle(input_data):\n    return str(input_data).lower()"
-    default_code2 = "def tentacle(input_data):\n    return str(input_data).upper()"
+    default_code2 = "def tentacle(input_data):\n    try:\n        return str(eval(input_data))\n    except:\n        return 'Error'"
+    default_code3 = "def tentacle(input_data):\n    return ','.join(sorted(input_data.split(',')))"
     cursor.execute('INSERT OR IGNORE INTO tentacles (code, performance, creation_time, domains) VALUES (?, ?, ?, ?)',
                    (default_code1, 0.0, datetime.now(), "text processing"))
     cursor.execute('INSERT OR IGNORE INTO tentacles (code, performance, creation_time, domains) VALUES (?, ?, ?, ?)',
-                   (default_code2, 0.0, datetime.now(), "text processing"))
+                   (default_code2, 0.0, datetime.now(), "mathematics"))
+    cursor.execute('INSERT OR IGNORE INTO tentacles (code, performance, creation_time, domains) VALUES (?, ?, ?, ?)',
+                   (default_code3, 0.0, datetime.now(), "data analysis"))
     conn.commit()
+    # Reload tentacles
     cursor.execute('SELECT id, code, domains FROM tentacles')
     for row in cursor.fetchall():
         tentacle_id, code, domains = row
