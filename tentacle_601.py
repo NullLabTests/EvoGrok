@@ -9,18 +9,20 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return 'text processing html document detected'.lower()
         else:
-            return 'html document detected'.lower()
+            # If no specific type is detected, return the sorted words from the input
+            return ','.join(sorted(input_data.lower().split()))
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string, split it into words, sort them, and join with commas
-        processed_result = ','.join(sorted(str(result).lower().split()))
-        # If the result is a single number, return it as is
-        if processed_result.replace(',', '').isdigit():
+        
+        # Process the result based on its type
+        if isinstance(result, (int, float)):
+            # If the result is a number, return it as is
             return str(result)
         else:
-            return processed_result
+            # For non-numeric results, convert to string, split into words, sort, and join with commas
+            return ','.join(sorted(str(result).lower().split()))
     except:
         # If evaluation fails, convert the input to a string, split it into words, sort them, and join with commas
         return ','.join(sorted(str(input_data).lower().split()))

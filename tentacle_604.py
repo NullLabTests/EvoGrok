@@ -14,12 +14,25 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
+        
         # Convert the result to a string, split it into words, sort them, and join with commas
         sorted_words = ','.join(sorted(str(result).lower().split()))
-        # Add the original result as a prefix
-        return f"result: {result}, sorted words: {sorted_words}"
+        
+        # Check if the result contains any numbers
+        if any(char.isdigit() for char in sorted_words):
+            # If numbers are present, return the sorted words with a prefix
+            return f"numerical result: {sorted_words}"
+        else:
+            # If no numbers are present, return the sorted words as is
+            return sorted_words
     except:
         # If evaluation fails, convert the input to a string, split it into words, sort them, and join with commas
         sorted_words = ','.join(sorted(str(input_data).lower().split()))
-        # Return the sorted words with a prefix indicating it's the input
-        return f"input: {sorted_words}"
+        
+        # Check if the result contains any numbers
+        if any(char.isdigit() for char in sorted_words):
+            # If numbers are present, return the sorted words with a prefix
+            return f"non-numerical input with numbers: {sorted_words}"
+        else:
+            # If no numbers are present, return the sorted words as is
+            return sorted_words

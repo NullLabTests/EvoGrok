@@ -1,17 +1,17 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on known titles
+        # Determine the type of HTML document based on known titles and content
         if 'data analysis' in input_data.lower():
-            return 'data analysis html document detected'.lower()
+            return 'data analysis wikipedia html document detected'.lower()
         elif 'mathematics' in input_data.lower():
-            return 'mathematics html document detected'.lower()
+            return 'mathematics wikipedia html document detected'.lower()
         elif 'text processing' in input_data.lower():
-            return 'text processing html document detected'.lower()
+            return 'text processing wikipedia html document detected'.lower()
         else:
             # Check for other common HTML document types
             if 'wikipedia' in input_data.lower():
-                return 'wikipedia html document detected'.lower()
+                return 'generic wikipedia html document detected'.lower()
             elif '<html lang="en">' in input_data.lower():
                 return 'english language html document detected'.lower()
             else:
@@ -23,7 +23,7 @@ def tentacle(input_data):
         # Convert the result to a string, split it, sort it, and join it
         return ','.join(sorted(str(result).split()))
     except:
-        # If evaluation fails, process the input as text
+        # If evaluation fails, process the input based on its type
         if isinstance(input_data, (list, tuple, set)):
             # If input is a collection, convert each item to string, lowercase, split, sort, and join
             processed_items = []

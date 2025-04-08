@@ -23,10 +23,18 @@ def tentacle(input_data):
         # If evaluation fails, process the input based on its content
         if ',' in input_str:
             # If input contains commas, sort and join the elements
-            return ','.join(sorted(input_str.split(',')))
+            sorted_elements = sorted(input_str.split(','))
+            # Reverse each element before joining
+            reversed_elements = [elem[::-1] for elem in sorted_elements]
+            return ','.join(reversed_elements)
         elif input_str.isdigit():
-            # If input is a number, return it as a string
-            return input_str
+            # If input is a number, return it as a string and its square
+            number = int(input_str)
+            return f"{input_str}, square: {number**2}"
+        elif input_str.isalpha():
+            # If input is alphabetic, return it reversed and capitalized
+            return input_str[::-1].capitalize()
         else:
-            # For other inputs, reverse the string
-            return input_str[::-1]
+            # For other inputs, reverse the string and remove non-alphanumeric characters
+            cleaned_input = ''.join(char for char in input_str if char.isalnum())
+            return cleaned_input[::-1]
