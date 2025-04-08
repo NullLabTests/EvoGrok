@@ -3,14 +3,14 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_data.lower():
-            return "data analysis html document detected"
+            return "data analysis wikipedia html document detected"
         elif 'mathematics' in input_data.lower():
-            return "mathematics html document detected"
+            return "mathematics wikipedia html document detected"
         elif 'text processing' in input_data.lower():
-            return "text processing html document detected"
+            return "text processing wikipedia html document detected"
         else:
             # Check for potential HTML document types based on keywords
-            keywords = ['data', 'analysis', 'mathematics', 'text', 'processing']
+            keywords = ['data', 'analysis', 'mathematics', 'text', 'processing', 'wikipedia']
             detected_keywords = [kw for kw in keywords if kw in input_data.lower()]
             if detected_keywords:
                 return f"potential {' '.join(detected_keywords)} html document detected"
@@ -44,5 +44,11 @@ def tentacle(input_data):
                     # Detect keywords related to HTML document types
                     return f"potential {' '.join([kw for kw in ['data', 'analysis', 'mathematics', 'text', 'processing'] if kw in input_data.lower()])} html document"
                 else:
-                    # If no specific pattern is detected, return the input as a lowercase string
-                    return str(input_data).lower()
+                    # Check for potential mathematical expressions
+                    import re
+                    math_pattern = r'[\d\s\+\-\*\/\(\)]+'
+                    if re.fullmatch(math_pattern, input_data.strip()):
+                        return f"potential mathematical expression: {input_data.strip().lower()}"
+                    else:
+                        # If no specific pattern is detected, return the input as a lowercase string
+                        return str(input_data).lower()
