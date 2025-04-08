@@ -19,7 +19,7 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
             # Remove any empty strings that might result from leading/trailing commas
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
@@ -30,5 +30,13 @@ def tentacle(input_data):
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, return the input as a lowercase string (from Parent1)
-                return str(input_data).lower()
+                # If not a number, check for specific patterns
+                if input_data.strip().lower().startswith('wiki:'):
+                    # Process Wikipedia-style links
+                    return f"wikipedia link: {input_data[5:].strip().lower()}"
+                elif any(keyword in input_data.lower() for keyword in ['data', 'analysis', 'mathematics', 'text', 'processing']):
+                    # Detect keywords related to HTML document types
+                    return f"potential {input_data.lower()} html document"
+                else:
+                    # If no specific pattern is detected, return the input as a lowercase string
+                    return str(input_data).lower()

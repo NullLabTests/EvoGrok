@@ -19,11 +19,21 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
             # Remove any empty strings that might result from leading/trailing commas
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
             return ','.join(cleaned_values)
         else:
             # Convert the input to lowercase and remove leading/trailing whitespace
-            return input_data.strip().lower()
+            processed_input = input_data.strip().lower()
+            
+            # Check for specific patterns in the processed input
+            if processed_input.startswith('http') or processed_input.startswith('www'):
+                return f"url detected: {processed_input}"
+            elif any(char.isdigit() for char in processed_input):
+                return f"contains numbers: {processed_input}"
+            elif len(processed_input.split()) > 5:
+                return f"long text: {processed_input}"
+            else:
+                return processed_input
