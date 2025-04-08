@@ -11,18 +11,25 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "text processing html document detected"
         else:
-            return "generic html document detected"
+            # If no specific type is detected, check for other keywords
+            if 'wikipedia' in input_data.lower():
+                return "wikipedia html document detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, and remove extra whitespace
+        return re.sub(r'\s+', ' ', str(result).lower()).strip()
     except:
         # If evaluation fails, process the input as text
         if ',' in input_data:
             # Sort and join comma-separated values
-            return ','.join(sorted(input_data.split(',')))
+            sorted_values = sorted(input_data.split(','))
+            # Remove extra whitespace from each value
+            cleaned_values = [re.sub(r'\s+', ' ', value.strip()) for value in sorted_values]
+            return ','.join(cleaned_values)
         else:
-            # Convert to lowercase and remove extra whitespace
+            # Convert to lowercase, remove extra whitespace, and replace multiple spaces with a single space
             return re.sub(r'\s+', ' ', input_data.lower()).strip()

@@ -21,7 +21,16 @@ def tentacle(input_data):
         # If evaluation fails, process the input as text
         if ',' in input_data:
             # Sort and join comma-separated values (from Parent2)
-            return ','.join(sorted(input_data.split(',')))
+            sorted_values = sorted(input_data.split(','))
+            # Remove any empty strings that might result from leading/trailing commas
+            cleaned_values = [v.strip() for v in sorted_values if v.strip()]
+            # Join the cleaned and sorted values
+            return ','.join(cleaned_values)
         else:
-            # Return the input as a lowercase string (from Parent1)
-            return str(input_data).lower()
+            # Check if the input is a string of digits
+            if input_data.isdigit():
+                # If it's a number, return it as a string (from Parent1)
+                return input_data.lower()
+            else:
+                # Return the input as a lowercase string (from Parent1)
+                return str(input_data).lower()

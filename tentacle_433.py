@@ -3,7 +3,7 @@ def tentacle(input_data):
     Process input data based on its type and content.
 
     This function attempts to:
-    1. Detect if the input is an HTML document related to specific topics.
+    1. Detect if the input is an HTML document related to specific topics (data analysis, mathematics, text processing).
     2. Evaluate the input as a mathematical expression if possible.
     3. Process the input as a comma-separated list if it contains commas.
     4. Return the input in lowercase if none of the above apply.

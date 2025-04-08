@@ -1,0 +1,41 @@
+def tentacle(input_data):
+    # Check if the input looks like the start of an HTML document
+    if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
+        # Determine the type of HTML document based on its content
+        lowercase_input = input_data.lower()
+        if 'data analysis' in lowercase_input:
+            return "data analysis html document detected"
+        elif 'mathematics' in lowercase_input:
+            return "mathematics html document detected"
+        elif 'text processing' in lowercase_input:
+            return "text processing html document detected"
+        else:
+            # If no specific type is detected, return a generic message
+            return "generic html document detected"
+    
+    try:
+        # Attempt to evaluate the input as a mathematical expression
+        result = eval(input_data)
+        # Convert the result to a string and lowercase it
+        return str(result).lower()
+    except:
+        # If evaluation fails, process the input as text
+        if ',' in input_data:
+            # Sort and join comma-separated values
+            sorted_values = sorted(input_data.split(','))
+            # Remove any empty strings that might result from leading/trailing commas
+            cleaned_values = [value.strip() for value in sorted_values if value.strip()]
+            return ','.join(cleaned_values)
+        else:
+            # If no commas are present, check for potential mathematical operations
+            if any(op in input_data for op in ['+', '-', '*', '/', '**']):
+                # If mathematical operators are present, attempt to evaluate again
+                try:
+                    result = eval(input_data)
+                    return f"potential math expression: {str(result).lower()}"
+                except:
+                    # If evaluation still fails, return the input as a lowercase string
+                    return str(input_data).lower()
+            else:
+                # If no mathematical operators are present, return the input as a lowercase string
+                return str(input_data).lower()
