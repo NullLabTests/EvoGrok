@@ -2,11 +2,12 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
-        if 'data analysis' in input_data.lower():
+        lowercase_input = input_data.lower()
+        if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
-        elif 'mathematics' in input_data.lower():
+        elif 'mathematics' in lowercase_input:
             return "mathematics html document detected"
-        elif 'text processing' in input_data.lower():
+        elif 'text processing' in lowercase_input:
             return "text processing html document detected"
         else:
             return "generic html document detected"
@@ -38,16 +39,26 @@ def tentacle(input_data):
         if '<' in result and '>' in result:
             return f"string with html tags detected: {result}"
         
+        # Check for specific keywords related to known HTML document types
+        lowercase_result = result.lower()
+        if 'data analysis' in lowercase_result:
+            return f"data analysis related content detected: {result}"
+        elif 'mathematics' in lowercase_result:
+            return f"mathematics related content detected: {result}"
+        elif 'text processing' in lowercase_result:
+            return f"text processing related content detected: {result}"
+        
         # New feature: Check for common programming language keywords
-        programming_keywords = ['if', 'else', 'for', 'while', 'def', 'class', 'import']
-        if any(keyword in result.lower() for keyword in programming_keywords):
-            return f"potential code snippet detected: {result}"
+        programming_keywords = ['python', 'java', 'javascript', 'c++', 'ruby']
+        for keyword in programming_keywords:
+            if keyword in lowercase_result:
+                return f"programming language detected: {keyword}"
         
         # New feature: Check for common data formats
-        if result.startswith('{'):
-            return f"potential JSON object detected: {result}"
-        elif result.startswith('['):
-            return f"potential JSON array detected: {result}"
+        data_formats = ['json', 'csv', 'xml', 'yaml']
+        for format in data_formats:
+            if format in lowercase_result:
+                return f"data format detected: {format}"
         
         # If no special conditions are met, return the processed result
         return result

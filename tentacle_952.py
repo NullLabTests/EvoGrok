@@ -18,7 +18,7 @@ def tentacle(input_data):
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
-        # If evaluation fails, process the input as a string
+        # If evaluation fails, process the input as a string or other data type
         if isinstance(input_data, str):
             if ',' in input_data:
                 # Sort and join comma-separated values
@@ -32,8 +32,17 @@ def tentacle(input_data):
                     float(input_data)
                     return str(input_data).lower()
                 except ValueError:
-                    # If not a number, return the input as a lowercase string
-                    return str(input_data).lower()
+                    # If not a number, check for specific patterns
+                    if input_data.lower().startswith('http'):
+                        return f"url detected: {input_data.lower()}"
+                    elif '@' in input_data and '.' in input_data:
+                        return f"email address detected: {input_data.lower()}"
+                    else:
+                        # If no specific pattern matches, return the input as a lowercase string
+                        return str(input_data).lower()
+        elif isinstance(input_data, (list, tuple, set)):
+            # If input is a collection, sort it and join with commas
+            return ','.join(map(str, sorted(input_data))).lower()
         else:
-            # If input is not a string, convert it to a string and return it lowercase
+            # If input is not a string or collection, convert it to a string and return it lowercase
             return str(input_data).lower()

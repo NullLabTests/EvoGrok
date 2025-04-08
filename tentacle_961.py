@@ -35,11 +35,11 @@ def tentacle(input_data):
                 # If not a number, reverse the string
                 result = input_data[::-1].lower()
         
-        # New feature: Check if the result contains any HTML tags
+        # Check if the result contains any HTML tags
         if '<' in result and '>' in result:
             return f"string with html tags detected: {result}"
         
-        # New feature: Check for specific keywords related to known HTML document types
+        # Check for specific keywords related to known HTML document types
         lowercase_result = result.lower()
         if 'data analysis' in lowercase_result:
             return f"data analysis related content detected: {result}"
@@ -47,6 +47,14 @@ def tentacle(input_data):
             return f"mathematics related content detected: {result}"
         elif 'text processing' in lowercase_result:
             return f"text processing related content detected: {result}"
+        
+        # New feature: Check for programming language keywords
+        if 'python' in lowercase_result or 'java' in lowercase_result or 'javascript' in lowercase_result:
+            return f"programming language detected: {result}"
+        
+        # New feature: Check for common data formats
+        if 'json' in lowercase_result or 'xml' in lowercase_result or 'csv' in lowercase_result:
+            return f"data format detected: {result}"
         
         # If no special conditions are met, return the processed result
         return result

@@ -35,14 +35,34 @@ def tentacle(input_data):
                 # If not a number, reverse the string
                 result = input_data[::-1].lower()
         
-        # New feature: Check if the result contains any HTML tags
+        # Check if the result contains any HTML tags
         if '<' in result and '>' in result:
             return f"string with html tags detected: {result}"
         
-        # New feature: Check for common programming language keywords
-        programming_keywords = ['if', 'else', 'for', 'while', 'def', 'class', 'import']
-        if any(keyword in result.lower() for keyword in programming_keywords):
-            return f"potential code snippet detected: {result}"
+        # Check for specific keywords related to known HTML document types
+        lowercase_result = result.lower()
+        if 'data analysis' in lowercase_result:
+            return f"data analysis related content detected: {result}"
+        elif 'mathematics' in lowercase_result:
+            return f"mathematics related content detected: {result}"
+        elif 'text processing' in lowercase_result:
+            return f"text processing related content detected: {result}"
         
-        # Return the processed result
+        # New feature: Check for Wikipedia-specific patterns
+        if 'wikipedia' in lowercase_result:
+            if 'data analysis' in lowercase_result:
+                return f"wikipedia page on data analysis detected: {result}"
+            elif 'mathematics' in lowercase_result:
+                return f"wikipedia page on mathematics detected: {result}"
+            elif 'text processing' in lowercase_result:
+                return f"wikipedia page on text processing detected: {result}"
+            else:
+                return f"generic wikipedia page detected: {result}"
+        
+        # New feature: Check for class attributes in the result
+        if 'class=' in lowercase_result:
+            classes = [cls.strip() for cls in lowercase_result.split('class=')[1].split('"')[1::2]]
+            return f"html with classes detected: {', '.join(classes)}"
+        
+        # If no special conditions are met, return the processed result
         return result

@@ -2,11 +2,12 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
-        if 'data analysis' in input_data.lower():
+        lower_input = input_data.lower()
+        if 'data analysis' in lower_input:
             return "data analysis html document detected"
-        elif 'mathematics' in input_data.lower():
+        elif 'mathematics' in lower_input:
             return "mathematics html document detected"
-        elif 'text processing' in input_data.lower():
+        elif 'text processing' in lower_input:
             return "text processing html document detected"
         else:
             return "generic html document detected"
@@ -34,9 +35,17 @@ def tentacle(input_data):
                 # If it's a number, return it as a lowercase string
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, check if it's a palindrome
-                if input_data.lower() == input_data.lower()[::-1]:
-                    return f"palindrome detected: {input_data.lower()}"
+                # If not a number, check for specific keywords
+                lower_input = input_data.lower()
+                if 'data' in lower_input and 'analysis' in lower_input:
+                    return "data analysis related content detected"
+                elif 'math' in lower_input or 'equation' in lower_input:
+                    return "mathematics related content detected"
+                elif 'text' in lower_input and 'processing' in lower_input:
+                    return "text processing related content detected"
+                # Check if it's a palindrome
+                elif lower_input == lower_input[::-1]:
+                    return f"palindrome detected: {lower_input}"
                 else:
                     # If not a palindrome, reverse the string and convert to lowercase
-                    return input_data[::-1].lower()
+                    return lower_input[::-1]

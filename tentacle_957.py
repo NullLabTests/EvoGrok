@@ -22,9 +22,10 @@ def tentacle(input_data):
         if ',' in str(input_data):
             # Sort and join comma-separated values
             sorted_values = sorted(str(input_data).split(','))
-            # Remove any empty strings and strip whitespace from each value
-            cleaned_values = [value.strip() for value in sorted_values if value.strip()]
-            return ','.join(cleaned_values).lower()
+            # Remove any empty strings, strip whitespace from each value, and lowercase
+            cleaned_values = [value.strip().lower() for value in sorted_values if value.strip()]
+            return ','.join(cleaned_values)
         else:
-            # Convert the input to lowercase and remove any leading/trailing whitespace
-            return str(input_data).strip().lower()
+            # Convert the input to lowercase, remove any leading/trailing whitespace
+            # and replace multiple spaces with a single space
+            return ' '.join(str(input_data).strip().lower().split())
