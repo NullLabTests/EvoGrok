@@ -5,12 +5,15 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lowercase_input = input_data.lower()
-        if 'data analysis' in lowercase_input and 'wikipedia' in lowercase_input:
-            return 'wikipedia data analysis html document detected'
-        elif 'mathematics' in lowercase_input and 'wikipedia' in lowercase_input:
-            return 'wikipedia mathematics html document detected'
-        elif 'text processing' in lowercase_input and 'wikipedia' in lowercase_input:
-            return 'wikipedia text processing html document detected'
+        
+        # Check for specific Wikipedia HTML document patterns
+        if re.search(r'<!doctype html>\s*<html[^>]*class="[^"]*client-js[^"]*"', lowercase_input):
+            if 'data analysis' in lowercase_input and 'wikipedia' in lowercase_input:
+                return 'wikipedia data analysis html document detected'
+            elif 'mathematics' in lowercase_input and 'wikipedia' in lowercase_input:
+                return 'wikipedia mathematics html document detected'
+            elif 'text processing' in lowercase_input and 'wikipedia' in lowercase_input:
+                return 'wikipedia text processing html document detected'
         else:
             return 'generic html document detected'
     
@@ -25,11 +28,23 @@ def tentacle(input_data):
         except json.JSONDecodeError:
             pass  # If JSON parsing fails, continue to the next check
 
+    # Check for mathematical expressions
+    if isinstance(input_data, str) and re.match(r'^\s*[\d\.\+\-\*\/\(\)\s]+\s*$', input_data):
+        try:
+            result = eval(input_data)
+            if isinstance(result, (int, float)):
+                return str(result).lower()
+            else:
+                # Convert the result to a string, split it into words, sort them, and join with commas
+                sorted_words = ','.join(sorted(str(result).lower().split()))
+                return sorted_words
+        except Exception as e:
+            return f"mathematical expression detected but could not be evaluated: {input_data.lower()} - error: {str(e)}"
+
+    # Process the input as text
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        
-        # If the result is a number, return it as is
         if isinstance(result, (int, float)):
             return str(result).lower()
         else:
@@ -51,25 +66,6 @@ def tentacle(input_data):
         else:
             # If no specific keywords are found, return the sorted words with error information
             return f'{sorted_words} - error in processing: {str(e)}'
-
-    # Additional checks based on the provided knowledge
-    if isinstance(input_data, str):
-        # Check for specific HTML document patterns
-        if re.search(r'<!DOCTYPE html>\s*<html[^>]*class="[^"]*client-js[^"]*"', input_data, re.IGNORECASE):
-            if 'data analysis' in input_data.lower() and 'wikipedia' in input_data.lower():
-                return 'wikipedia data analysis html document detected'
-            elif 'mathematics' in input_data.lower() and 'wikipedia' in input_data.lower():
-                return 'wikipedia mathematics html document detected'
-            elif 'text processing' in input_data.lower() and 'wikipedia' in input_data.lower():
-                return 'wikipedia text processing html document detected'
-        
-        # Check for mathematical expressions
-        if re.match(r'^\s*[\d\.\+\-\*\/\(\)\s]+\s*$', input_data):
-            try:
-                result = eval(input_data)
-                return str(result).lower()
-            except:
-                return f"mathematical expression detected but could not be evaluated: {input_data.lower()}"
 
     # If no other conditions are met, return the input as a lowercase string
     return str(input_data).lower()

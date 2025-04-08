@@ -3,35 +3,45 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_data.lower():
-            return 'wikipedia data analysis html document detected (html5)'
+            return 'Wikipedia Data Analysis HTML5 Document Detected'
         elif 'mathematics' in input_data.lower():
-            return 'wikipedia mathematics html document detected (html5)'
+            return 'Wikipedia Mathematics HTML5 Document Detected'
         elif 'text processing' in input_data.lower():
-            return 'wikipedia text processing html document detected (html5)'
+            return 'Wikipedia Text Processing HTML5 Document Detected'
         else:
-            return 'generic html5 document detected'
+            # For generic HTML documents, extract and process the title
+            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
+            if title_match:
+                title = title_match.group(1).strip()
+                return f'Generic HTML5 Document Detected: "{title}"'
+            else:
+                return 'Generic HTML5 Document Detected'
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         
-        # Convert the result to a string, split it into words, sort them, and join with commas
+        # Process the result: convert to string, split into words, sort them, and join with commas
         processed_result = ','.join(sorted(str(result).lower().split()))
         
         # If the result is a single word or number, return it capitalized
         # Otherwise, return the sorted, comma-separated list with the first word capitalized
         if ',' in processed_result:
-            return f"Calculated: {processed_result.capitalize()}"
+            return f'Math Result: {processed_result.capitalize()}'
         else:
-            return f"Calculated: {processed_result.replace(',', '').capitalize()}"
+            return f'Math Result: {processed_result.replace(",", "").capitalize()}'
     except:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them, and join with commas
         processed_input = ','.join(sorted(str(input_data).lower().split()))
         
+        # Count the number of unique words
+        unique_words = len(set(processed_input.split(',')))
+        
         # If the result is a single word, return it capitalized
         # Otherwise, return the sorted, comma-separated list with the first word capitalized
+        # and include the count of unique words
         if ',' in processed_input:
-            return f"Processed: {processed_input.capitalize()}"
+            return f'Text Processed: {processed_input.capitalize()} (Unique Words: {unique_words})'
         else:
-            return f"Processed: {processed_input.replace(',', '').capitalize()}"
+            return f'Text Processed: {processed_input.replace(",", "").capitalize()} (Unique Words: {unique_words})'
