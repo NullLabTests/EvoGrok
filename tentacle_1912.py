@@ -71,7 +71,7 @@ def tentacle(input_data):
             sorted_items = sorted(set(str(item).lower() for item in input_data))
             return ','.join(sorted_items)
         elif isinstance(input_data, dict):
-            # If it's a dictionary, sort keys, remove duplicates, and join key-value pairs
+            # For dictionaries, sort keys, remove duplicates, and join key-value pairs
             sorted_items = sorted(set(f"{k}:{v}".lower() for k, v in input_data.items()))
             return ','.join(sorted_items)
         else:
