@@ -4,21 +4,21 @@ def tentacle(input_data):
         # Determine the type of HTML document based on known patterns
         lower_input = input_data.lower()
         if 'data analysis' in lower_input:
-            return "data analysis html document detected"
+            return "data analysis wikipedia page detected"
         elif 'mathematics' in lower_input:
-            return "mathematics html document detected"
+            return "mathematics wikipedia page detected"
         elif 'text processing' in lower_input:
-            return "text processing html document detected"
+            return "text processing wikipedia page detected"
         elif 'wikipedia' in lower_input:
-            return "wikipedia html document detected"
+            return "generic wikipedia page detected"
         else:
             return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, and remove leading/trailing whitespace
+        return str(result).strip().lower()
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -44,5 +44,5 @@ def tentacle(input_data):
             # Join the processed values with commas
             return ','.join(processed_values)
         else:
-            # Convert the input to lowercase and remove leading/trailing whitespace
-            return input_data.strip().lower()
+            # Convert the input to lowercase, remove leading/trailing whitespace, and reverse it
+            return input_data.strip().lower()[::-1]

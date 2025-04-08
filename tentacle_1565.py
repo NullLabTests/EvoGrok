@@ -9,18 +9,19 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "text processing wikipedia page detected"
         else:
-            # New feature: Extract the title from the HTML
-            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
-            if title_match:
-                return f"generic html document detected: {title_match.group(1)}"
+            # Check for other common HTML document types
+            if 'wikipedia' in input_data.lower():
+                return "generic wikipedia page detected"
+            elif '<script' in input_data.lower():
+                return "web application detected"
             else:
                 return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string, lowercase it, and add a new feature: its type
-        return f"{str(result).lower()} (type: {type(result).__name__})"
+        # Convert the result to a string and lowercase it
+        return str(result).lower()
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -36,10 +37,23 @@ def tentacle(input_data):
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, reverse the string, capitalize the first letter, and add a prefix
+                # If not a number, process the string
                 reversed_string = input_data[::-1].lower()
                 # Count the number of vowels in the reversed string
                 vowel_count = sum(1 for char in reversed_string if char in 'aeiou')
-                # New feature: Calculate the length of the reversed string
-                string_length = len(reversed_string)
-                return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, length: {string_length})"
+                # Count the number of digits in the reversed string
+                digit_count = sum(1 for char in reversed_string if char.isdigit())
+                # Calculate a simple complexity score
+                complexity_score = len(reversed_string) + vowel_count + digit_count
+                
+                # New feature: Check for palindromes
+                if reversed_string == reversed_string[::-1]:
+                    palindrome_status = "palindrome"
+                else:
+                    palindrome_status = "not palindrome"
+                
+                # New feature: Count unique characters
+                unique_char_count = len(set(reversed_string))
+                
+                # Return a comprehensive analysis of the processed string
+                return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, digits: {digit_count}, unique chars: {unique_char_count}, complexity: {complexity_score}, {palindrome_status})"

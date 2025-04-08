@@ -1,4 +1,5 @@
 import json
+import re
 
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
@@ -18,8 +19,8 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, and add a prefix
+        return f"evaluated: {str(result).lower()}"
     except:
         # If evaluation fails, process the input as a string or JSON-like structure
         if isinstance(input_data, str):
@@ -29,18 +30,18 @@ def tentacle(input_data):
                 # Remove any leading/trailing whitespace from each value
                 cleaned_values = [value.strip() for value in sorted_values]
                 # Join the cleaned and sorted values
-                return ','.join(cleaned_values)
+                return f"sorted: {','.join(cleaned_values)}"
             else:
                 # Check if the input is a valid number
                 try:
                     float(input_data)
-                    return str(input_data).lower()
+                    return f"number: {str(input_data).lower()}"
                 except ValueError:
                     # If not a number, attempt to parse as JSON
                     try:
                         json_data = json.loads(input_data)
                         # If JSON parsing succeeds, return a string representation of the JSON
-                        return json.dumps(json_data, sort_keys=True).lower()
+                        return f"json: {json.dumps(json_data, sort_keys=True).lower()}"
                     except json.JSONDecodeError:
                         # If JSON parsing fails, process as a regular string
                         # Reverse the string, capitalize the first letter, and add a prefix
@@ -49,7 +50,12 @@ def tentacle(input_data):
                         vowel_count = sum(1 for char in reversed_string if char in 'aeiou')
                         # Count the number of consonants in the reversed string
                         consonant_count = sum(1 for char in reversed_string if char.isalpha() and char not in 'aeiou')
-                        return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, consonants: {consonant_count})"
+                        
+                        # Extract words from the reversed string
+                        words = re.findall(r'\b\w+\b', reversed_string)
+                        word_count = len(words)
+                        
+                        return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, consonants: {consonant_count}, words: {word_count})"
         else:
-            # If input is not a string, convert to string and lowercase
-            return str(input_data).lower()
+            # If input is not a string, convert to string, lowercase, and add a prefix
+            return f"converted: {str(input_data).lower()}"

@@ -1,3 +1,5 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -9,27 +11,29 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "text processing wikipedia page detected"
         else:
-            # Add a new feature: extract and return the title of the HTML document
+            # Extract the title from the HTML and count words in the title
             title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
             if title_match:
-                return f"html document detected: {title_match.group(1)}"
+                title = title_match.group(1)
+                word_count = len(title.split())
+                return f"generic html document detected: {title} (words: {word_count})"
             else:
                 return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, and add its type and length
+        result_str = str(result).lower()
+        return f"{result_str} (type: {type(result).__name__}, length: {len(result_str)})"
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values
+            # Sort and join comma-separated values, then count unique values
             sorted_values = sorted(input_data.split(','))
-            # Remove any leading/trailing whitespace from each value
             cleaned_values = [value.strip() for value in sorted_values]
-            # Join the cleaned and sorted values
-            return ','.join(cleaned_values)
+            unique_count = len(set(cleaned_values))
+            return f"{','.join(cleaned_values)} (unique: {unique_count})"
         else:
             # Check if the input is a valid number
             try:
@@ -38,8 +42,9 @@ def tentacle(input_data):
             except ValueError:
                 # If not a number, reverse the string, capitalize the first letter, and add a prefix
                 reversed_string = input_data[::-1].lower()
-                # Add a new feature: count the number of vowels in the reversed string
+                # Count the number of vowels and consonants in the reversed string
                 vowel_count = sum(1 for char in reversed_string if char in 'aeiou')
-                # Add another new feature: calculate the length of the input string
-                input_length = len(input_data)
-                return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, length: {input_length})"
+                consonant_count = sum(1 for char in reversed_string if char.isalpha() and char not in 'aeiou')
+                # Calculate the length of the reversed string
+                string_length = len(reversed_string)
+                return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, consonants: {consonant_count}, length: {string_length})"

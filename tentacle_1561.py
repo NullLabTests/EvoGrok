@@ -9,20 +9,19 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "text processing wikipedia page detected"
         else:
-            # New feature: Count the number of opening tags in the HTML document
-            opening_tags = input_data.lower().count('<')
-            return f"generic html document detected (opening tags: {opening_tags})"
+            # Check for other common HTML document types
+            if 'wikipedia' in input_data.lower():
+                return "generic wikipedia page detected"
+            elif '<script' in input_data.lower():
+                return "web application detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # New feature: Check if the result is an integer or a float
-        if isinstance(result, int):
-            return f"integer result: {result}"
-        elif isinstance(result, float):
-            return f"float result: {result:.2f}"
-        else:
-            return str(result).lower()
+        # Convert the result to a string and lowercase it
+        return f"evaluated: {str(result).lower()}"
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -31,17 +30,27 @@ def tentacle(input_data):
             # Remove any leading/trailing whitespace from each value
             cleaned_values = [value.strip() for value in sorted_values]
             # Join the cleaned and sorted values
-            return ','.join(cleaned_values)
+            return f"sorted: {','.join(cleaned_values)}"
         else:
             # Check if the input is a valid number
             try:
                 float(input_data)
-                return str(input_data).lower()
+                return f"number: {str(input_data).lower()}"
             except ValueError:
-                # If not a number, reverse the string, capitalize the first letter, and add a prefix
+                # If not a number, process the string
                 reversed_string = input_data[::-1].lower()
                 # Count the number of vowels in the reversed string
                 vowel_count = sum(1 for char in reversed_string if char in 'aeiou')
-                # New feature: Calculate the length of the reversed string
-                string_length = len(reversed_string)
-                return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, length: {string_length})"
+                # Count the number of digits in the reversed string
+                digit_count = sum(1 for char in reversed_string if char.isdigit())
+                # Calculate a simple complexity score
+                complexity_score = len(reversed_string) + vowel_count + digit_count
+                
+                # New feature: Check for palindromes
+                is_palindrome = reversed_string == reversed_string[::-1]
+                
+                # New feature: Count unique characters
+                unique_chars = len(set(reversed_string))
+                
+                # Return a comprehensive analysis of the string
+                return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, digits: {digit_count}, complexity: {complexity_score}, palindrome: {is_palindrome}, unique chars: {unique_chars})"

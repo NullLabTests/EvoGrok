@@ -9,13 +9,23 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "text processing wikipedia page detected"
         else:
-            return "generic html document detected"
+            # Count the number of opening and closing tags in the HTML document
+            opening_tags = input_data.lower().count('<')
+            closing_tags = input_data.lower().count('>')
+            # Calculate the tag balance
+            tag_balance = opening_tags - closing_tags
+            return f"generic html document detected (opening tags: {opening_tags}, closing tags: {closing_tags}, tag balance: {tag_balance})"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Check if the result is an integer or a float
+        if isinstance(result, int):
+            return f"integer result: {result}"
+        elif isinstance(result, float):
+            return f"float result: {result:.4f}"  # Increased precision to 4 decimal places
+        else:
+            return str(result).lower()
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -31,17 +41,15 @@ def tentacle(input_data):
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, reverse the string, capitalize the first letter, and add a prefix
+                # If not a number, process the string
                 reversed_string = input_data[::-1].lower()
-                # Count the number of vowels in the reversed string
+                # Count the number of vowels and consonants in the reversed string
                 vowel_count = sum(1 for char in reversed_string if char in 'aeiou')
-                # Count the number of consonants in the reversed string
                 consonant_count = sum(1 for char in reversed_string if char.isalpha() and char not in 'aeiou')
-                # Calculate the ratio of vowels to consonants
-                if consonant_count == 0:
-                    ratio = "undefined (no consonants)"
-                else:
-                    ratio = f"{vowel_count / consonant_count:.2f}"
-                
-                # Return the processed string with additional information
-                return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, consonants: {consonant_count}, vowel/consonant ratio: {ratio})"
+                # Calculate the length of the reversed string
+                string_length = len(reversed_string)
+                # Calculate the percentage of vowels
+                vowel_percentage = (vowel_count / string_length) * 100 if string_length > 0 else 0
+                # New feature: Check if the reversed string is a palindrome
+                is_palindrome = reversed_string == reversed_string[::-1]
+                return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, consonants: {consonant_count}, length: {string_length}, vowel percentage: {vowel_percentage:.2f}%, palindrome: {is_palindrome})"
