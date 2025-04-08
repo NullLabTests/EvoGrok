@@ -15,13 +15,12 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return f"math result: {str(result).lower()}"
+        return str(result).lower()
     except:
         # If evaluation fails, process the input as text
         if ',' in input_data:
             # Sort and join comma-separated values
-            sorted_values = sorted(input_data.split(','))
-            return ','.join(sorted_values)
+            return ','.join(sorted(input_data.split(',')))
         else:
             # Return the input as a lowercase string
             return str(input_data).lower()
