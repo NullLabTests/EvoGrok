@@ -21,9 +21,16 @@ def tentacle(input_data):
             word_counts = {word: words.count(word) for word in set(words)}
             # Sort the words by count (descending) and then alphabetically
             sorted_words = sorted(word_counts.items(), key=lambda x: (-x[1], x[0]))
-            # Return the document type and top 5 words with their counts
+            # Calculate the total word count
+            total_words = sum(word_counts.values())
+            # Calculate the percentage of each word
+            word_percentages = {word: (count / total_words) * 100 for word, count in word_counts.items()}
+            # Sort the words by percentage (descending) and then alphabetically
+            sorted_percentages = sorted(word_percentages.items(), key=lambda x: (-x[1], x[0]))
+            # Return the document type, top 5 words with their counts, and top 5 words with their percentages
             word_freq = ','.join(f"{word}:{count}" for word, count in sorted_words[:5])
-            return f"{doc_type} detected: {word_freq}"
+            word_percent = ','.join(f"{word}:{percentage:.2f}%" for word, percentage in sorted_percentages[:5])
+            return f"{doc_type} detected: {word_freq} | word percentages: {word_percent}"
         else:
             return f"{doc_type} detected: no content found"
     
@@ -36,8 +43,16 @@ def tentacle(input_data):
         word_counts = {word: words.count(word) for word in set(words)}
         # Sort the words by count (descending) and then alphabetically
         sorted_words = sorted(word_counts.items(), key=lambda x: (-x[1], x[0]))
-        # Return the top 5 words with their counts
-        return f"math expression evaluated: {','.join(f'{word}:{count}' for word, count in sorted_words[:5])}"
+        # Calculate the total word count
+        total_words = sum(word_counts.values())
+        # Calculate the percentage of each word
+        word_percentages = {word: (count / total_words) * 100 for word, count in word_counts.items()}
+        # Sort the words by percentage (descending) and then alphabetically
+        sorted_percentages = sorted(word_percentages.items(), key=lambda x: (-x[1], x[0]))
+        # Return the result, top 5 words with their counts, and top 5 words with their percentages
+        word_freq = ','.join(f"{word}:{count}" for word, count in sorted_words[:5])
+        word_percent = ','.join(f"{word}:{percentage:.2f}%" for word, percentage in sorted_percentages[:5])
+        return f"math expression evaluated: {result} | word frequencies: {word_freq} | word percentages: {word_percent}"
     except:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, remove empty strings, sort, and join
@@ -46,5 +61,13 @@ def tentacle(input_data):
         word_counts = {word: words.count(word) for word in set(words)}
         # Sort the words by count (descending) and then alphabetically
         sorted_words = sorted(word_counts.items(), key=lambda x: (-x[1], x[0]))
-        # Return the top 5 words with their counts
-        return f"text processed: {','.join(f'{word}:{count}' for word, count in sorted_words[:5])}"
+        # Calculate the total word count
+        total_words = sum(word_counts.values())
+        # Calculate the percentage of each word
+        word_percentages = {word: (count / total_words) * 100 for word, count in word_counts.items()}
+        # Sort the words by percentage (descending) and then alphabetically
+        sorted_percentages = sorted(word_percentages.items(), key=lambda x: (-x[1], x[0]))
+        # Return the top 5 words with their counts and percentages
+        word_freq = ','.join(f"{word}:{count}" for word, count in sorted_words[:5])
+        word_percent = ','.join(f"{word}:{percentage:.2f}%" for word, percentage in sorted_percentages[:5])
+        return f"text processed: {word_freq} | word percentages: {word_percent}"

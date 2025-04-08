@@ -20,7 +20,16 @@ def tentacle(input_data):
                 result = eval(keyword_string)
                 return f"generic html document detected with keywords: {keyword_string}. Evaluated result: {str(result).lower()}"
             except:
-                return f"generic html document detected with keywords: {keyword_string}"
+                # If evaluation fails, attempt to process the keywords as a list
+                processed_keywords = [word for word in words[:5] if word.isalnum()]
+                if processed_keywords:
+                    try:
+                        result = eval(','.join(processed_keywords))
+                        return f"generic html document detected with processed keywords: {','.join(processed_keywords)}. Evaluated result: {str(result).lower()}"
+                    except:
+                        return f"generic html document detected with keywords: {keyword_string}"
+                else:
+                    return "generic html document detected with no processable keywords"
 
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -40,7 +49,14 @@ def tentacle(input_data):
                     result = eval(','.join(processed_items))
                     return f"processed list: {','.join(processed_items)}. Evaluated result: {str(result).lower()}"
                 except:
-                    return ','.join(processed_items)
+                    # If evaluation fails, attempt to process individual items
+                    processed_individual = []
+                    for item in processed_items:
+                        try:
+                            processed_individual.append(str(eval(item)).lower())
+                        except:
+                            processed_individual.append(item)
+                    return ','.join(processed_individual)
             else:
                 # If it's not a list, return the input as a lowercase string
                 return input_data.strip().lower()
@@ -52,7 +68,19 @@ def tentacle(input_data):
                 result = eval(','.join(sorted_items))
                 return f"processed collection: {','.join(sorted_items)}. Evaluated result: {str(result).lower()}"
             except:
-                return ','.join(sorted_items)
+                # If evaluation fails, attempt to process individual items
+                processed_individual = []
+                for item in sorted_items:
+                    try:
+                        processed_individual.append(str(eval(item)).lower())
+                    except:
+                        processed_individual.append(item)
+                return ','.join(processed_individual)
         else:
-            # For other types, return a lowercase string representation
-            return str(input_data).lower()
+            # For other types, attempt to evaluate as a mathematical expression
+            try:
+                result = eval(str(input_data))
+                return str(result).lower()
+            except:
+                # If evaluation fails, return a lowercase string representation
+                return str(input_data).lower()

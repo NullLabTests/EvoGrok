@@ -56,7 +56,9 @@ def tentacle(input_data):
                             # If it's not a number, process it as text
                             words = item.split()
                             if len(words) > 1:
-                                results.append(' '.join(sorted(words)))
+                                # Sort words and join them
+                                sorted_words = sorted(words)
+                                results.append(' '.join(sorted_words))
                             else:
                                 results.append(item)
                 

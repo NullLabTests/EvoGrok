@@ -7,20 +7,28 @@ def tentacle(input_data):
         if 'data analysis' in lowercase_input:
             content = ' '.join(lowercase_input.split()[2:])  # Remove DOCTYPE and first tag
             sorted_content = ','.join(sorted(content.split()))
-            return f"Data analysis HTML document detected, length: {len(sorted_content)}, content: {sorted_content}"
+            content_length = len(sorted_content)
+            word_count = len(sorted_content.split(','))
+            return f"Data analysis HTML document detected, length: {content_length}, word count: {word_count}, content: {sorted_content}"
         elif 'mathematics' in lowercase_input:
             content = ' '.join(lowercase_input.split()[2:])  # Remove DOCTYPE and first tag
             sorted_content = ','.join(sorted(content.split()))
-            return f"Mathematics HTML document detected, length: {len(sorted_content)}, content: {sorted_content}"
+            content_length = len(sorted_content)
+            word_count = len(sorted_content.split(','))
+            return f"Mathematics HTML document detected, length: {content_length}, word count: {word_count}, content: {sorted_content}"
         elif 'text processing' in lowercase_input:
             content = ' '.join(lowercase_input.split()[2:])  # Remove DOCTYPE and first tag
             sorted_content = ','.join(sorted(content.split()))
-            return f"Text processing HTML document detected, length: {len(sorted_content)}, content: {sorted_content}"
+            content_length = len(sorted_content)
+            word_count = len(sorted_content.split(','))
+            return f"Text processing HTML document detected, length: {content_length}, word count: {word_count}, content: {sorted_content}"
         else:
             # If no specific type is detected, process the content
             content = ' '.join(lowercase_input.split()[2:])  # Remove DOCTYPE and first tag
             sorted_content = ','.join(sorted(content.split()))
-            return f"Generic HTML document detected, length: {len(sorted_content)}, content: {sorted_content}"
+            content_length = len(sorted_content)
+            word_count = len(sorted_content.split(','))
+            return f"Generic HTML document detected, length: {content_length}, word count: {word_count}, content: {sorted_content}"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -33,8 +41,11 @@ def tentacle(input_data):
         original_length = len(str(input_data))
         processed_length = len(sorted_result)
         
+        # Calculate the number of unique elements in the result
+        unique_elements = len(set(sorted_result.split(',')))
+        
         # Return the sorted result, its length, the original result, and the original input length
-        return f"Mathematical expression evaluated: {sorted_result}, processed length: {processed_length}, original result: {result}, original input length: {original_length}"
+        return f"Mathematical expression evaluated: {sorted_result}, processed length: {processed_length}, unique elements: {unique_elements}, original result: {result}, original input length: {original_length}"
     except:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split, sort, and join
@@ -44,5 +55,8 @@ def tentacle(input_data):
         original_length = len(str(input_data))
         processed_length = len(sorted_input)
         
-        # Return the sorted input, its length, and the original input length
-        return f"Text processed: {sorted_input}, processed length: {processed_length}, original input length: {original_length}"
+        # Calculate the number of unique words in the input
+        unique_words = len(set(sorted_input.split(',')))
+        
+        # Return the sorted input, its length, the number of unique words, and the original input length
+        return f"Text processed: {sorted_input}, processed length: {processed_length}, unique words: {unique_words}, original input length: {original_length}"
