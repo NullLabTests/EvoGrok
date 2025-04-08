@@ -20,27 +20,31 @@ def tentacle(input_data):
         return f"Mathematical expression evaluated: {str(result).lower()}"
     except:
         # If evaluation fails, process the input as a string
-        if ',' in input_data:
-            # Sort and join comma-separated values
-            sorted_values = sorted(input_data.split(','))
-            # Remove any leading/trailing whitespace from each value
-            cleaned_values = [value.strip() for value in sorted_values]
-            # Join the cleaned values with commas
-            result = ','.join(cleaned_values).lower()
+        if isinstance(input_data, str):
+            if ',' in input_data:
+                # Sort and join comma-separated values
+                sorted_values = sorted(input_data.split(','))
+                # Remove any leading/trailing whitespace from each value
+                cleaned_values = [value.strip() for value in sorted_values]
+                # Join the cleaned values with commas
+                result = ','.join(cleaned_values).lower()
+            else:
+                # Return the input as a lowercase string
+                result = input_data.lower()
+            
+            # Check if the result contains any of the HTML document types
+            html_related = []
+            if 'data analysis' in result:
+                html_related.append("related to Wikipedia Data Analysis HTML document")
+            if 'mathematics' in result:
+                html_related.append("related to Wikipedia Mathematics HTML document")
+            if 'text processing' in result:
+                html_related.append("related to Wikipedia Text Processing HTML document")
+            
+            if html_related:
+                return f"{result}, {' and '.join(html_related)}"
+            else:
+                return result
         else:
-            # Return the input as a lowercase string
-            result = str(input_data).lower()
-        
-        # Check if the result contains any of the HTML document types
-        html_related = []
-        if 'data analysis' in result:
-            html_related.append("related to Wikipedia Data Analysis HTML document")
-        if 'mathematics' in result:
-            html_related.append("related to Wikipedia Mathematics HTML document")
-        if 'text processing' in result:
-            html_related.append("related to Wikipedia Text Processing HTML document")
-        
-        if html_related:
-            return f"{result}, {' and '.join(html_related)}"
-        else:
-            return result
+            # If input is not a string, convert to string and return lowercase
+            return str(input_data).lower()

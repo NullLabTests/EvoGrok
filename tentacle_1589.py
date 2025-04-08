@@ -3,11 +3,11 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_data.lower():
-            return "wikipedia data analysis html document detected, includes various classes and attributes for styling and functionality, related to data analysis"
+            return "wikipedia data analysis html document detected, includes detailed classes for various features and settings, related to data analysis"
         elif 'mathematics' in input_data.lower():
-            return "wikipedia mathematics html document detected, starts with DOCTYPE declaration, related to mathematics"
+            return "wikipedia mathematics html document detected, starts with DOCTYPE declaration and includes specific classes, related to mathematics"
         elif 'text processing' in input_data.lower():
-            return "wikipedia text processing html document detected, includes various classes and attributes for styling and functionality, related to text processing"
+            return "wikipedia text processing html document detected, includes various classes indicating features and language options, related to text processing"
         else:
             return "generic html document detected"
     
@@ -46,5 +46,20 @@ def tentacle(input_data):
     programming_keywords = ['if', 'else', 'for', 'while', 'def', 'class', 'import']
     if any(keyword in output for keyword in programming_keywords):
         output += ", may be related to programming concepts"
+    
+    # New feature: Check for common data structures
+    data_structures = ['list', 'dictionary', 'tuple', 'set']
+    if any(structure in output for structure in data_structures):
+        output += ", may represent a data structure"
+    
+    # New feature: Check for common text processing operations
+    text_operations = ['split', 'join', 'strip', 'replace', 'lower', 'upper']
+    if any(operation in output for operation in text_operations):
+        output += ", may involve text processing operations"
+    
+    # New feature: Check for common statistical terms
+    statistical_terms = ['mean', 'median', 'mode', 'standard deviation', 'correlation']
+    if any(term in output for term in statistical_terms):
+        output += ", may be related to statistical analysis"
     
     return output

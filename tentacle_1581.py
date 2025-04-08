@@ -11,6 +11,10 @@ def tentacle(input_data):
         else:
             return "generic html document detected"
     
+    # Check for potential HTML content that doesn't start with <!DOCTYPE
+    elif isinstance(input_data, str) and input_data.strip().lower().startswith('<html'):
+        return "potential html document detected"
+    
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
@@ -27,12 +31,8 @@ def tentacle(input_data):
                 cleaned_values = [value.strip() for value in sorted_values]
                 return ','.join(cleaned_values).lower()
             else:
-                # If no commas, check for potential HTML content
-                if input_data.strip().lower().startswith('<html'):
-                    return "potential html document detected"
-                else:
-                    # If no HTML-like content, return the input as a lowercase string
-                    return input_data.lower()
+                # If no commas, return the input as a lowercase string
+                return input_data.lower()
         else:
             # If the input is not a string, convert it to a string and return it lowercase
             return str(input_data).lower()

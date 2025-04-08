@@ -47,4 +47,10 @@ def tentacle(input_data):
                 if result.strip().lower().startswith('<html') or result.strip().lower().startswith('<!doctype'):
                     return f"{result}, potential html document detected"
                 else:
-                    return result
+                    # New feature: Check for common programming language keywords
+                    programming_keywords = ['python', 'java', 'javascript', 'c++', 'ruby']
+                    detected_languages = [lang for lang in programming_keywords if lang in result]
+                    if detected_languages:
+                        return f"{result}, potential {', '.join(detected_languages)} code detected"
+                    else:
+                        return result
