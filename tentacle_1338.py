@@ -5,7 +5,7 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lowercase_input = input_data.lower()
         
-        # Categorize specific types of HTML documents
+        # Determine the type of HTML document based on known patterns
         if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
         elif 'mathematics' in lowercase_input:
@@ -17,17 +17,32 @@ def tentacle(input_data):
             title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
             if title_match:
                 title = title_match.group(1).strip().lower()
-                # Check for specific keywords in the title
-                if 'data' in title:
-                    return f"data-related html document detected: {title}"
-                elif 'math' in title or 'equation' in title:
-                    return f"math-related html document detected: {title}"
-                elif 'text' in title or 'string' in title:
-                    return f"text-related html document detected: {title}"
+                # Check if the title is a palindrome
+                if title == title[::-1]:
+                    return f"html document detected: {title} (palindrome)"
                 else:
                     return f"html document detected: {title}"
-            else:
-                return "generic html document detected"
+            
+            # If no title found, try to extract the first h1 tag
+            h1_match = re.search(r'<h1[^>]*>(.*?)</h1>', input_data, re.IGNORECASE)
+            if h1_match:
+                h1_content = h1_match.group(1).strip().lower()
+                # Check if the h1 content is a palindrome
+                if h1_content == h1_content[::-1]:
+                    return f"html document detected: {h1_content} (palindrome)"
+                else:
+                    return f"html document detected: {h1_content}"
+            
+            # If no h1 tag found, try to extract the first paragraph
+            p_match = re.search(r'<p[^>]*>(.*?)</p>', input_data, re.IGNORECASE | re.DOTALL)
+            if p_match:
+                p_content = p_match.group(1).strip().lower()
+                # Truncate the paragraph to 50 characters
+                truncated_p = p_content[:50]
+                return f"html document detected: {truncated_p}..."
+            
+            # If no paragraph found, return generic message
+            return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -41,24 +56,22 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         input_str = str(input_data)
-        
         if ',' in input_str:
             # Sort and join comma-separated values
             sorted_values = sorted(input_str.split(','))
             # Remove any empty strings, strip whitespace, and remove duplicates
             cleaned_values = list(dict.fromkeys([value.strip() for value in sorted_values if value.strip()]))
-            return ','.join(cleaned_values)
+            # Join the cleaned values and check if the result is a palindrome
+            joined_values = ','.join(cleaned_values)
+            if joined_values == joined_values[::-1]:
+                return f"{joined_values} (palindrome)"
+            else:
+                return joined_values
         else:
             # Convert the input to lowercase, remove leading/trailing whitespace, and capitalize the first letter
             processed_input = input_str.strip().lower().capitalize()
-            
             # Check if the input is a palindrome
             if processed_input == processed_input[::-1]:
                 return f"{processed_input} (palindrome)"
-            
-            # Check if the input contains any digits
-            if any(char.isdigit() for char in processed_input):
-                return f"{processed_input} (contains numbers)"
-            
-            # If none of the above, return the processed input
-            return processed_input
+            else:
+                return processed_input

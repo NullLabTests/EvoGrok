@@ -1,4 +1,5 @@
 import re
+import html
 
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
@@ -16,7 +17,7 @@ def tentacle(input_data):
             # Attempt to extract the title from the HTML
             title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
             if title_match:
-                title = title_match.group(1).strip().lower()
+                title = html.unescape(title_match.group(1).strip().lower())
                 # Check if the title is a palindrome
                 if title == title[::-1]:
                     return f"html document detected: {title} (palindrome)"
@@ -26,9 +27,24 @@ def tentacle(input_data):
                 # If no title found, try to extract the first h1 tag
                 h1_match = re.search(r'<h1[^>]*>(.*?)</h1>', input_data, re.IGNORECASE)
                 if h1_match:
-                    return f"html document detected: {h1_match.group(1).strip().lower()}"
+                    h1_text = html.unescape(h1_match.group(1).strip().lower())
+                    # Check if the h1 text is a palindrome
+                    if h1_text == h1_text[::-1]:
+                        return f"html document detected: {h1_text} (palindrome)"
+                    else:
+                        return f"html document detected: {h1_text}"
                 else:
-                    return "generic html document detected"
+                    # If no h1 found, try to extract the first paragraph
+                    p_match = re.search(r'<p[^>]*>(.*?)</p>', input_data, re.IGNORECASE | re.DOTALL)
+                    if p_match:
+                        p_text = html.unescape(p_match.group(1).strip().lower())
+                        # Truncate the paragraph to 50 characters
+                        truncated_p = p_text[:50]
+                        if len(p_text) > 50:
+                            truncated_p += '...'
+                        return f"html document detected: {truncated_p}"
+                    else:
+                        return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -38,6 +54,11 @@ def tentacle(input_data):
         if result_str == result_str[::-1]:
             return f"{result_str} (palindrome)"
         else:
+            # Check if the result is a prime number
+            if isinstance(result, int) and result > 1:
+                is_prime = all(result % i != 0 for i in range(2, int(result**0.5) + 1))
+                if is_prime:
+                    return f"{result_str} (prime number)"
             return result_str
     except:
         # If evaluation fails, process the input as a string
@@ -47,7 +68,9 @@ def tentacle(input_data):
             sorted_values = sorted(input_str.split(','))
             # Remove any empty strings, strip whitespace, and remove duplicates
             cleaned_values = list(dict.fromkeys([value.strip() for value in sorted_values if value.strip()]))
-            return ','.join(cleaned_values)
+            # Capitalize the first letter of each value
+            capitalized_values = [value.capitalize() for value in cleaned_values]
+            return ','.join(capitalized_values)
         else:
             # Convert the input to lowercase, remove leading/trailing whitespace, and capitalize the first letter
             processed_input = input_str.strip().lower().capitalize()
@@ -55,4 +78,8 @@ def tentacle(input_data):
             if processed_input == processed_input[::-1]:
                 return f"{processed_input} (palindrome)"
             else:
-                return processed_input
+                # Check if the input contains any digits
+                if any(char.isdigit() for char in processed_input):
+                    return f"{processed_input} (contains digits)"
+                else:
+                    return processed_input

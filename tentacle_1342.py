@@ -19,21 +19,27 @@ def tentacle(input_data):
                 title = title_match.group(1).strip()
                 return f"html document detected: {title}"
             
-            # Check for specific HTML classes or features
+            # Check for specific HTML classes or attributes
             if 'class="mw-parser-output"' in lowercase_input:
-                return "wikipedia article html document detected"
+                return "wikipedia article detected"
             elif 'class="toc"' in lowercase_input:
-                return "html document with table of contents detected"
+                return "document with table of contents detected"
             else:
-                return "generic html document detected"
+                # Check for additional known HTML document types
+                if 'class="programming-language"' in lowercase_input:
+                    return "programming language reference detected"
+                elif 'class="algorithm"' in lowercase_input:
+                    return "algorithm description detected"
+                else:
+                    return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return f"mathematical result: {str(result).lower()}"
+        return str(result).lower()
     except:
-        # If evaluation fails, process the input as a string or other type
+        # If evaluation fails, process the input as a string or other data type
         if isinstance(input_data, str):
             if ',' in input_data:
                 # Sort and join comma-separated values
@@ -41,19 +47,17 @@ def tentacle(input_data):
                 # Remove any empty strings and strip whitespace
                 cleaned_values = [value.strip() for value in sorted_values if value.strip()]
                 return ','.join(cleaned_values)
-            elif re.search(r'\d+', input_data):
-                # If the string contains numbers, attempt to extract them
-                numbers = re.findall(r'\d+', input_data)
-                return f"numbers found: {','.join(numbers)}"
             else:
                 # Convert the input to lowercase and remove leading/trailing whitespace
                 return input_data.strip().lower()
-        elif isinstance(input_data, (int, float)):
-            # For numeric inputs, return the value with a description
-            return f"numeric input: {input_data}"
-        elif isinstance(input_data, list):
-            # For list inputs, sort and join the elements
-            return ','.join(map(str, sorted(input_data)))
+        elif isinstance(input_data, (list, tuple, set)):
+            # For iterable inputs, sort and join elements
+            sorted_elements = sorted(str(item).strip() for item in input_data)
+            return ','.join(sorted_elements)
+        elif isinstance(input_data, dict):
+            # For dictionaries, sort and join key-value pairs
+            sorted_items = sorted(f"{k}:{v}" for k, v in input_data.items())
+            return ','.join(sorted_items)
         else:
-            # For other types, convert to string, lowercase, and strip whitespace
-            return f"other type detected: {str(input_data).strip().lower()}"
+            # For other data types, convert to string, lowercase, and strip whitespace
+            return str(input_data).strip().lower()
