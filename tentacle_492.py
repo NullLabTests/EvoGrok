@@ -21,14 +21,16 @@ def tentacle(input_data):
         if ',' in input_data:
             # Sort and join comma-separated values (from Parent2)
             sorted_values = sorted(input_data.split(','))
-            # Remove any empty strings that might result from leading/trailing commas
-            cleaned_values = [value.strip() for value in sorted_values if value.strip()]
-            return ','.join(cleaned_values)
+            # Remove any leading/trailing whitespace from each value
+            cleaned_values = [value.strip() for value in sorted_values]
+            # Convert each value to lowercase (new feature from Parent1)
+            lowercased_values = [value.lower() for value in cleaned_values]
+            return ','.join(lowercased_values)
         else:
-            # Check if the input is a valid number (integer or float)
+            # Check if the input is a valid number
             try:
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, return the input as a lowercase string (from Parent1)
-                return str(input_data).lower()
+                # If not a number, reverse the string (from Parent2) and convert to lowercase (from Parent1)
+                return input_data[::-1].lower()

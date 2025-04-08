@@ -2,11 +2,12 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
-        if 'data analysis' in input_data.lower():
+        lowercase_input = input_data.lower()
+        if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
-        elif 'mathematics' in input_data.lower():
+        elif 'mathematics' in lowercase_input:
             return "mathematics html document detected"
-        elif 'text processing' in input_data.lower():
+        elif 'text processing' in lowercase_input:
             return "text processing html document detected"
         else:
             return "generic html document detected"
@@ -19,11 +20,20 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove any empty strings that might result from leading/trailing commas
+            # Remove any empty strings and strip whitespace
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
-            return ','.join(cleaned_values)
+            # Join the cleaned values with commas
+            result = ','.join(cleaned_values)
         else:
-            # Convert the input to lowercase and remove leading/trailing whitespace
-            return input_data.strip().lower()
+            # Check if the input is a valid number (integer or float)
+            try:
+                float(input_data)
+                result = input_data
+            except ValueError:
+                # If not a number, return the input as is
+                result = input_data
+        
+        # Convert the final result to lowercase
+        return result.lower()

@@ -19,11 +19,23 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove any empty strings that might result from leading/trailing commas
-            cleaned_values = [value.strip() for value in sorted_values if value.strip()]
-            return ','.join(cleaned_values)
+            # Remove any leading/trailing whitespace from each value
+            cleaned_values = [value.strip() for value in sorted_values]
+            # Join the cleaned and sorted values
+            result = ','.join(cleaned_values)
         else:
-            # Convert the input to lowercase and remove any leading/trailing whitespace
-            return input_data.strip().lower()
+            # Check if the input is a valid number
+            try:
+                float(input_data)
+                result = str(input_data).lower()
+            except ValueError:
+                # If not a number, reverse the string
+                result = input_data[::-1].lower()
+        
+        # New feature: Check if the result contains any HTML tags
+        if '<' in result and '>' in result:
+            return f"string with html tags detected: {result}"
+        else:
+            return result

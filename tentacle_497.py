@@ -19,11 +19,22 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove any leading/trailing whitespace from each value
-            cleaned_values = [value.strip() for value in sorted_values]
-            return ','.join(cleaned_values)
+            # Remove any empty strings and strip whitespace
+            cleaned_values = [value.strip() for value in sorted_values if value.strip()]
+            # Join the cleaned values
+            result = ','.join(cleaned_values)
         else:
-            # Convert the input to lowercase and remove any leading/trailing whitespace
-            return input_data.strip().lower()
+            # Convert the input to lowercase and remove leading/trailing whitespace
+            result = input_data.strip().lower()
+        
+        # Check for specific keywords in the processed input
+        if 'data analysis' in result:
+            return f"data analysis: {result}"
+        elif 'mathematics' in result:
+            return f"mathematics: {result}"
+        elif 'text processing' in result:
+            return f"text processing: {result}"
+        else:
+            return result
