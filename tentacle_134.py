@@ -12,7 +12,7 @@ def tentacle(input_data):
         elif 'text processing' in input_str.lower():
             return "text processing html document detected"
         else:
-            return "generic html document detected"
+            return "html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -23,6 +23,6 @@ def tentacle(input_data):
         # If evaluation fails and input contains commas, sort and join
         if ',' in input_str:
             return ','.join(sorted(input_str.split(',')))
-        # If evaluation fails and no commas, return input as lowercase string
+        # If evaluation fails and input doesn't contain commas, return lowercase
         else:
             return input_str.lower()
