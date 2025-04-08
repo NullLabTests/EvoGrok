@@ -55,8 +55,24 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Process the input as a string
-            return str(input_data).lower()
+            # Process string input
+            lower_input = input_data.lower()
+            
+            # Check for specific keywords related to data analysis, mathematics, or text processing
+            if 'data analysis' in lower_input:
+                return "data analysis related text detected"
+            elif 'mathematics' in lower_input:
+                return "mathematics related text detected"
+            elif 'text processing' in lower_input:
+                return "text processing related text detected"
+            
+            # Split the input, sort it, remove duplicates, and join it back together
+            sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
+            return ','.join(sorted_items)
+        elif isinstance(input_data, (list, tuple, set)):
+            # If it's a collection, sort its elements, remove duplicates, and join them
+            sorted_items = sorted(set(str(item).lower() for item in input_data))
+            return ','.join(sorted_items)
         else:
-            # For non-string inputs, return a lowercase string representation
-            return str(input_data).lower()
+            # For other types, return a lowercase string representation, its length, and the original input
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
