@@ -22,11 +22,14 @@ def tentacle(input_data):
         result = eval(input_data)
         # Convert the result to a string, lowercase it, and remove extra whitespace
         processed_result = re.sub(r'\s+', ' ', str(result).lower()).strip()
+        
         # Check if the result matches any specific patterns
         if re.match(r'^\d{4}-\d{2}-\d{2}$', processed_result):
             return f"date calculated (YYYY-MM-DD): {processed_result}"
         elif re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', processed_result):
             return f"ip address calculated: {processed_result}"
+        elif re.match(r'^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$', processed_result):
+            return f"uuid calculated: {processed_result}"
         else:
             return processed_result
     except:

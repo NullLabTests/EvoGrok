@@ -25,34 +25,40 @@ def tentacle(input_data):
         if 'data analysis' in input_str and 'wikipedia' in input_str:
             return ("data analysis html document detected - wikipedia page on data analysis, "
                     "used for analyzing and interpreting data. starts with a doctype declaration "
-                    "followed by an <html> tag with various classes.")
+                    "followed by an <html> tag with various classes and attributes that define "
+                    "styling and functionality.")
         elif 'mathematics' in input_str and 'wikipedia' in input_str:
             return ("mathematics html document detected - wikipedia page on mathematics, "
                     "covering mathematical concepts and theories. begins with a doctype declaration "
-                    "and includes an <html> tag.")
+                    "and includes an <html> tag with various class attributes related to the topic.")
         elif 'text processing' in input_str and 'wikipedia' in input_str:
             return ("text processing html document detected - wikipedia page on text processing, "
-                    "focusing on manipulating and analyzing text. includes various classes and "
-                    "features enabled or disabled for the page.")
+                    "focusing on manipulating and analyzing text. includes the document type "
+                    "declaration and the opening of the <html> tag with various classes and features.")
         else:
             return "generic html document detected"
 
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_str)
-        # Convert the result to a string, lowercase it, reverse it, and add its square root
+        # Convert the result to a string, lowercase it, reverse it, and add its square root and cube root
         result_str = str(result).lower()
         reversed_result = result_str[::-1]
         square_root = str(round(result**0.5, 2)) if result >= 0 else "undefined"
-        return f"result: {result_str}, reversed: {reversed_result}, square root: {square_root}"
+        cube_root = str(round(result**(1/3), 2)) if result >= 0 else "undefined"
+        return (f"result: {result_str}, reversed: {reversed_result}, "
+                f"square root: {square_root}, cube root: {cube_root}")
     except (SyntaxError, NameError, TypeError):
         # If evaluation fails due to syntax or undefined variables, process as string
         if ',' in input_str:
-            # Sort and join the elements, then reverse the result
-            sorted_elements = sorted(input_str.split(','))
+            # Sort and join the elements, then reverse the result and count unique elements
+            elements = input_str.split(',')
+            sorted_elements = sorted(elements)
             joined_sorted = ','.join(sorted_elements)
             reversed_sorted = joined_sorted[::-1]
-            return f"sorted and joined: {joined_sorted}, reversed: {reversed_sorted}"
+            unique_count = len(set(elements))
+            return (f"sorted and joined: {joined_sorted}, reversed: {reversed_sorted}, "
+                    f"unique elements: {unique_count}")
         elif len(input_str) > 0:
             # Perform advanced text analysis
             words = input_str.split()
@@ -60,9 +66,10 @@ def tentacle(input_data):
             unique_words = len(set(words))
             longest_word = max(words, key=len)
             shortest_word = min(words, key=len)
+            average_word_length = round(sum(len(word) for word in words) / word_count, 2)
             return (f"reversed: {input_str[::-1]}, word count: {word_count}, "
                     f"unique words: {unique_words}, longest word: {longest_word}, "
-                    f"shortest word: {shortest_word}")
+                    f"shortest word: {shortest_word}, average word length: {average_word_length}")
         else:
             # Return the input as a lowercase string
             return input_str

@@ -4,14 +4,14 @@ def tentacle(input_data):
 
     This function first checks if the input is an HTML document related to
     specific topics (data analysis, mathematics, or text processing). If so,
-    it returns a corresponding message with additional information about
+    it returns a corresponding message with detailed information about
     the document's purpose and characteristics. Otherwise, it attempts to
     evaluate the input as a mathematical expression. If evaluation fails,
     it processes the input based on its format: sorting and joining
     comma-separated values, reversing strings, or converting to lowercase.
 
     Args:
-        input_data: The input data to process. Can be of any type.
+        input_data (Any): The input data to process.
 
     Returns:
         str: Processed output based on the input's content and type.
@@ -26,17 +26,19 @@ def tentacle(input_data):
             return ("data analysis html document detected - used for analyzing "
                     "and interpreting data. This is likely the beginning of a "
                     "Wikipedia page on 'Data analysis,' using HTML5 with various "
-                    "metadata and class attributes for styling and functionality.")
+                    "classes and attributes that define styling and functionality.")
         elif 'mathematics' in input_str:
             return ("mathematics html document detected - covers mathematical "
                     "concepts and theories. This HTML5 document is probably "
                     "the start of a Wikipedia page about Mathematics, declared "
-                    "with the <!DOCTYPE html> tag.")
+                    "with the <!DOCTYPE html> tag and includes key elements like "
+                    "DOCTYPE declaration.")
         elif 'text processing' in input_str:
             return ("text processing html document detected - focuses on "
                     "manipulating and analyzing text. This HTML5 document "
                     "likely begins a Wikipedia page titled 'Text processing,' "
-                    "starting with the <!DOCTYPE html> declaration.")
+                    "starting with the <!DOCTYPE html> declaration and includes "
+                    "various classes and attributes for styling and functionality.")
         else:
             return "generic html document detected"
 
@@ -55,5 +57,5 @@ def tentacle(input_data):
             # Reverse the input string and convert to lowercase
             return input_str[::-1]
         else:
-            # Return the input as a lowercase string
+            # Return the input as is (already lowercase)
             return input_str

@@ -1,6 +1,6 @@
 def tentacle(input_data):
     """
-    Process input data based on its type and content.
+    Process input data based on its type, content, and format.
 
     This function first checks if the input is an HTML document related to
     specific topics (data analysis, mathematics, or text processing). If so,
@@ -8,11 +8,10 @@ def tentacle(input_data):
     the document's purpose. Otherwise, it attempts to evaluate the input as
     a mathematical expression. If evaluation fails, it processes the input
     based on its format: sorting and joining comma-separated values,
-    reversing strings, performing basic text analysis, or returning the
-    input as a lowercase string.
+    performing basic text analysis, or returning the input as a lowercase string.
 
     Args:
-        input_data (str): The input data to process.
+        input_data (str or any): The input data to process.
 
     Returns:
         str: Processed output based on the input's content and type.
@@ -35,8 +34,8 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_str)
-        # Convert the result to a string, lowercase it, and reverse it
-        return str(result).lower()[::-1]
+        # Convert the result to a string and lowercase it
+        return str(result).lower()
     except (SyntaxError, NameError, TypeError):
         # If evaluation fails due to syntax or undefined variables, process as string
         if ',' in input_str:
@@ -54,7 +53,7 @@ def tentacle(input_data):
             elif 'text' in input_str and 'processing' in input_str:
                 return f"text processing related text: {input_str}, word count: {word_count}, unique words: {unique_words}"
             else:
-                return f"reversed: {input_str[::-1]}, word count: {word_count}, unique words: {unique_words}"
+                return f"processed text: {input_str}, word count: {word_count}, unique words: {unique_words}"
         else:
             # Return the input as a lowercase string
             return input_str

@@ -1,6 +1,9 @@
+import re
+from collections import Counter
+
 def tentacle(input_data):
     """
-    Process input data based on its type and content, with specialized handling for specific HTML documents.
+    Process input data based on its type and content, with specialized handling for specific HTML documents and advanced data processing.
 
     This function first checks if the input is an HTML document related to
     data analysis, mathematics, or text processing. If so, it returns a detailed
@@ -50,11 +53,32 @@ def tentacle(input_data):
             word_count = len(words)
             unique_words = len(set(words))
             avg_word_length = sum(len(word) for word in words) / word_count if word_count > 0 else 0
-            most_common_word = max(set(words), key=words.count) if words else ''
-            return (f"text analysis: reversed: {input_str[::-1]}, "
-                    f"word count: {word_count}, unique words: {unique_words}, "
-                    f"average word length: {avg_word_length:.2f}, "
-                    f"most common word: {most_common_word}")
+            word_frequency = Counter(words)
+            most_common_word = word_frequency.most_common(1)[0][0] if words else ''
+            most_common_word_count = word_frequency.most_common(1)[0][1] if words else 0
+            
+            # Check for specific patterns related to data analysis, mathematics, or text processing
+            data_analysis_pattern = r'\b(data|analysis|statistics|visualization)\b'
+            mathematics_pattern = r'\b(math|equation|formula|theorem)\b'
+            text_processing_pattern = r'\b(text|processing|nlp|tokenization)\b'
+            
+            detected_topics = []
+            if re.search(data_analysis_pattern, input_str):
+                detected_topics.append('data analysis')
+            if re.search(mathematics_pattern, input_str):
+                detected_topics.append('mathematics')
+            if re.search(text_processing_pattern, input_str):
+                detected_topics.append('text processing')
+            
+            analysis_result = (f"text analysis: reversed: {input_str[::-1]}, "
+                               f"word count: {word_count}, unique words: {unique_words}, "
+                               f"average word length: {avg_word_length:.2f}, "
+                               f"most common word: '{most_common_word}' (appears {most_common_word_count} times)")
+            
+            if detected_topics:
+                analysis_result += f", detected topics: {', '.join(detected_topics)}"
+            
+            return analysis_result
         else:
             # Return the input as a lowercase string
             return input_str

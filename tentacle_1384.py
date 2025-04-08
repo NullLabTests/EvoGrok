@@ -24,19 +24,20 @@ def tentacle(input_data):
         # Check for specific HTML document types
         if 'data analysis' in input_str:
             return ("data analysis html document detected - used for analyzing "
-                    "and interpreting data. This is likely the beginning of a "
-                    "Wikipedia page on 'Data analysis,' using HTML5 with various "
-                    "metadata and class attributes for styling and functionality.")
+                    "and interpreting data. This is the beginning of a Wikipedia "
+                    "page on 'Data analysis,' using HTML5 with various classes "
+                    "and attributes for styling and functionality.")
         elif 'mathematics' in input_str:
             return ("mathematics html document detected - covers mathematical "
-                    "concepts and theories. This HTML5 document is probably "
-                    "the start of a Wikipedia page about Mathematics, declared "
-                    "with the <!DOCTYPE html> tag.")
+                    "concepts and theories. This HTML5 document is the start of "
+                    "a Wikipedia page about Mathematics, beginning with the "
+                    "<!DOCTYPE html> declaration and including key elements.")
         elif 'text processing' in input_str:
             return ("text processing html document detected - focuses on "
                     "manipulating and analyzing text. This HTML5 document "
-                    "likely begins a Wikipedia page titled 'Text processing,' "
-                    "starting with the <!DOCTYPE html> declaration.")
+                    "is the beginning of a Wikipedia page titled 'Text "
+                    "processing,' starting with the <!DOCTYPE html> declaration "
+                    "and including various classes and attributes.")
         else:
             return "generic html document detected"
 
