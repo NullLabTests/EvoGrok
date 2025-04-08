@@ -55,8 +55,13 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # If it's a string, return it as a lowercase string
-            return input_data.lower()
+            # Process the string input
+            sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
+            return ','.join(sorted_items)
+        elif isinstance(input_data, (list, tuple, set)):
+            # If it's a collection, sort its elements, remove duplicates, and join them
+            sorted_items = sorted(set(str(item).lower() for item in input_data))
+            return ','.join(sorted_items)
         else:
-            # For other types, return a lowercase string representation
-            return str(input_data).lower()
+            # For other types, return a lowercase string representation, its length, and the original input
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"

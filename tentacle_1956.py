@@ -3,7 +3,7 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lower_input = input_data.lower()
         
-        # Determine the type of HTML document based on the title and content
+        # Determine the type of Wikipedia HTML document based on the title and content
         if 'data analysis' in lower_input:
             return "wikipedia data analysis html document detected"
         elif 'mathematics' in lower_input:
