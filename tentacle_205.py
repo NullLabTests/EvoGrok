@@ -14,15 +14,13 @@ def tentacle(input_data):
         else:
             return "generic html document detected"
     
+    # If not an HTML document, try to evaluate as a mathematical expression
     try:
-        # Attempt to evaluate the input as a mathematical expression
         result = eval(input_str)
-        # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
         # If evaluation fails and input contains commas, sort and join
         if ',' in input_str:
             return ','.join(sorted(input_str.split(',')))
-        # If no commas, return the input as a lowercase string
-        else:
-            return input_str.lower()
+        # Otherwise, return the input as a lowercase string
+        return input_str.lower()

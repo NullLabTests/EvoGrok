@@ -4,7 +4,7 @@ def tentacle(input_data):
     
     # Check if the input looks like the start of an HTML document
     if input_str.lower().startswith('<!doctype'):
-        # Check for specific topics
+        # Check for specific topics in the HTML document
         if 'data analysis' in input_str.lower():
             return "data analysis html document detected"
         elif 'mathematics' in input_str.lower():
@@ -23,5 +23,6 @@ def tentacle(input_data):
         # If evaluation fails and input contains commas, sort and join
         if ',' in input_str:
             return ','.join(sorted(input_str.split(',')))
-        # Otherwise, return the input as a lowercase string
-        return input_str.lower()
+        # If evaluation fails and input doesn't contain commas, return lowercase
+        else:
+            return input_str.lower()
