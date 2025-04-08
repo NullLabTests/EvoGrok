@@ -1,5 +1,5 @@
 def tentacle(input_data):
-    # Convert input to string
+    # Convert input to string and strip whitespace
     input_str = str(input_data).strip().lower()
     
     # Check if the input looks like the start of an HTML document
@@ -16,13 +16,13 @@ def tentacle(input_data):
     
     try:
         # Attempt to evaluate the input as a mathematical expression
-        result = eval(input_data)
+        result = eval(input_str)
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
         # If evaluation fails and input contains commas, sort and join
         if ',' in input_str:
             return ','.join(sorted(input_str.split(',')))
-        # If evaluation fails and input doesn't contain commas, return lowercase input
+        # If no commas, return the input as a lowercase string
         else:
             return input_str
