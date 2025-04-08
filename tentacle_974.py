@@ -3,11 +3,11 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_data.lower():
-            return "data analysis html document detected"
+            return "data analysis wikipedia page detected"
         elif 'mathematics' in input_data.lower():
-            return "mathematics html document detected"
+            return "mathematics wikipedia page detected"
         elif 'text processing' in input_data.lower():
-            return "text processing html document detected"
+            return "text processing wikipedia page detected"
         else:
             return "generic html document detected"
     
@@ -31,8 +31,8 @@ def tentacle(input_data):
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, reverse the string, capitalize the first letter,
-                # and append the length of the original string
+                # If not a number, reverse the string, capitalize the first letter, and add a prefix
                 reversed_string = input_data[::-1].lower()
-                capitalized_reversed = reversed_string.capitalize()
-                return f"{capitalized_reversed} (length: {len(input_data)})"
+                # Add a new feature: count the number of vowels in the reversed string
+                vowel_count = sum(1 for char in reversed_string if char in 'aeiou')
+                return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count})"

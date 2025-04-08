@@ -19,6 +19,7 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if isinstance(input_data, str):
+            # Check if the input contains comma-separated values
             if ',' in input_data:
                 # Sort and join comma-separated values
                 sorted_values = sorted(input_data.split(','))
@@ -26,8 +27,14 @@ def tentacle(input_data):
                 cleaned_values = [value.strip() for value in sorted_values]
                 return ','.join(cleaned_values).lower()
             else:
-                # Return the input as a lowercase string
-                return input_data.lower()
+                # If no commas, check for specific patterns
+                if input_data.lower().startswith('http'):
+                    return f"url detected: {input_data.lower()}"
+                elif '@' in input_data and '.' in input_data:
+                    return f"email address detected: {input_data.lower()}"
+                else:
+                    # Return the input as a lowercase string
+                    return input_data.lower()
         else:
-            # For non-string inputs, convert to string and lowercase
+            # If the input is not a string, convert it to a string and return it lowercase
             return str(input_data).lower()
