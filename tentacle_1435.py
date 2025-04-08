@@ -1,18 +1,20 @@
+import re
+from collections import Counter
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document
+        document_type = 'unknown'
         if 'data analysis' in input_data.lower():
             document_type = 'data analysis'
         elif 'mathematics' in input_data.lower():
             document_type = 'mathematics'
         elif 'text processing' in input_data.lower():
             document_type = 'text processing'
-        else:
-            document_type = 'unknown'
         
         # Extract and process words from the HTML content
-        words = set(input_data.lower().split())
+        words = set(re.findall(r'\b\w+\b', input_data.lower()))
         words.discard('<!doctype')
         words.discard('html')
         
@@ -33,8 +35,14 @@ def tentacle(input_data):
         # Calculate the relevance score based on the number of relevant keywords
         relevance_score = len(relevant_keywords) / len(related_keywords.get(document_type, [])) * 100 if related_keywords.get(document_type, []) else 0
         
-        # Return a formatted string with document type, word count, sorted words, relevant keywords, and relevance score
-        return f"HTML document ({document_type}): {word_count} unique words - {','.join(sorted(words))}. Relevant keywords: {','.join(sorted(relevant_keywords))}. Relevance score: {relevance_score:.2f}%"
+        # Extract class attributes
+        class_attributes = re.findall(r'class="([^"]*)"', input_data, re.IGNORECASE)
+        all_classes = set()
+        for classes in class_attributes:
+            all_classes.update(classes.split())
+        
+        # Return a formatted string with document analysis
+        return f"HTML document ({document_type}): {word_count} unique words - {','.join(sorted(words))}. Relevant keywords: {','.join(sorted(relevant_keywords))}. Relevance score: {relevance_score:.2f}%. Class attributes: {','.join(sorted(all_classes))}"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -59,9 +67,10 @@ def tentacle(input_data):
             words = result_str.lower().split()
             total_words = len(words)
             unique_words = len(set(words))
-            word_frequency = {word: words.count(word) for word in set(words)}
-            most_common_word = max(word_frequency, key=word_frequency.get) if words else ''
-            return f"String result: {total_words} words, {unique_words} unique - {','.join(sorted(words))}. Most common word: '{most_common_word}' (appears {word_frequency.get(most_common_word, 0)} times)"
+            word_frequency = Counter(words)
+            most_common_word = word_frequency.most_common(1)[0][0] if words else ''
+            most_common_count = word_frequency[most_common_word] if words else 0
+            return f"String result: {total_words} words, {unique_words} unique - {','.join(sorted(words))}. Most common word: '{most_common_word}' (appears {most_common_count} times)"
         
         # For other types of results, return the type, value, and a detailed representation
         return f"{type(result).__name__} result: {result_str} - Detailed repr: {repr(result)}. Attributes: {', '.join(dir(result))}"
@@ -79,11 +88,16 @@ def tentacle(input_data):
         detected_operators = operators.intersection(set(input_data))
         
         # Calculate word frequency
-        word_frequency = {word: words.count(word) for word in set(words)}
-        most_common_word = max(word_frequency, key=word_frequency.get) if words else ''
+        word_frequency = Counter(words)
+        most_common_word = word_frequency.most_common(1)[0][0] if words else ''
+        most_common_count = word_frequency[most_common_word] if words else 0
         
         # Check for potential HTML-like content
         html_like = input_data.strip().lower().startswith('<') and input_data.strip().lower().endswith('>')
         
-        # Return a formatted string with word counts, sorted words, detected operators, and word frequency information
-        return f"Text input: {total_words} words, {unique_words} unique - {','.join(sorted(words))}. Most common word: '{most_common_word}' (appears {word_frequency.get(most_common_word, 0)} times). Detected operators: {','.join(sorted(detected_operators))}. HTML-like content: {html_like}. Error during evaluation: {str(e)}"
+        # Check for potential URL
+        url_pattern = re.compile(r'^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$')
+        is_url = bool(url_pattern.match(input_data))
+        
+        # Return a formatted string with text analysis
+        return f"Text input: {total_words} words, {unique_words} unique - {','.join(sorted(words))}. Most common word: '{most_common_word}' (appears {most_common_count} times). Detected operators: {','.join(sorted(detected_operators))}. HTML-like content: {html_like}. Potential URL: {is_url}. Error during evaluation: {str(e)}"

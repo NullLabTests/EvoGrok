@@ -7,13 +7,13 @@ def tentacle(input_data):
         # Check for specific topics in the HTML document
         if 'data analysis' in input_str:
             # Check for specific structure of data analysis HTML document
-            if '<html' in input_str and 'wikipedia' in input_str:
+            if '<html' in input_str and 'wikipedia' in input_str and 'classes' in input_str:
                 return "wikipedia data analysis html document detected"
             else:
                 return "data analysis html document detected"
         elif 'mathematics' in input_str:
             # Check for specific structure of mathematics HTML document
-            if '<!doctype' in input_str and '<html' in input_str:
+            if '<!doctype' in input_str and '<html' in input_str and 'classes' in input_str:
                 return "wikipedia mathematics html document detected"
             else:
                 return "mathematics html document detected"

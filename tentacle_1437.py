@@ -1,3 +1,6 @@
+import math
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -12,7 +15,7 @@ def tentacle(input_data):
             document_type = 'unknown'
         
         # Extract and process words from the HTML content
-        words = set(input_data.lower().split())
+        words = set(re.findall(r'\b\w+\b', input_data.lower()))
         words.discard('<!doctype')
         words.discard('html')
         
@@ -35,11 +38,16 @@ def tentacle(input_data):
         number_containing_count = sum(1 for word in words if any(char.isdigit() for char in word))
         number_containing_percentage = (number_containing_count / word_count) * 100 if word_count > 0 else 0
         
+        # Calculate the percentage of words that are HTML tags
+        html_tags = set(re.findall(r'<(\w+)', input_data.lower()))
+        html_tag_percentage = (len(html_tags) / word_count) * 100 if word_count > 0 else 0
+        
         # Return a formatted string with detailed HTML document information
         return (f"HTML document ({document_type}): {word_count} unique words, "
                 f"avg length {avg_word_length:.2f}, most common length {most_common_length}, "
                 f"{vowel_start_percentage:.2f}% words start with vowel, "
-                f"{number_containing_percentage:.2f}% words contain numbers - {','.join(sorted(words))}")
+                f"{number_containing_percentage:.2f}% words contain numbers, "
+                f"{html_tag_percentage:.2f}% words are HTML tags - {','.join(sorted(words))}")
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -83,7 +91,7 @@ def tentacle(input_data):
     except Exception as e:
         # If evaluation fails, process the input as text
         input_str = str(input_data).lower()
-        words = input_str.split()
+        words = re.findall(r'\b\w+\b', input_str)
         
         # Count the number of words and unique words
         total_words = len(words)

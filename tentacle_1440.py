@@ -37,12 +37,5 @@ def tentacle(input_data):
             elif 'text' in input_str and 'processing' in input_str:
                 return "text processing mentioned"
             else:
-                # If no keywords match, attempt to process as a mathematical expression
-                try:
-                    # Attempt to evaluate the input as a mathematical expression
-                    result = eval(input_str)
-                    # Convert the result to a string and lowercase it
-                    return str(result).lower()
-                except:
-                    # If all else fails, return the input as a lowercase string
-                    return input_str
+                # If no keywords match, return the input as a lowercase string
+                return input_str

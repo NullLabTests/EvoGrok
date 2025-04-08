@@ -1,18 +1,21 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on knowledge
-        if 'data analysis' in input_data.lower():
-            document_type = 'data analysis'
-        elif 'mathematics' in input_data.lower():
-            document_type = 'mathematics'
-        elif 'text processing' in input_data.lower():
-            document_type = 'text processing'
-        else:
-            document_type = 'unknown'
+        document_type = 'unknown'
+        for known_type, known_content in {
+            'data analysis': 'data analysis',
+            'mathematics': 'mathematics',
+            'text processing': 'text processing'
+        }.items():
+            if known_content in input_data.lower():
+                document_type = known_type
+                break
         
         # Extract and process words from the HTML content
-        words = set(input_data.lower().split())
+        words = set(re.findall(r'\b\w+\b', input_data.lower()))
         words.discard('<!doctype')
         words.discard('html')
         
