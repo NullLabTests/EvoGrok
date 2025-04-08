@@ -14,13 +14,8 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string, lowercase it, and sort its characters
-        return ','.join(sorted(str(result).lower()))
+        # Convert the result to a string, sort its characters, and join them
+        return ','.join(sorted(str(result)))
     except:
-        # If evaluation fails, process the input as a string
-        if ',' in input_data:
-            # If the input contains commas, sort and join the split parts
-            return ','.join(sorted(input_data.split(',')))
-        else:
-            # Otherwise, return the input as a lowercase string
-            return input_data.lower()
+        # If evaluation fails, split the input by commas, sort the parts, and join them
+        return ','.join(sorted(input_data.split(',')))

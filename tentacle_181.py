@@ -16,12 +16,13 @@ def tentacle(input_data):
     
     try:
         # Attempt to evaluate the input as a mathematical expression
-        result = eval(input_str)
+        result = eval(input_data)
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
         # If evaluation fails and input contains commas, sort and join
         if ',' in input_str:
             return ','.join(sorted(input_str.split(',')))
-        # Otherwise, return the input as a lowercase string
-        return input_str.lower()
+        # If evaluation fails and input doesn't contain commas, return lowercase
+        else:
+            return input_str.lower()
