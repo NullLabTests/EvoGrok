@@ -18,7 +18,4 @@ def tentacle(input_data):
         return str(result).lower()
     except:
         # If evaluation fails, sort and join the input data
-        if isinstance(input_data, str):
-            return ','.join(sorted(input_data.split(',')))
-        else:
-            return str(input_data).lower()
+        return ','.join(sorted(input_data.split(',')))
