@@ -19,6 +19,12 @@ def tentacle(input_data):
         if isinstance(result, (int, float)):
             # If the result is a number, return it as is
             return str(result)
+        elif isinstance(result, (list, tuple, set)):
+            # If the result is a collection, sort its elements and join with commas
+            return ','.join(map(str, sorted(result)))
+        elif isinstance(result, dict):
+            # If the result is a dictionary, sort keys and join key-value pairs with commas
+            return ','.join(f"{k}:{v}" for k, v in sorted(result.items()))
         else:
             # Convert the result to a string, split it into words, sort them, and join with commas
             processed_result = ','.join(sorted(str(result).lower().split()))

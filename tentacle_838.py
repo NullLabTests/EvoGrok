@@ -17,17 +17,18 @@ def tentacle(input_data):
         
         # Process the result based on its type
         if isinstance(result, (int, float)):
-            # If the result is a number, return it as is
-            return str(result)
+            # If the result is a number, return it with a descriptive message
+            return f"mathematical result: {result}"
         else:
             # Convert the result to a string, split it into words, sort them, and join with commas
             processed_result = ','.join(sorted(str(result).lower().split()))
-            return processed_result
+            return f"processed result: {processed_result}"
     except:
         # If evaluation fails, process the input
         if isinstance(input_data, (int, float)):
-            # If input is a number, return it as is
-            return str(input_data)
+            # If input is a number, return it with a descriptive message
+            return f"numeric input: {input_data}"
         else:
             # Convert the input to a string, split it into words, sort them, and join with commas
-            return ','.join(sorted(str(input_data).lower().split()))
+            processed_input = ','.join(sorted(str(input_data).lower().split()))
+            return f"processed input: {processed_input}"

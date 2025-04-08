@@ -4,13 +4,21 @@ def tentacle(input_data):
         # Determine the type of HTML document based on known titles
         lowercase_input = input_data.lower()
         if 'data analysis' in lowercase_input:
-            return 'wikipedia data analysis html document detected, processing class attributes'.lower()
+            # Process class attributes for data analysis
+            classes = set(re.findall(r'class="([^"]*)"', input_data, re.IGNORECASE))
+            return f'wikipedia data analysis html document detected, processing class attributes: {",".join(sorted(classes))}'.lower()
         elif 'mathematics' in lowercase_input:
-            return 'wikipedia mathematics html document detected, processing doctype declaration'.lower()
+            # Process doctype declaration for mathematics
+            doctype = re.search(r'<!DOCTYPE\s+([^>]+)>', input_data, re.IGNORECASE)
+            return f'wikipedia mathematics html document detected, processing doctype declaration: {doctype.group(1) if doctype else "unknown"}'.lower()
         elif 'text processing' in lowercase_input:
-            return 'wikipedia text processing html document detected, processing html tag attributes'.lower()
+            # Process HTML tag attributes for text processing
+            attributes = set(re.findall(r'(\w+)=["\']', input_data))
+            return f'wikipedia text processing html document detected, processing html tag attributes: {",".join(sorted(attributes))}'.lower()
         else:
-            return 'html document detected, processing unknown type'.lower()
+            # Process unknown HTML document type
+            title = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
+            return f'html document detected, processing unknown type: {title.group(1) if title else "untitled"}'.lower()
     
     try:
         # Attempt to evaluate the input as a mathematical expression

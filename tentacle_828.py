@@ -27,4 +27,12 @@ def tentacle(input_data):
             return ','.join(cleaned_values)
         else:
             # Convert the input to lowercase and remove leading/trailing whitespace
-            return str(input_data).strip().lower()
+            processed_input = str(input_data).strip().lower()
+            
+            # Check for specific patterns in the processed input
+            if processed_input.startswith('http') or processed_input.startswith('www'):
+                return f"url detected: {processed_input}"
+            elif any(char.isdigit() for char in processed_input):
+                return f"string with numbers detected: {processed_input}"
+            else:
+                return processed_input

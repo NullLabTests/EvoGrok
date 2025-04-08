@@ -10,7 +10,12 @@ def tentacle(input_data):
         elif 'text processing' in lowercase_input:
             return "text processing html document detected"
         else:
-            return "generic html document detected"
+            # Attempt to extract the title from the HTML
+            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
+            if title_match:
+                return f"html document detected: {title_match.group(1).strip().lower()}"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -22,9 +27,14 @@ def tentacle(input_data):
         if ',' in str(input_data):
             # Sort and join comma-separated values
             sorted_values = sorted(str(input_data).split(','))
-            # Remove any empty strings and strip whitespace
-            cleaned_values = [value.strip() for value in sorted_values if value.strip()]
+            # Remove any empty strings, strip whitespace, and remove duplicates
+            cleaned_values = list(dict.fromkeys([value.strip() for value in sorted_values if value.strip()]))
             return ','.join(cleaned_values)
         else:
-            # Convert the input to lowercase and remove leading/trailing whitespace
-            return str(input_data).strip().lower()
+            # Convert the input to lowercase, remove leading/trailing whitespace, and capitalize the first letter
+            processed_input = str(input_data).strip().lower().capitalize()
+            # Check if the input is a palindrome
+            if processed_input == processed_input[::-1]:
+                return f"{processed_input} (palindrome)"
+            else:
+                return processed_input
