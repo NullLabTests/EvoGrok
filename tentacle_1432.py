@@ -32,10 +32,17 @@ def tentacle(input_data):
         # Calculate the ratio of digits to total characters
         digit_ratio = digit_count / len(input_data) if len(input_data) > 0 else 0
         
+        # Count the number of classes in the HTML content
+        class_count = len([word for word in words if word.startswith('class=')])
+        
+        # Count the number of links in the HTML content
+        link_count = input_data.lower().count('href=')
+        
         # Return a formatted string with detailed HTML document analysis
         return (f"HTML document ({document_type}): {word_count} unique words, "
                 f"avg length {avg_word_length:.2f}, {digit_count} digits, "
-                f"{tag_count} tags, digit ratio {digit_ratio:.4f} - "
+                f"{tag_count} tags, {class_count} classes, {link_count} links, "
+                f"digit ratio {digit_ratio:.4f} - "
                 f"{','.join(sorted(words))}").lower()
     
     try:
@@ -50,7 +57,8 @@ def tentacle(input_data):
             number = float(result_str)
             return (f"{number} (number): min={min(number, 0)}, max={max(number, 0)}, "
                     f"abs={abs(number)}, square={number**2}, "
-                    f"cube={number**3}, factorial={1 if number==0 else number*eval(input_data.replace('*', '*1').replace('/', '/1'))}").lower()
+                    f"cube={number**3}, factorial={1 if number==0 else number*eval(input_data.replace('*', '*1').replace('/', '/1'))}, "
+                    f"is_integer={number.is_integer()}").lower()
         
         # If the result is a string, process it like text
         if isinstance(result, str):
@@ -58,8 +66,11 @@ def tentacle(input_data):
             total_words = len(words)
             unique_words = len(set(words))
             avg_word_length = sum(len(word) for word in words) / total_words if total_words > 0 else 0
+            digit_count = sum(c.isdigit() for c in result_str)
+            digit_ratio = digit_count / len(result_str) if len(result_str) > 0 else 0
             return (f"string result from math eval: {total_words} words, "
-                    f"{unique_words} unique, avg length {avg_word_length:.2f} - "
+                    f"{unique_words} unique, avg length {avg_word_length:.2f}, "
+                    f"{digit_count} digits, digit ratio {digit_ratio:.4f} - "
                     f"{','.join(sorted(words))}").lower()
         
         # For other types of results, return the type, value, and a string representation
@@ -87,8 +98,12 @@ def tentacle(input_data):
         # Count the number of punctuation marks
         punctuation_count = sum(c in '.,!?;:' for c in input_str)
         
+        # Count the number of uppercase letters (if any)
+        uppercase_count = sum(1 for c in input_str if c.isupper())
+        
         # Return a formatted string with detailed text analysis
         return (f"text input: {total_words} words, {unique_words} unique, "
                 f"avg length {avg_word_length:.2f}, {digit_count} digits, "
-                f"digit ratio {digit_ratio:.4f}, {punctuation_count} punctuation marks - "
+                f"digit ratio {digit_ratio:.4f}, {punctuation_count} punctuation marks, "
+                f"{uppercase_count} uppercase letters - "
                 f"{','.join(sorted(words))}").lower()

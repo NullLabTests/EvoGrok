@@ -18,14 +18,25 @@ def tentacle(input_data):
         # Add the document type to detected elements
         detected_elements.append(document_type)
         
+        # Process the HTML content
+        html_content = input_data.lower()
+        words = sorted(html_content.split())
+        
+        # Extract additional information from the HTML
+        title = ''
+        if '<title>' in html_content and '</title>' in html_content:
+            title_start = html_content.find('<title>') + len('<title>')
+            title_end = html_content.find('</title>')
+            title = html_content[title_start:title_end].strip()
+        
         # Return a dictionary with HTML-specific information
         return {
             'type': 'html',
             'document_type': document_type,
             'elements': sorted(detected_elements),
-            'original_input': input_data.strip(),
-            'word_count': len(input_data.split()),
-            'character_count': len(input_data)
+            'words': words,
+            'title': title,
+            'original_input': input_data.strip()
         }
     
     try:
@@ -39,9 +50,8 @@ def tentacle(input_data):
                 'type': 'number',
                 'value': result,
                 'string_value': str(result).lower(),
-                'original_input': input_data.strip(),
-                'is_integer': isinstance(result, int),
-                'is_positive': result > 0
+                'words': sorted(str(result).lower().split()),
+                'original_input': input_data.strip()
             }
         else:
             # Convert the result to a string, split it into words, sort them
@@ -52,20 +62,44 @@ def tentacle(input_data):
                 'type': 'math_result',
                 'words': words,
                 'original_result': str(result),
-                'original_input': input_data.strip(),
-                'word_count': len(words)
+                'original_input': input_data.strip()
             }
     except Exception as e:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them
         words = sorted(str(input_data).lower().split())
         
+        # Attempt to evaluate as a simple arithmetic expression
+        try:
+            simple_result = eval(' '.join(words))
+            if isinstance(simple_result, (int, float)):
+                return {
+                    'type': 'simple_arithmetic',
+                    'value': simple_result,
+                    'string_value': str(simple_result).lower(),
+                    'words': words,
+                    'original_input': input_data.strip()
+                }
+        except:
+            pass
+        
+        # Check for specific keywords and categorize the input
+        keywords = {
+            'data analysis': 'data_analysis',
+            'mathematics': 'mathematics',
+            'text processing': 'text_processing'
+        }
+        category = None
+        for keyword, cat in keywords.items():
+            if keyword in ' '.join(words):
+                category = cat
+                break
+        
         # Return the sorted words as a list with additional information
         return {
             'type': 'text',
             'words': words,
+            'category': category,
             'original_input': input_data.strip(),
-            'word_count': len(words),
-            'character_count': len(input_data),
             'error': str(e) if str(e) else None
         }

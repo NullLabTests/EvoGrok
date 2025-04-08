@@ -1,3 +1,5 @@
+import math
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -33,8 +35,12 @@ def tentacle(input_data):
         # Calculate the relevance score based on the number of relevant keywords
         relevance_score = len(relevant_keywords) / len(related_keywords.get(document_type, [])) * 100 if related_keywords.get(document_type, []) else 0
         
-        # Return a formatted string with document type, word count, sorted words, relevant keywords, and relevance score
-        return f"HTML document ({document_type}): {word_count} unique words - {','.join(sorted(words))}. Relevant keywords: {','.join(sorted(relevant_keywords))}. Relevance score: {relevance_score:.2f}%"
+        # Calculate word frequency
+        word_frequency = {word: input_data.lower().split().count(word) for word in words}
+        most_common_word = max(word_frequency, key=word_frequency.get) if words else ''
+        
+        # Return a formatted string with detailed analysis
+        return f"HTML document ({document_type}): {word_count} unique words - {','.join(sorted(words))}. Relevant keywords: {','.join(sorted(relevant_keywords))}. Relevance score: {relevance_score:.2f}%. Most common word: '{most_common_word}' (appears {word_frequency.get(most_common_word, 0)} times)"
     
     try:
         # Attempt to evaluate the input as a mathematical expression

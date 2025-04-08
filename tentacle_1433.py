@@ -1,7 +1,9 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document
+        # Determine the type of HTML document based on the provided knowledge
         if 'data analysis' in input_data.lower():
             document_type = 'data analysis'
         elif 'mathematics' in input_data.lower():
@@ -12,7 +14,7 @@ def tentacle(input_data):
             document_type = 'unknown'
         
         # Extract and process words from the HTML content
-        words = set(input_data.lower().split())
+        words = set(re.findall(r'\b\w+\b', input_data.lower()))
         words.discard('<!doctype')
         words.discard('html')
         
@@ -32,10 +34,15 @@ def tentacle(input_data):
         # Calculate readability score (simple formula: word count / sentence count)
         readability_score = word_count / sentence_count if sentence_count > 0 else 0
         
+        # Count vowels and consonants
+        vowels = sum(sum(1 for char in word if char in 'aeiou') for word in words)
+        consonants = sum(sum(1 for char in word if char.isalpha() and char not in 'aeiou') for word in words)
+        
         # Return a formatted string with detailed HTML document analysis
         return (f"html document ({document_type}): {word_count} unique words, "
                 f"avg length {avg_word_length:.2f}, {digit_count} digits, "
-                f"{sentence_count} sentences, readability score {readability_score:.2f} - "
+                f"{sentence_count} sentences, readability score {readability_score:.2f}, "
+                f"{vowels} vowels, {consonants} consonants - "
                 f"{','.join(sorted(words))}")
     
     try:
@@ -50,7 +57,9 @@ def tentacle(input_data):
             number = float(result_str)
             return (f"{number} (number): min={min(number, 0)}, max={max(number, 0)}, "
                     f"abs={abs(number)}, square={number**2}, cube={number**3}, "
-                    f"sqrt={number**0.5 if number >= 0 else 'undefined'}")
+                    f"sqrt={number**0.5 if number >= 0 else 'undefined'}, "
+                    f"is_integer={number.is_integer()}, "
+                    f"is_positive={number > 0}, is_negative={number < 0}")
         
         # If the result is a string, process it like text
         if isinstance(result, str):
@@ -63,8 +72,19 @@ def tentacle(input_data):
             vowels = sum(sum(1 for char in word if char in 'aeiou') for word in words)
             consonants = sum(sum(1 for char in word if char.isalpha() and char not in 'aeiou') for word in words)
             
+            # Count digits
+            digit_count = sum(c.isdigit() for c in result_str)
+            
+            # Count sentences
+            sentence_count = sum(1 for c in result_str if c in '.!?')
+            
+            # Calculate readability score
+            readability_score = total_words / sentence_count if sentence_count > 0 else 0
+            
             return (f"string result from math eval: {total_words} words, {unique_words} unique, "
-                    f"avg length {avg_word_length:.2f}, {vowels} vowels, {consonants} consonants - "
+                    f"avg length {avg_word_length:.2f}, {digit_count} digits, "
+                    f"{sentence_count} sentences, readability score {readability_score:.2f}, "
+                    f"{vowels} vowels, {consonants} consonants - "
                     f"{','.join(sorted(words))}")
         
         # For other types of results, return the type, value, and a detailed string representation

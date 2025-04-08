@@ -18,21 +18,37 @@ def tentacle(input_data):
         # Add the document type to detected elements
         detected_elements.append(document_type)
         
-        # Extract additional information from the HTML
-        language = None
-        if 'lang="' in input_data.lower():
-            start = input_data.lower().index('lang="') + 6
-            end = input_data.lower().index('"', start)
-            language = input_data[start:end]
+        # Process the content of the HTML document
+        content = input_data.lower().split('>', 1)[-1].split('<', 1)[0].strip()
+        content_words = sorted(content.split()) if content else []
         
-        # Return a dictionary with HTML-specific information
-        return {
+        # Extract additional information from the HTML document
+        html_info = {
             'type': 'html',
             'document_type': document_type,
             'elements': sorted(detected_elements),
-            'language': language,
+            'content': content,
+            'content_words': content_words,
             'original_input': input_data.strip()
         }
+        
+        # Attempt to evaluate any mathematical expressions in the content
+        math_results = {}
+        for word in content_words:
+            try:
+                result = eval(word)
+                if isinstance(result, (int, float)):
+                    math_results[word] = {
+                        'value': result,
+                        'string_value': str(result).lower()
+                    }
+            except:
+                pass
+        
+        if math_results:
+            html_info['math_expressions'] = math_results
+        
+        return html_info
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -45,9 +61,8 @@ def tentacle(input_data):
                 'type': 'number',
                 'value': result,
                 'string_value': str(result).lower(),
-                'is_integer': isinstance(result, int),
-                'is_positive': result > 0,
-                'original_input': input_data.strip()
+                'original_input': input_data.strip(),
+                'words': sorted(str(result).lower().split())
             }
         else:
             # Convert the result to a string, split it into words, sort them
@@ -57,8 +72,6 @@ def tentacle(input_data):
             return {
                 'type': 'math_result',
                 'words': words,
-                'word_count': len(words),
-                'unique_words': len(set(words)),
                 'original_result': str(result),
                 'original_input': input_data.strip()
             }
@@ -67,16 +80,10 @@ def tentacle(input_data):
         # Convert to lowercase, split into words, sort them
         words = sorted(str(input_data).lower().split())
         
-        # Check if the input might be related to HTML document types
-        related_to_html = any(term in input_data.lower() for term in ['data analysis', 'mathematics', 'text processing'])
-        
         # Return the sorted words as a list with additional information
         return {
             'type': 'text',
             'words': words,
-            'word_count': len(words),
-            'unique_words': len(set(words)),
-            'related_to_html': related_to_html,
             'original_input': input_data.strip(),
             'error': str(e) if str(e) else None
         }
