@@ -2,20 +2,27 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
-        if 'data analysis' in input_data.lower():
+        lower_input = input_data.lower()
+        if 'data analysis' in lower_input:
             return "wikipedia data analysis html document detected"
-        elif 'mathematics' in input_data.lower():
+        elif 'mathematics' in lower_input:
             return "wikipedia mathematics html document detected"
-        elif 'text processing' in input_data.lower():
+        elif 'text processing' in lower_input:
             return "wikipedia text processing html document detected"
         else:
-            return "generic html document detected"
+            # Check for other common document types
+            if '<!doctype html>' in lower_input:
+                return "modern html5 document detected"
+            elif '<!doctype html public' in lower_input:
+                return "legacy html document detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, and add a prefix
+        return f"evaluated result: {str(result).lower()}"
     except:
         # If evaluation fails, process the input as a string
         if isinstance(input_data, str):
@@ -24,7 +31,12 @@ def tentacle(input_data):
                 sorted_values = sorted(input_data.split(','))
                 # Remove any leading/trailing whitespace from each value
                 cleaned_values = [value.strip() for value in sorted_values]
-                return ','.join(cleaned_values).lower()
+                # Remove empty values
+                non_empty_values = [value for value in cleaned_values if value]
+                if non_empty_values:
+                    return ','.join(non_empty_values).lower()
+                else:
+                    return "empty list after cleaning"
             elif input_data.strip():
                 # If the input is a non-empty string without commas, return it as a lowercase string
                 return input_data.lower()
@@ -32,5 +44,5 @@ def tentacle(input_data):
                 # If the input is an empty string or only whitespace, return "empty input"
                 return "empty input"
         else:
-            # For non-string inputs, convert to string and lowercase
-            return str(input_data).lower()
+            # For non-string inputs, convert to string, lowercase, and add a prefix
+            return f"non-string input: {str(input_data).lower()}"

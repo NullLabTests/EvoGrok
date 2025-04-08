@@ -27,8 +27,12 @@ def tentacle(input_data):
                 cleaned_values = [value.strip() for value in sorted_values]
                 return ','.join(cleaned_values).lower()
             else:
-                # If no commas, return the input as a lowercase string
-                return input_data.lower()
+                # If no commas, check for potential HTML content
+                if input_data.strip().lower().startswith('<html'):
+                    return "potential html document detected"
+                else:
+                    # If no HTML-like content, return the input as a lowercase string
+                    return input_data.lower()
         else:
             # If the input is not a string, convert it to a string and return it lowercase
             return str(input_data).lower()

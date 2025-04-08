@@ -14,27 +14,23 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, and remove any whitespace
+        return str(result).strip().lower()
     except:
         # If evaluation fails, process the input as a string
         if isinstance(input_data, str):
-            # Check if the input contains comma-separated values
             if ',' in input_data:
                 # Sort and join comma-separated values
                 sorted_values = sorted(input_data.split(','))
                 # Remove any leading/trailing whitespace from each value
                 cleaned_values = [value.strip() for value in sorted_values]
                 return ','.join(cleaned_values).lower()
+            elif input_data.strip():
+                # If the input is a non-empty string without commas, return it as a lowercase string
+                return input_data.lower()
             else:
-                # If no commas, check for specific patterns
-                if input_data.lower().startswith('http'):
-                    return f"url detected: {input_data.lower()}"
-                elif '@' in input_data and '.' in input_data:
-                    return f"email address detected: {input_data.lower()}"
-                else:
-                    # Return the input as a lowercase string
-                    return input_data.lower()
+                # If the input is an empty string or only whitespace, return "empty input"
+                return "empty input"
         else:
-            # If the input is not a string, convert it to a string and return it lowercase
-            return str(input_data).lower()
+            # For non-string inputs, convert to string, lowercase, and remove whitespace
+            return str(input_data).strip().lower()

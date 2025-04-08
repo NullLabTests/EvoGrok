@@ -44,23 +44,37 @@ def tentacle(input_data):
             # Remove any empty strings and strip whitespace
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
             
+            numeric_values = []
+            non_numeric_values = []
+            
+            for value in cleaned_values:
+                if value.replace('.', '', 1).replace('-', '', 1).isdigit():
+                    numeric_values.append(float(value))
+                else:
+                    non_numeric_values.append(value)
+            
             # If all values are numbers, sum them up
-            if all(value.replace('.', '', 1).isdigit() for value in cleaned_values):
-                return str(sum(float(value) for value in cleaned_values)).lower()
+            if numeric_values and not non_numeric_values:
+                return str(sum(numeric_values)).lower()
             else:
                 # Process non-numeric values
                 processed_values = []
-                for value in cleaned_values:
+                for value in non_numeric_values:
                     if value.isupper():
                         processed_values.append(value.lower() + " (was all uppercase)")
                     elif len(value) > 20:
                         processed_values.append(value[:20].lower() + "... (truncated)")
                     else:
                         processed_values.append(value.lower())
-                return ','.join(processed_values)
+                
+                # Combine numeric and processed non-numeric values
+                all_values = [str(sum(numeric_values)).lower()] if numeric_values else []
+                all_values.extend(processed_values)
+                
+                return ','.join(all_values)
         else:
             # Process single value inputs
-            if input_data.strip().isdigit() or (input_data.count('.') == 1 and input_data.replace('.', '').isdigit()):
+            if input_data.strip().replace('.', '', 1).replace('-', '', 1).isdigit():
                 return str(input_data).lower()
             elif input_data.strip().isupper():
                 return input_data.lower() + " (was all uppercase)"

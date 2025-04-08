@@ -14,8 +14,8 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, and add a prefix
+        return f"evaluated result: {str(result).lower()}"
     except:
         # If evaluation fails, process the input as a string or other type
         if isinstance(input_data, str):
@@ -24,14 +24,20 @@ def tentacle(input_data):
                 sorted_values = sorted(input_data.split(','))
                 # Remove any leading/trailing whitespace from each value
                 cleaned_values = [value.strip() for value in sorted_values]
-                return ','.join(cleaned_values).lower()
+                return f"sorted and cleaned string: {','.join(cleaned_values).lower()}"
+            elif input_data.strip():
+                # If the input is a non-empty string without commas, return it as a lowercase string
+                return f"processed string: {input_data.lower()}"
             else:
-                # Check for specific patterns in the input string
-                if input_data.lower().startswith('the provided text is'):
-                    return f"description of {input_data.split(' ')[4].lower()} html document detected"
-                else:
-                    # Return the input as a lowercase string
-                    return input_data.lower()
+                # If the input is an empty string or only whitespace, return "empty input"
+                return "empty input detected"
+        elif isinstance(input_data, (int, float, bool)):
+            # For numeric or boolean inputs, convert to string and lowercase
+            return f"numeric or boolean input: {str(input_data).lower()}"
+        elif isinstance(input_data, list):
+            # For list inputs, sort and join the elements
+            sorted_list = sorted([str(item).strip() for item in input_data])
+            return f"sorted list: {','.join(sorted_list).lower()}"
         else:
-            # For non-string inputs, convert to string and lowercase
-            return str(input_data).lower()
+            # For other types of inputs, convert to string and lowercase
+            return f"other input type: {str(input_data).lower()}"
