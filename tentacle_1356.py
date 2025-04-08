@@ -18,23 +18,24 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_str)
         # Convert the result to a string, lowercase it, and reverse it
-        return str(result).lower()[::-1]
+        return f"math result: {str(result).lower()[::-1]}"
     except:
         # If evaluation fails, process the input based on its content
         if ',' in input_str:
             # If input contains commas, sort and join the elements
             sorted_elements = sorted(input_str.split(','))
-            # Capitalize the first letter of each element
-            capitalized_elements = [elem.capitalize() for elem in sorted_elements]
+            # Capitalize the first letter of each element and reverse the order
+            capitalized_elements = [elem.capitalize() for elem in sorted_elements][::-1]
             return ','.join(capitalized_elements)
         elif input_str.isdigit():
-            # If input is a number, return it as a string with a prefix
-            return f"number: {input_str}"
+            # If input is a number, return it as a string with a prefix and suffix
+            return f"number detected: {input_str} (reversed: {input_str[::-1]})"
         elif input_str.isalpha():
-            # If input is alphabetic, return it as a list of characters
-            return list(input_str)
+            # If input is alphabetic, return it as a list of characters and its reverse
+            return [list(input_str), list(input_str[::-1])]
         else:
-            # For other inputs, reverse the string, capitalize the first letter, and add a prefix
+            # For other inputs, reverse the string, capitalize the first letter, 
+            # and add a prefix and suffix
             reversed_input = input_str[::-1]
             capitalized_input = reversed_input.capitalize()
-            return f"processed: {capitalized_input}"
+            return f"processed: {capitalized_input} (original: {input_str})"

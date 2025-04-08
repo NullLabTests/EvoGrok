@@ -4,7 +4,7 @@ def tentacle(input_data):
     
     # Check if the input looks like the start of an HTML document
     if input_str.startswith('<!doctype'):
-        # Check for specific Wikipedia page titles
+        # Check for specific Wikipedia page titles based on the knowledge
         if 'data analysis' in input_str:
             return "wikipedia page on data analysis detected"
         elif 'mathematics' in input_str:
@@ -54,15 +54,27 @@ def tentacle(input_data):
                 return f"insecure url detected: {url}"
             else:
                 return f"url detected: {url}"
-        elif input_str.startswith('date='):
-            # If input starts with 'date=', process it as a date
-            try:
-                from datetime import datetime
-                date = datetime.strptime(input_str.split('=')[1], '%Y-%m-%d')
-                return f"date detected: {date.strftime('%B %d, %Y')}"
-            except ValueError:
-                return "invalid date format detected"
+        elif input_str.startswith('email='):
+            # If input starts with 'email=', process it as an email address
+            email = input_str.split('=')[1]
+            if '@' in email and '.' in email.split('@')[1]:
+                return f"valid email detected: {email}"
+            else:
+                return f"invalid email detected: {email}"
+        elif input_str.startswith('wiki='):
+            # New feature: Process Wikipedia page titles
+            wiki_title = input_str.split('=')[1]
+            if 'data analysis' in wiki_title:
+                return "wikipedia page on data analysis detected"
+            elif 'mathematics' in wiki_title:
+                return "wikipedia page on mathematics detected"
+            elif 'text processing' in wiki_title:
+                return "wikipedia page on text processing detected"
+            else:
+                return f"wikipedia page detected: {wiki_title}"
         else:
-            # For other inputs, reverse the string, capitalize the first letter, and add a prefix
+            # For other inputs, reverse the string, capitalize the first letter, 
+            # add a prefix, and calculate its length
             reversed_str = input_str[::-1]
-            return f"processed: {reversed_str.capitalize()}"
+            processed_str = f"processed: {reversed_str.capitalize()}"
+            return f"{processed_str}, length: {len(input_str)}"

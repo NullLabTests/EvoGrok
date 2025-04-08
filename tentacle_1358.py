@@ -29,11 +29,13 @@ def tentacle(input_data):
             return ','.join(capitalized_elements)
         elif input_str.isdigit():
             # If input is a number, return it as a string with a prefix and suffix
-            return f"number detected: {input_str}, reversed: {input_str[::-1]}"
+            return f"number detected: {input_str} (reversed: {input_str[::-1]})"
         elif input_str.isalpha():
             # If input is alphabetic, return it as a list of characters and its reverse
-            return f"alphabetic: {list(input_str)}, reversed: {input_str[::-1]}"
+            return [list(input_str), list(input_str[::-1])]
         else:
-            # For other inputs, reverse the string, capitalize the first letter, add a prefix, and return as a list
-            processed_str = input_str[::-1].capitalize()
-            return f"processed: {list(processed_str)}"
+            # For other inputs, reverse the string, capitalize the first letter, 
+            # add a prefix, and include the original input
+            reversed_input = input_str[::-1]
+            capitalized_input = reversed_input.capitalize()
+            return f"processed: {capitalized_input} (original: {input_str})"

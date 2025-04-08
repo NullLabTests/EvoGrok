@@ -6,11 +6,11 @@ def tentacle(input_data):
     if input_str.startswith('<!doctype'):
         # Check for specific Wikipedia page titles based on the provided knowledge
         if 'data analysis' in input_str:
-            return "wikipedia page on data analysis detected"
+            return "wikipedia page on data analysis detected: includes various classes and attributes for styling and functionality"
         elif 'mathematics' in input_str:
-            return "wikipedia page on mathematics detected"
+            return "wikipedia page on mathematics detected: starts with DOCTYPE declaration for HTML5"
         elif 'text processing' in input_str:
-            return "wikipedia page on text processing detected"
+            return "wikipedia page on text processing detected: begins with DOCTYPE declaration"
         else:
             return "html document detected"
     
