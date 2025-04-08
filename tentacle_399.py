@@ -17,11 +17,13 @@ def tentacle(input_data):
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
-        # If evaluation fails, process the input as a comma-separated list
-        if isinstance(input_data, str):
-            # Sort and join the split input
-            sorted_items = sorted(input_data.split(','))
-            return ','.join(item.strip().lower() for item in sorted_items if item.strip())
+        # If evaluation fails, process the input as a string
+        if ',' in input_data:
+            # Sort and join comma-separated values (from Parent2)
+            sorted_values = sorted(input_data.split(','))
+            # Remove any empty strings that might result from leading/trailing commas
+            cleaned_values = [value.strip() for value in sorted_values if value.strip()]
+            return ','.join(cleaned_values)
         else:
-            # If input is not a string, convert to string and lowercase
-            return str(input_data).lower()
+            # Convert the input to lowercase and remove leading/trailing whitespace
+            return input_data.strip().lower()

@@ -15,7 +15,11 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string, split it into words, sort them, and join with commas
-        return ','.join(sorted(str(result).lower().split()))
+        sorted_words = ','.join(sorted(str(result).lower().split()))
+        # Add the original result as a prefix
+        return f"result: {result}, sorted words: {sorted_words}"
     except:
         # If evaluation fails, convert the input to a string, split it into words, sort them, and join with commas
-        return ','.join(sorted(str(input_data).lower().split()))
+        sorted_words = ','.join(sorted(str(input_data).lower().split()))
+        # Return the sorted words with a prefix indicating it's the input
+        return f"input: {sorted_words}"
