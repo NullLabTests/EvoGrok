@@ -17,10 +17,16 @@ def tentacle(input_data):
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
-        # If evaluation fails, process the input as a string
+        # If evaluation fails, process the input based on its content
         if ',' in input_data:
-            # Sort and join the comma-separated values
+            # Sort and join the items if it's a comma-separated list
             return ','.join(sorted(input_data.split(',')))
+        elif input_data.isdigit():
+            # If it's a number, return it as a string with a prefix
+            return f"number: {input_data}"
+        elif input_data.replace(' ', '').isalpha():
+            # If it's a word (ignoring spaces), return it capitalized
+            return input_data.title()
         else:
-            # Return the input as a lowercase string
+            # For any other input, return it as a lowercase string
             return str(input_data).lower()
