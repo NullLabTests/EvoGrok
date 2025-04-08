@@ -46,7 +46,15 @@ def tentacle(input_data):
             # Perform basic text analysis
             word_count = len(input_str.split())
             unique_words = len(set(input_str.split()))
-            return f"reversed: {input_str[::-1]}, word count: {word_count}, unique words: {unique_words}"
+            # Check for specific keywords related to the known HTML documents
+            if 'data' in input_str and 'analysis' in input_str:
+                return f"data analysis related text: {input_str}, word count: {word_count}, unique words: {unique_words}"
+            elif 'mathematics' in input_str:
+                return f"mathematics related text: {input_str}, word count: {word_count}, unique words: {unique_words}"
+            elif 'text' in input_str and 'processing' in input_str:
+                return f"text processing related text: {input_str}, word count: {word_count}, unique words: {unique_words}"
+            else:
+                return f"reversed: {input_str[::-1]}, word count: {word_count}, unique words: {unique_words}"
         else:
             # Return the input as a lowercase string
             return input_str

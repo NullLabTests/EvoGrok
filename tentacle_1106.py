@@ -4,36 +4,38 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Detect the type of HTML document based on known patterns
-        lowercase_input = input_data.lower()
-        if 'data analysis' in lowercase_input and 'wikipedia' in lowercase_input:
-            return "wikipedia data analysis html document detected"
-        elif 'mathematics' in lowercase_input and 'wikipedia' in lowercase_input:
-            return "wikipedia mathematics html document detected"
-        elif 'text processing' in lowercase_input and 'wikipedia' in lowercase_input:
-            return "wikipedia text processing html document detected"
-        elif 'wikipedia' in lowercase_input:
-            return "wikipedia html document detected"
-        elif 'data analysis' in lowercase_input:
-            return "data analysis html document detected"
-        elif 'mathematics' in lowercase_input:
-            return "mathematics html document detected"
-        elif 'text processing' in lowercase_input:
-            return "text processing html document detected"
+        if 'data analysis' in input_data.lower():
+            return "data analysis wikipedia page detected"
+        elif 'mathematics' in input_data.lower():
+            return "mathematics wikipedia page detected"
+        elif 'text processing' in input_data.lower():
+            return "text processing wikipedia page detected"
         else:
-            return "generic html document detected"
+            # If no specific type is detected, check for other keywords
+            if 'wikipedia' in input_data.lower():
+                return "generic wikipedia page detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string, lowercase it, and remove extra whitespace
-        return re.sub(r'\s+', ' ', str(result).lower()).strip()
+        processed_result = re.sub(r'\s+', ' ', str(result).lower()).strip()
+        # Check if the result matches any specific patterns
+        if re.match(r'^\d{4}-\d{2}-\d{2}$', processed_result):
+            return f"date calculated (YYYY-MM-DD): {processed_result}"
+        elif re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', processed_result):
+            return f"ip address calculated: {processed_result}"
+        else:
+            return processed_result
     except:
         # If evaluation fails, process the input as text
         if ',' in input_data:
             # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove extra whitespace from each value
-            cleaned_values = [re.sub(r'\s+', ' ', value.strip()) for value in sorted_values]
+            # Remove extra whitespace from each value and convert to lowercase
+            cleaned_values = [re.sub(r'\s+', ' ', value.strip().lower()) for value in sorted_values]
             return ','.join(cleaned_values)
         else:
             # Convert to lowercase, remove extra whitespace, and replace multiple spaces with a single space
@@ -51,4 +53,5 @@ def tentacle(input_data):
             elif re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', processed_input):
                 return f"ip address detected: {processed_input}"
             else:
+                # If no specific pattern is matched, return the processed input
                 return processed_input
