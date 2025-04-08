@@ -15,7 +15,13 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return str(result).lower()
+        result_str = str(result).lower()
+        
+        # New functionality: Check if the result is an integer
+        if result_str.isdigit():
+            return f"{result_str} (integer)"
+        else:
+            return result_str
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -34,8 +40,12 @@ def tentacle(input_data):
                 # If not a number, reverse the string
                 result = input_data[::-1].lower()
         
-        # New functionality: Check if the result is a palindrome
+        # Check if the result is a palindrome
         if result == result[::-1]:
             return f"{result} (palindrome)"
         else:
-            return result
+            # New functionality: Check if the result contains any digits
+            if any(char.isdigit() for char in result):
+                return f"{result} (contains digits)"
+            else:
+                return result

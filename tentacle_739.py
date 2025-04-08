@@ -4,11 +4,11 @@ def tentacle(input_data):
         # Determine the type of HTML document based on known patterns
         lowercase_input = input_data.lower()
         if 'data analysis' in lowercase_input:
-            return "data analysis html document detected"
+            return "wikipedia data analysis html document detected"
         elif 'mathematics' in lowercase_input:
-            return "mathematics html document detected"
+            return "wikipedia mathematics html document detected"
         elif 'text processing' in lowercase_input:
-            return "text processing html document detected"
+            return "wikipedia text processing html document detected"
         else:
             return "generic html document detected"
     
@@ -23,12 +23,17 @@ def tentacle(input_data):
             if ',' in input_data:
                 # Sort and join comma-separated values
                 sorted_values = sorted(input_data.split(','))
-                # Remove any empty strings that might result from leading/trailing commas
-                cleaned_values = [value.strip() for value in sorted_values if value.strip()]
+                # Remove any leading/trailing whitespace from each value
+                cleaned_values = [value.strip() for value in sorted_values]
                 return ','.join(cleaned_values)
             else:
-                # Convert the input to lowercase and remove any leading/trailing whitespace
-                return input_data.strip().lower()
+                # Check if the input is a valid number
+                try:
+                    float(input_data)
+                    return str(input_data).lower()
+                except ValueError:
+                    # If not a number, return the input as a lowercase string
+                    return str(input_data).lower()
         else:
             # For non-string inputs, convert to string and lowercase
             return str(input_data).lower()

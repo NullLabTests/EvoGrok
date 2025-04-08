@@ -19,20 +19,28 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
             # Remove any leading/trailing whitespace from each value
             cleaned_values = [value.strip() for value in sorted_values]
             # Join the cleaned and sorted values
-            result = ','.join(cleaned_values)
+            sorted_string = ','.join(cleaned_values)
+            # Check if the sorted string is a valid number
+            try:
+                float(sorted_string)
+                return sorted_string.lower()
+            except ValueError:
+                # If not a number, reverse the sorted string
+                reversed_string = sorted_string[::-1].lower()
+                # Capitalize the first letter of each word in the reversed string
+                return ' '.join(word.capitalize() for word in reversed_string.split())
         else:
             # Check if the input is a valid number
             try:
                 float(input_data)
-                result = input_data
+                return str(input_data).lower()
             except ValueError:
-                # If not a number, use the input as is
-                result = input_data
-        
-        # Convert the result to lowercase (from Parent1)
-        return str(result).lower()
+                # If not a number, reverse the string
+                reversed_string = input_data[::-1].lower()
+                # Capitalize the first letter of each word in the reversed string
+                return ' '.join(word.capitalize() for word in reversed_string.split())

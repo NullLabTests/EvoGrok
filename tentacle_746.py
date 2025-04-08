@@ -21,23 +21,26 @@ def tentacle(input_data):
         if ',' in input_data:
             # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove any leading/trailing whitespace from each value
-            cleaned_values = [value.strip() for value in sorted_values]
-            # Join the cleaned and sorted values
-            sorted_string = ','.join(cleaned_values)
-            # Check if the sorted string is a valid number
-            try:
-                float(sorted_string)
-                return sorted_string.lower()
-            except ValueError:
-                # If not a number, reverse the sorted string
-                return sorted_string[::-1].lower()
+            # Remove any empty strings and strip whitespace
+            cleaned_values = [value.strip() for value in sorted_values if value.strip()]
+            # If all values are numeric, sum them up
+            if all(value.replace('.', '').isdigit() for value in cleaned_values):
+                return str(sum(float(value) for value in cleaned_values)).lower()
+            else:
+                return ','.join(cleaned_values)
         else:
-            # Check if the input is a valid number
+            # Check if the input is a valid number (integer or float)
             try:
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, reverse the string and capitalize the first letter
-                reversed_string = input_data[::-1].lower()
-                return reversed_string.capitalize()
+                # If not a number, check for specific patterns
+                if input_data.lower().startswith('hello'):
+                    return f"greeting detected: {input_data.lower()}"
+                elif 'python' in input_data.lower():
+                    return f"python reference detected: {input_data.lower()}"
+                elif input_data.lower().startswith('error'):
+                    return f"error message detected: {input_data.lower()}"
+                else:
+                    # If no specific pattern is detected, return the input as a lowercase string
+                    return str(input_data).lower()

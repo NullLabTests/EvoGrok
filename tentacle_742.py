@@ -14,25 +14,27 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, reverse it, and lowercase it (new functionality)
+        return str(result)[::-1].lower()
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
             # Remove any leading/trailing whitespace from each value
             cleaned_values = [value.strip() for value in sorted_values]
-            # Join the cleaned and sorted values
-            result = ','.join(cleaned_values)
+            # Reverse the order of the cleaned values
+            reversed_values = cleaned_values[::-1]
+            # Capitalize the first letter of each value (new functionality)
+            capitalized_values = [value.capitalize() for value in reversed_values]
+            return ','.join(capitalized_values)
         else:
             # Check if the input is a valid number
             try:
                 float(input_data)
-                result = str(input_data).lower()
+                # If it's a number, return it as a string with reversed digits
+                return str(input_data)[::-1].lower()
             except ValueError:
-                # If not a number, return the input as a lowercase string (from Parent1)
-                result = str(input_data).lower()
-        
-        # Additional processing: reverse the result string
-        return result[::-1]
+                # If not a number, reverse the string, capitalize the first letter, and lowercase the rest (new functionality)
+                reversed_input = input_data[::-1]
+                return reversed_input.capitalize().lower()[1:]
