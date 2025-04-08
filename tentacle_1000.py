@@ -3,13 +3,18 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_data.lower():
-            return "data analysis html document detected"
+            return "wikipedia page on data analysis detected"
         elif 'mathematics' in input_data.lower():
-            return "mathematics html document detected"
+            return "wikipedia page on mathematics detected"
         elif 'text processing' in input_data.lower():
-            return "text processing html document detected"
+            return "wikipedia page on text processing detected"
         else:
-            return "generic html document detected"
+            # For unknown HTML documents, extract the title if possible
+            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
+            if title_match:
+                return f"html document titled '{title_match.group(1)}' detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -37,14 +42,9 @@ def tentacle(input_data):
                     topic = input_data.strip().lower().split('wiki:')[1].strip()
                     return f"wikipedia page on {topic} detected"
                 elif input_data.strip().lower().startswith('html:'):
-                    # New feature: Detect HTML snippets
-                    html_content = input_data.strip().lower().split('html:')[1].strip()
-                    if '<table' in html_content:
-                        return "html table detected"
-                    elif '<form' in html_content:
-                        return "html form detected"
-                    else:
-                        return "generic html snippet detected"
+                    # Extract the title from the html pattern
+                    title = input_data.strip().lower().split('html:')[1].strip()
+                    return f"html document titled '{title}' detected"
                 else:
                     # If no specific pattern matches, return the input as a lowercase string (from Parent1)
                     return str(input_data).lower()

@@ -1,9 +1,9 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on the title
         lowercase_input = input_data.lower()
         
+        # Determine the type of HTML document based on the title
         if 'data analysis' in lowercase_input:
             return "data analysis wikipedia page detected"
         elif 'mathematics' in lowercase_input:
@@ -39,7 +39,8 @@ def tentacle(input_data):
             return f"numeric or boolean input detected: {str(input_data).lower()}"
         elif isinstance(input_data, list):
             # Handle list inputs
-            return f"list input detected: {','.join(str(item).lower() for item in input_data)}"
+            sorted_items = sorted(str(item).lower() for item in input_data)
+            return f"sorted list input detected: {','.join(sorted_items)}"
         else:
             # For any other type of input, return its type and string representation
             return f"other input type detected: {type(input_data).__name__} - {str(input_data).lower()}"

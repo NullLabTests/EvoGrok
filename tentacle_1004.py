@@ -9,6 +9,8 @@ def tentacle(input_data):
             return "wikipedia mathematics html document detected"
         elif 'text processing' in lowercase_input:
             return "wikipedia text processing html document detected"
+        elif 'wikipedia' in lowercase_input:
+            return "generic wikipedia html document detected"
         else:
             return "generic html document detected"
     
@@ -16,19 +18,20 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return f"evaluated result: {str(result).lower()}"
+        return str(result).lower()
     except:
-        # If evaluation fails, process the input as a string or other type
+        # If evaluation fails, process the input as a string
         if isinstance(input_data, str):
             if ',' in input_data:
                 # Sort and join comma-separated values
                 sorted_values = sorted(input_data.split(','))
                 # Remove any empty strings that might result from leading/trailing commas
                 cleaned_values = [value.strip() for value in sorted_values if value.strip()]
-                return f"sorted and cleaned: {','.join(cleaned_values)}"
+                # Join the cleaned values with commas and convert to lowercase
+                return ','.join(cleaned_values).lower()
             else:
                 # Convert the input to lowercase and remove any leading/trailing whitespace
-                return f"processed string: {input_data.strip().lower()}"
+                return input_data.strip().lower()
         else:
-            # For non-string inputs, convert to string and lowercase
-            return f"non-string input: {str(input_data).lower()}"
+            # If the input is not a string, convert it to a string and lowercase it
+            return str(input_data).lower()

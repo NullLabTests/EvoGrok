@@ -37,5 +37,18 @@ def tentacle(input_data):
                     topic = input_data.strip().lower().split('wiki:')[1].strip()
                     return f"wikipedia page on {topic} detected"
                 else:
+                    # New feature: Check for JSON-like structure
+                    if input_data.strip().startswith('{') and input_data.strip().endswith('}'):
+                        try:
+                            import json
+                            parsed_json = json.loads(input_data)
+                            return json.dumps(parsed_json, sort_keys=True).lower()
+                        except json.JSONDecodeError:
+                            pass
+                    
+                    # New feature: Check for URL-like pattern
+                    if '://' in input_data:
+                        return f"url detected: {input_data.lower()}"
+                    
                     # If no specific pattern matches, return the input as a lowercase string (from Parent1)
                     return str(input_data).lower()

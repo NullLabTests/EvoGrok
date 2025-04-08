@@ -1,6 +1,7 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
+        # Determine the type of HTML document based on the title
         lowercase_input = input_data.lower()
         if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
@@ -9,12 +10,7 @@ def tentacle(input_data):
         elif 'text processing' in lowercase_input:
             return "text processing html document detected"
         else:
-            # Attempt to extract the title from the HTML
-            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
-            if title_match:
-                return f"html document detected: {title_match.group(1).strip().lower()}"
-            else:
-                return "generic html document detected"
+            return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -30,13 +26,19 @@ def tentacle(input_data):
                 return f"sorted list: {','.join(sorted_items)}"
             elif input_data.isdigit():
                 # If it's a number, return it as a string with a descriptive prefix
-                return f"number detected: {input_data}"
+                return f"number: {input_data}"
             elif input_data.replace(' ', '').isalpha():
-                # If it's a word (ignoring spaces), return it capitalized and with a prefix
-                return f"word detected: {input_data.title()}"
+                # If it's a word (ignoring spaces), return it capitalized
+                return f"word: {input_data.title()}"
             else:
-                # For any other input, return it as a lowercase string with a prefix
-                return f"other input detected: {str(input_data).lower()}"
+                # For any other string input, return it as a lowercase string with a prefix
+                return f"other string: {input_data.lower()}"
+        elif isinstance(input_data, (list, tuple, set)):
+            # If it's a collection, sort it and return as a string
+            return f"collection: {str(sorted(input_data))}"
+        elif callable(input_data):
+            # If it's a function, return its name and docstring
+            return f"function: {input_data.__name__} - {input_data.__doc__ or 'No docstring available'}"
         else:
-            # If the input is not a string, convert it to a string and return it
-            return f"non-string input detected: {str(input_data)}"
+            # For any other input type, return its type and string representation
+            return f"other type: {type(input_data).__name__} - {str(input_data)}"

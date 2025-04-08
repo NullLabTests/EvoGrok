@@ -9,8 +9,6 @@ def tentacle(input_data):
             return "mathematics html document detected"
         elif 'text processing' in lowercase_input:
             return "text processing html document detected"
-        elif 'wikipedia' in lowercase_input:
-            return "wikipedia html document detected"
         else:
             return "generic html document detected"
     
@@ -25,13 +23,33 @@ def tentacle(input_data):
             if ',' in input_data:
                 # Sort and join comma-separated values
                 sorted_values = sorted(input_data.split(','))
-                # Remove any empty strings that might result from leading/trailing commas
+                # Remove any empty strings and strip whitespace
                 cleaned_values = [value.strip() for value in sorted_values if value.strip()]
-                # Join the cleaned values with commas and convert to lowercase
-                return ','.join(cleaned_values).lower()
+                # Join the cleaned values with commas
+                result = ','.join(cleaned_values)
             else:
                 # Convert the input to lowercase and remove any leading/trailing whitespace
-                return input_data.strip().lower()
+                result = input_data.strip().lower()
+            
+            # Check for special patterns
+            if result.startswith('http://') or result.startswith('https://'):
+                return f"url detected: {result}"
+            
+            if '@' in result and '.' in result.split('@')[-1]:
+                return f"email detected: {result}"
+            
+            # Check for potential HTML fragments
+            if '<' in result and '>' in result:
+                return f"html fragment detected: {result}"
+            
+            # Check for JSON-like structures
+            if result.startswith('{') and result.endswith('}'):
+                return f"json object detected: {result}"
+            elif result.startswith('[') and result.endswith(']'):
+                return f"json array detected: {result}"
+            
+            # If no special patterns detected, return the processed result
+            return result
         else:
-            # If the input is not a string, convert it to a string and lowercase it
+            # If input is not a string, convert it to a string and return
             return str(input_data).lower()
