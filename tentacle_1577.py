@@ -24,7 +24,11 @@ def tentacle(input_data):
                 sorted_values = sorted(input_data.split(','))
                 # Remove any leading/trailing whitespace from each value
                 cleaned_values = [value.strip() for value in sorted_values]
-                return f"sorted and cleaned string: {','.join(cleaned_values).lower()}"
+                # Join the cleaned and sorted values
+                joined_values = ','.join(cleaned_values).lower()
+                # Count the number of unique values
+                unique_count = len(set(cleaned_values))
+                return f"sorted and cleaned string: {joined_values} (unique values: {unique_count})"
             elif input_data.strip():
                 # If the input is a non-empty string without commas, return it as a lowercase string
                 return f"processed string: {input_data.lower()}"
@@ -37,7 +41,16 @@ def tentacle(input_data):
         elif isinstance(input_data, list):
             # For list inputs, sort and join the elements
             sorted_list = sorted([str(item).strip() for item in input_data])
-            return f"sorted list: {','.join(sorted_list).lower()}"
+            # Join the sorted list elements
+            joined_list = ','.join(sorted_list).lower()
+            # Count the number of unique elements
+            unique_count = len(set(sorted_list))
+            return f"sorted list: {joined_list} (unique elements: {unique_count})"
+        elif isinstance(input_data, dict):
+            # For dictionary inputs, sort and join key-value pairs
+            sorted_items = sorted([(k, v) for k, v in input_data.items()], key=lambda x: str(x[0]).lower())
+            joined_items = ','.join([f"{k}:{v}" for k, v in sorted_items]).lower()
+            return f"sorted dictionary: {joined_items}"
         else:
             # For other types of inputs, convert to string and lowercase
             return f"other input type: {str(input_data).lower()}"

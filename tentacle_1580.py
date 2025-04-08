@@ -11,6 +11,10 @@ def tentacle(input_data):
         else:
             return "generic html document detected"
     
+    # Check for potential HTML content if not a DOCTYPE
+    elif isinstance(input_data, str) and input_data.strip().lower().startswith('<html'):
+        return "potential html document detected"
+    
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
@@ -19,7 +23,7 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if isinstance(input_data, str):
-            # Check if the input contains comma-separated values
+            # Check for comma-separated values
             if ',' in input_data:
                 # Sort and join comma-separated values
                 sorted_values = sorted(input_data.split(','))
@@ -27,21 +31,8 @@ def tentacle(input_data):
                 cleaned_values = [value.strip() for value in sorted_values]
                 return ','.join(cleaned_values).lower()
             else:
-                # If no commas, check for specific patterns
-                if input_data.lower().startswith('http'):
-                    return f"url detected: {input_data.lower()}"
-                elif '@' in input_data and '.' in input_data:
-                    return f"email address detected: {input_data.lower()}"
-                else:
-                    # Check for potential mathematical expressions
-                    if any(char in '+-*/^%' for char in input_data):
-                        return f"potential mathematical expression detected: {input_data.lower()}"
-                    # Check for potential HTML tags
-                    elif '<' in input_data and '>' in input_data:
-                        return f"potential html tag detected: {input_data.lower()}"
-                    # Return the input as a lowercase string
-                    else:
-                        return input_data.lower()
+                # If no commas, return the input as a lowercase string
+                return input_data.lower()
         else:
             # If the input is not a string, convert it to a string and return it lowercase
             return str(input_data).lower()

@@ -9,16 +9,23 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "text processing wikipedia page detected"
         else:
-            return "generic html document detected"
+            # Count the number of class and id attributes in the HTML
+            class_count = input_data.lower().count('class=')
+            id_count = input_data.lower().count('id=')
+            # Calculate the total length of the HTML snippet
+            html_length = len(input_data)
+            return f"generic html document detected (class attributes: {class_count}, id attributes: {id_count}, length: {html_length})"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string, lowercase it, and add a new feature: 
-        # count the number of digits in the result
+        # Convert the result to a string, lowercase it, and add new features
         result_str = str(result).lower()
+        # Count the number of digits in the result
         digit_count = sum(1 for char in result_str if char.isdigit())
-        return f"{result_str} (digits: {digit_count})"
+        # Count the number of vowels in the result
+        vowel_count = sum(1 for char in result_str if char in 'aeiou')
+        return f"{result_str} (digits: {digit_count}, vowels: {vowel_count})"
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -26,23 +33,23 @@ def tentacle(input_data):
             sorted_values = sorted(input_data.split(','))
             # Remove any leading/trailing whitespace from each value
             cleaned_values = [value.strip() for value in sorted_values]
-            # Join the cleaned and sorted values and add a new feature: 
-            # count the total number of words
-            joined_values = ','.join(cleaned_values)
-            word_count = len(joined_values.split())
-            return f"{joined_values} (words: {word_count})"
+            # Join the cleaned and sorted values
+            result = ','.join(cleaned_values)
+            # Calculate the length of the processed string
+            processed_length = len(result)
+            return f"processed: {result} (length: {processed_length})"
         else:
             # Check if the input is a valid number
             try:
                 float(input_data)
-                # If it's a number, return it as a lowercase string with a new feature:
-                # check if it's an integer or a float
-                number_type = "integer" if float(input_data).is_integer() else "float"
-                return f"{str(input_data).lower()} ({number_type})"
+                return str(input_data).lower()
             except ValueError:
                 # If not a number, reverse the string, capitalize the first letter, and add a prefix
                 reversed_string = input_data[::-1].lower()
-                # Add features: count the number of vowels and consonants in the reversed string
+                # Count the number of vowels in the reversed string
                 vowel_count = sum(1 for char in reversed_string if char in 'aeiou')
-                consonant_count = sum(1 for char in reversed_string if char.isalpha() and char not in 'aeiou')
-                return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, consonants: {consonant_count})"
+                # Calculate the length of the processed string
+                processed_length = len(reversed_string)
+                # Count the number of unique characters in the reversed string
+                unique_chars = len(set(reversed_string))
+                return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, length: {processed_length}, unique characters: {unique_chars})"

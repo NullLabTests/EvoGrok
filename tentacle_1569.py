@@ -9,11 +9,10 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "text processing wikipedia page detected"
         else:
-            # New feature: Check for other common HTML document types
-            if 'wikipedia' in input_data.lower():
-                return "generic wikipedia page detected"
-            elif '<script' in input_data.lower():
-                return "web application detected"
+            # New feature: Extract the title from the HTML if possible
+            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
+            if title_match:
+                return f"generic html document detected: {title_match.group(1)}"
             else:
                 return "generic html document detected"
     
@@ -37,12 +36,18 @@ def tentacle(input_data):
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, process the string
+                # If not a number, reverse the string, capitalize the first letter, and add a prefix
                 reversed_string = input_data[::-1].lower()
                 # Count the number of vowels in the reversed string
                 vowel_count = sum(1 for char in reversed_string if char in 'aeiou')
-                # Count the number of digits in the reversed string
-                digit_count = sum(1 for char in reversed_string if char.isdigit())
-                # New feature: Calculate a simple complexity score
-                complexity_score = len(reversed_string) + vowel_count + digit_count
-                return f"processed: {reversed_string.capitalize()} (vowels: {vowel_count}, digits: {digit_count}, complexity: {complexity_score})"
+                # Check for specific keywords related to HTML document types
+                keywords = ['data', 'analysis', 'mathematics', 'text', 'processing']
+                found_keywords = [word for word in keywords if word in reversed_string]
+                
+                # New feature: Calculate the length of the reversed string
+                string_length = len(reversed_string)
+                
+                if found_keywords:
+                    return f"processed: {reversed_string.capitalize()} (length: {string_length}, vowels: {vowel_count}, keywords: {', '.join(found_keywords)})"
+                else:
+                    return f"processed: {reversed_string.capitalize()} (length: {string_length}, vowels: {vowel_count})"

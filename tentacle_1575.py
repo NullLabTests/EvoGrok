@@ -9,33 +9,22 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "wikipedia text processing html document detected"
         else:
-            # For unknown HTML types, attempt to extract the title
-            title_start = input_data.lower().find('<title>')
-            title_end = input_data.lower().find('</title>')
-            if title_start != -1 and title_end != -1:
-                title = input_data[title_start+7:title_end].strip()
-                return f"unknown html document detected: {title}"
-            else:
-                return "generic html document detected"
+            return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string, lowercase it, and sort any comma-separated values
-        result_str = str(result).lower()
-        if ',' in result_str:
-            sorted_values = sorted(result_str.split(','))
-            cleaned_values = [value.strip() for value in sorted_values]
-            return ','.join(cleaned_values)
-        return result_str
+        # Convert the result to a string and lowercase it
+        return str(result).lower()
     except:
-        # If evaluation fails, process the input as a string
+        # If evaluation fails, process the input as a string or other type
         if isinstance(input_data, str):
             if ',' in input_data:
                 # Sort and join comma-separated values
                 sorted_values = sorted(input_data.split(','))
                 # Remove any leading/trailing whitespace from each value
                 cleaned_values = [value.strip() for value in sorted_values]
+                # Join the cleaned values with commas and lowercase the result
                 return ','.join(cleaned_values).lower()
             elif input_data.strip():
                 # If the input is a non-empty string without commas, return it as a lowercase string
@@ -43,11 +32,10 @@ def tentacle(input_data):
             else:
                 # If the input is an empty string or only whitespace, return "empty input"
                 return "empty input"
+        elif isinstance(input_data, (list, tuple)):
+            # If the input is a list or tuple, sort it, convert to strings, and join with commas
+            sorted_items = sorted(map(str, input_data))
+            return ','.join(sorted_items).lower()
         else:
-            # For non-string inputs, convert to string, lowercase, and sort any comma-separated values
-            input_str = str(input_data).lower()
-            if ',' in input_str:
-                sorted_values = sorted(input_str.split(','))
-                cleaned_values = [value.strip() for value in sorted_values]
-                return ','.join(cleaned_values)
-            return input_str
+            # For other non-string inputs, convert to string and lowercase
+            return str(input_data).lower()
