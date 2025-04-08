@@ -1,4 +1,14 @@
 def tentacle(input_data):
+    """
+    Process input data, detecting HTML documents, evaluating mathematical expressions,
+    and handling various data types with detailed output.
+
+    Args:
+    input_data: The input to be processed, can be of any type.
+
+    Returns:
+    str: A processed string based on the input type and content.
+    """
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lower_input = input_data.lower()
@@ -18,6 +28,10 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
+                elif 'history' in lower_input:
+                    return "wikipedia history html document detected"
+                elif 'technology' in lower_input:
+                    return "wikipedia technology html document detected"
                 else:
                     return "wikipedia generic html document detected"
             else:
@@ -41,6 +55,10 @@ def tentacle(input_data):
             # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
             return ','.join(sorted_items)
+        elif isinstance(result, dict):
+            # For dictionaries, sort keys, remove duplicates, and join
+            sorted_keys = sorted(set(str(key).lower() for key in result.keys()))
+            return ','.join(sorted_keys)
         else:
             # For other types, return a lowercase string representation, its length, and the original result
             return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
@@ -62,6 +80,10 @@ def tentacle(input_data):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
             return ','.join(sorted_items)
+        elif isinstance(input_data, dict):
+            # For dictionaries, sort keys, remove duplicates, and join them
+            sorted_keys = sorted(set(str(key).lower() for key in input_data.keys()))
+            return ','.join(sorted_keys)
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
