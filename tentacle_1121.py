@@ -1,3 +1,5 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -9,10 +11,13 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return 'text processing html document detected'
         else:
-            # If no specific type is detected, process the content
-            content = input_data.lower().split('>', 1)[1].split('<', 1)[0]
-            if content:
-                return f"generic html document with content: {','.join(sorted(content.split()))}"
+            # For generic HTML documents, extract and return the title if present
+            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
+            if title_match:
+                title = title_match.group(1).strip().lower()
+                # Process the title: split into words, sort them, and join with commas
+                processed_title = ','.join(sorted(title.split()))
+                return f"generic html document detected: {processed_title}"
             else:
                 return 'generic html document detected'
     
@@ -24,9 +29,10 @@ def tentacle(input_data):
         if isinstance(result, (int, float)):
             # For numbers, return the result as a string, lowercased
             return str(result).lower()
-        elif isinstance(result, bool):
-            # For booleans, return a descriptive string
-            return 'true' if result else 'false'
+        elif isinstance(result, (list, tuple, set)):
+            # For collections, sort and join elements
+            sorted_items = sorted(str(item).lower() for item in result)
+            return ','.join(sorted_items)
         else:
             # For other types, convert to string, split into words, sort them, and join with commas
             processed_result = ','.join(sorted(str(result).lower().split()))

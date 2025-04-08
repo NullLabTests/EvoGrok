@@ -18,21 +18,27 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
+        
         # Convert the result to a string, split it into words, sort them, and join with commas
         processed_result = ','.join(sorted(str(result).lower().split()))
+        
         # If the result is a single word or number, return it as is; otherwise, return the sorted, comma-separated list
         if ',' in processed_result:
             return f"mathematical result: {processed_result}"
         else:
-            return f"mathematical result: {processed_result.replace(',', '')}"
+            # For single results, capitalize the first letter
+            return f"mathematical result: {processed_result.replace(',', '').capitalize()}"
     except:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them, and join with commas
         words = str(input_data).lower().split()
         unique_words = list(set(words))  # Remove duplicates
         processed_input = ','.join(sorted(unique_words))
+        
         # If the result is a single word, return it capitalized; otherwise, return the sorted, comma-separated list
         if ',' not in processed_input:
             return processed_input.capitalize()
         else:
-            return f"processed text: {processed_input}"
+            # For multiple words, capitalize the first word
+            first_word, *rest = processed_input.split(',')
+            return f"processed text: {first_word.capitalize()},{','.join(rest)}"

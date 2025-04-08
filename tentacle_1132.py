@@ -35,5 +35,14 @@ def tentacle(input_data):
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them, and join with commas
         processed_input = ','.join(sorted(str(input_data).lower().split()))
-        # If the result is a single word, return it as is; otherwise, return the sorted, comma-separated list
+        
+        # Check for specific patterns in the processed input
+        if 'data,analysis' in processed_input:
+            return 'data analysis text detected'
+        elif 'mathematics' in processed_input:
+            return 'mathematics text detected'
+        elif 'text,processing' in processed_input:
+            return 'text processing text detected'
+        
+        # If no specific pattern is found, return the processed input
         return processed_input if ',' in processed_input else processed_input.replace(',', '')

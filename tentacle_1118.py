@@ -1,7 +1,6 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on its content
         lowercase_input = input_data.lower()
         
         # Check for specific Wikipedia page types
