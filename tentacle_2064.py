@@ -32,7 +32,16 @@ def tentacle(input_data):
             # For numbers, return the sorted digits/characters, their sum, and the original result
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
+            prime_factors = []
+            n = abs(int(result))
+            for i in range(2, int(n**0.5) + 1):
+                while n % i == 0:
+                    prime_factors.append(i)
+                    n //= i
+            if n > 1:
+                prime_factors.append(n)
+            
+            return f"{sorted_digits}, sum: {sum_of_digits}, prime factors: {prime_factors}, original: {result}"
         elif isinstance(result, str):
             # For strings, split, sort, remove duplicates, and join
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
@@ -65,6 +74,3 @@ def tentacle(input_data):
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
-
-    # If none of the above conditions are met, return the input as a lowercase string
-    return str(input_data).lower()

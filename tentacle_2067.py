@@ -33,27 +33,25 @@ def tentacle(input_data):
         
         # Process the result based on its type
         if isinstance(result, (int, float)):
-            # For numbers, return the sorted digits/characters, their sum, 
-            # the original result, and a simple classification
+            # For numbers, return the sorted digits/characters, their sum, and the original result
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            classification = "positive" if result > 0 else "negative" if result < 0 else "zero"
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}, classification: {classification}"
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
         elif isinstance(result, str):
-            # For strings, split, sort, remove duplicates, join, and count items
+            # For strings, split, sort, remove duplicates, and join
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
-            item_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, item count: {item_count}"
+            return ','.join(sorted_items)
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements, remove duplicates, join, and count items
+            # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
-            item_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, item count: {item_count}"
+            return ','.join(sorted_items)
+        elif isinstance(result, dict):
+            # For dictionaries, sort keys and values, remove duplicates, and join
+            sorted_items = sorted(set(f"{k}:{v}".lower() for k, v in result.items()))
+            return ','.join(sorted_items)
         else:
-            # For other types, return a lowercase string representation, its length, 
-            # the original result, and the type
-            result_str = str(result).lower()
-            return f"{result_str}, length: {len(result_str)}, original: {result}, type: {type(result).__name__}"
+            # For other types, return a lowercase string representation, its length, and the original result
+            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
     except Exception as e:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -65,16 +63,17 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Split the input, sort it, remove duplicates, join it, and count items
+            # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            item_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, item count: {item_count}"
+            return ','.join(sorted_items)
         elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements, remove duplicates, join them, and count items
+            # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
-            item_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, item count: {item_count}"
+            return ','.join(sorted_items)
+        elif isinstance(input_data, dict):
+            # For dictionaries, sort keys and values, remove duplicates, and join
+            sorted_items = sorted(set(f"{k}:{v}".lower() for k, v in input_data.items()))
+            return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation, its length, and the original input
-            input_str = str(input_data).lower()
-            return f"{input_str}, length: {len(input_str)}, original: {input_data}"
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
