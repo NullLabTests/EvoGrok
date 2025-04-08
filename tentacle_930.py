@@ -3,11 +3,11 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_data.lower():
-            return "data analysis html document detected"
+            return "wikipedia data analysis html document detected"
         elif 'mathematics' in input_data.lower():
-            return "mathematics html document detected"
+            return "wikipedia mathematics html document detected"
         elif 'text processing' in input_data.lower():
-            return "text processing html document detected"
+            return "wikipedia text processing html document detected"
         else:
             return "generic html document detected"
     
@@ -15,7 +15,7 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return str(result).lower()
+        return f"mathematical result: {str(result).lower()}"
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -24,12 +24,12 @@ def tentacle(input_data):
             # Remove any empty strings from the sorted list
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
             # Join the cleaned and sorted values
-            return ','.join(cleaned_values)
+            return f"sorted and cleaned values: {','.join(cleaned_values)}"
         else:
             # Check if the input is a valid number
             try:
                 float(input_data)
-                return str(input_data).lower()
+                return f"numeric value detected: {str(input_data).lower()}"
             except ValueError:
                 # If not a number, check for specific patterns
                 if input_data.strip().lower().startswith('http'):
@@ -38,6 +38,10 @@ def tentacle(input_data):
                     return f"email address detected: {input_data}"
                 elif len(input_data) > 1 and input_data.isupper():
                     return f"all uppercase text detected: {input_data.lower()}"
+                elif input_data.strip().isalpha():
+                    return f"alphabetic text detected: {input_data.lower()}"
+                elif any(char.isdigit() for char in input_data):
+                    return f"text with numbers detected: {input_data.lower()}"
                 else:
                     # If no specific pattern is detected, return the input as a lowercase string
-                    return str(input_data).lower()
+                    return f"generic text detected: {str(input_data).lower()}"

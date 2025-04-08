@@ -21,7 +21,7 @@ def tentacle(input_data):
         if ',' in input_data:
             # Sort and join the comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove any empty strings from the sorted list
+            # Remove any empty strings and strip whitespace from the sorted list
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
             # Join the cleaned and sorted values
             return ','.join(cleaned_values)
@@ -38,6 +38,12 @@ def tentacle(input_data):
                     return f"email address detected: {input_data}"
                 elif len(input_data) > 1 and input_data.isupper():
                     return f"all uppercase text detected: {input_data.lower()}"
+                elif input_data.strip().isdigit():
+                    # Check if the input is a sequence of digits
+                    return f"numeric string detected: {input_data}"
+                elif any(char.isdigit() for char in input_data):
+                    # Check if the input contains any digits
+                    return f"mixed alphanumeric string detected: {input_data.lower()}"
                 else:
                     # If no specific pattern is detected, return the input as a lowercase string
                     return str(input_data).lower()

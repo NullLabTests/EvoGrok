@@ -6,17 +6,15 @@ def tentacle(input_data):
     if input_str.startswith('<!doctype'):
         # Check for specific topics in the HTML document
         if 'data analysis' in input_str:
-            return "data analysis html document detected"
+            return "data analysis html document detected (wikipedia)"
         elif 'mathematics' in input_str:
-            return "mathematics html document detected"
+            return "mathematics html document detected (wikipedia)"
         elif 'text processing' in input_str:
-            return "text processing html document detected"
+            return "text processing html document detected (wikipedia)"
         elif any(topic in input_str for topic in ['science', 'technology', 'engineering', 'stem']):
-            return "stem-related html document detected"
-        elif 'wikipedia' in input_str:
-            return "wikipedia html document detected"
+            return "stem-related html document detected (wikipedia)"
         else:
-            return "generic html document detected"
+            return "generic wikipedia html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -43,8 +41,14 @@ def tentacle(input_data):
                 return f"url detected: {input_str}"
             elif '@' in input_str and '.' in input_str.split('@')[-1]:
                 return f"email address detected: {input_str}"
+            elif input_str == 'true' or input_str == 'false':
+                return f"boolean value: {input_str}"
+            elif input_str.startswith('0x') and all(c in '0123456789abcdef' for c in input_str[2:]):
+                return f"hexadecimal number: {input_str}"
             elif input_str.replace(' ', '').isalnum():
                 return f"alphanumeric string: {input_str}"
+            elif input_str.replace(' ', '').isalpha():
+                return f"alphabetic string: {input_str}"
             else:
                 # If no specific pattern matches, return the input as a lowercase string
                 return f"text input: {input_str}"
