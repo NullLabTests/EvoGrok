@@ -1,21 +1,21 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Categorize the HTML document based on known topics
+        # Determine the type of Wikipedia page based on the title
         if 'data analysis' in input_data.lower():
-            return "data analysis html document detected".lower()
+            return "wikipedia data analysis page detected"
         elif 'mathematics' in input_data.lower():
-            return "mathematics html document detected".lower()
+            return "wikipedia mathematics page detected"
         elif 'text processing' in input_data.lower():
-            return "text processing html document detected".lower()
+            return "wikipedia text processing page detected"
         else:
-            return "generic html document detected".lower()
+            return "wikipedia page detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, sort its characters, and join them
+        return ','.join(sorted(str(result)))
     except:
-        # If evaluation fails, sort and join the input data
+        # If evaluation fails, split the input by commas, sort the parts, and join them
         return ','.join(sorted(input_data.split(',')))

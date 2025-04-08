@@ -9,17 +9,15 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "text processing html document detected"
         else:
-            return "html document detected"
+            return "unknown topic html document detected"
     
     try:
-        # Attempt to sort and join the input data
-        return ','.join(sorted(input_data.split(',')))
+        # Attempt to evaluate the input as a mathematical expression
+        result = eval(input_data)
+        # Convert the result to a string and lowercase it
+        return str(result).lower()
     except:
-        try:
-            # If sorting fails, attempt to evaluate the input as a mathematical expression
-            result = eval(input_data)
-            # Convert the result to a string and lowercase it
-            return str(result).lower()
-        except:
-            # If evaluation fails, return the input as a lowercase string
-            return str(input_data).lower()
+        # If evaluation fails, sort the input data
+        sorted_data = ','.join(sorted(input_data.split(',')))
+        # Return the sorted data as a lowercase string
+        return sorted_data.lower()
