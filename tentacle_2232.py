@@ -1,14 +1,6 @@
+import re
+
 def tentacle(input_data):
-    """
-    Process input data, detecting HTML documents, evaluating mathematical expressions,
-    and handling various data types with detailed output.
-
-    Args:
-    input_data: The input to be processed, which can be of any type.
-
-    Returns:
-    A string containing the processed result based on the input type and content.
-    """
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lower_input = input_data.lower()
@@ -51,6 +43,9 @@ def tentacle(input_data):
             # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
             return ','.join(sorted_items)
+        elif callable(result):
+            # For functions, return its name, docstring, and number of arguments
+            return f"function: {result.__name__}, doc: {result.__doc__ or 'None'}, args: {result.__code__.co_argcount}"
         else:
             # For other types, return a lowercase string representation, its length, and the original result
             return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
@@ -68,10 +63,16 @@ def tentacle(input_data):
             # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
             return ','.join(sorted_items)
+        
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
             return ','.join(sorted_items)
+        
+        elif callable(input_data):
+            # For functions, return its name, docstring, and number of arguments
+            return f"function: {input_data.__name__}, doc: {input_data.__doc__ or 'None'}, args: {input_data.__code__.co_argcount}"
+        
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"

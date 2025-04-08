@@ -21,13 +21,7 @@ def tentacle(input_data):
                 else:
                     return "wikipedia generic html document detected"
             else:
-                # Check for specific HTML5 attributes
-                if 'lang="en"' in lower_input:
-                    return "english html5 document detected"
-                elif 'xmlns="http://www.w3.org/1999/xhtml"' in lower_input:
-                    return "xhtml document detected"
-                else:
-                    return "generic html document detected"
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -35,21 +29,24 @@ def tentacle(input_data):
         
         # Process the result based on its type
         if isinstance(result, (int, float)):
-            # For numbers, return the sorted digits/characters, their sum, and the original result
+            # For numbers, return the sorted digits/characters, their sum, the original result, and its evaluation as a string
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
+            evaluated_string = eval(str(result))
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}, evaluated as string: {evaluated_string}"
         elif isinstance(result, str):
-            # For strings, split, sort, remove duplicates, and join
+            # For strings, split, sort, remove duplicates, join, and calculate the length
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
-            return ','.join(sorted_items)
+            joined_result = ','.join(sorted_items)
+            return f"{joined_result}, length: {len(joined_result)}"
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements, remove duplicates, and join
+            # For collections, sort elements, remove duplicates, join, and calculate the length
             sorted_items = sorted(set(str(item).lower() for item in result))
-            return ','.join(sorted_items)
+            joined_result = ','.join(sorted_items)
+            return f"{joined_result}, length: {len(joined_result)}"
         else:
-            # For other types, return a lowercase string representation, its length, and the original result
-            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
+            # For other types, return a lowercase string representation, its length, the original result, and its type
+            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}, type: {type(result).__name__}"
     except Exception as e:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -61,22 +58,15 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Check for specific keywords related to Wikipedia topics
-            lower_input = input_data.lower()
-            if 'data analysis' in lower_input:
-                return "potential data analysis content detected"
-            elif 'mathematics' in lower_input:
-                return "potential mathematics content detected"
-            elif 'text processing' in lower_input:
-                return "potential text processing content detected"
-            
-            # Split the input, sort it, remove duplicates, and join it back together
+            # Split the input, sort it, remove duplicates, join it back together, and calculate the length
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            return ','.join(sorted_items)
+            joined_result = ','.join(sorted_items)
+            return f"{joined_result}, length: {len(joined_result)}"
         elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements, remove duplicates, and join them
+            # If it's a collection, sort its elements, remove duplicates, join them, and calculate the length
             sorted_items = sorted(set(str(item).lower() for item in input_data))
-            return ','.join(sorted_items)
+            joined_result = ','.join(sorted_items)
+            return f"{joined_result}, length: {len(joined_result)}"
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
