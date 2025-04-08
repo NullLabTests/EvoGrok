@@ -2,20 +2,22 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lowercase_input = input_data.lower()
+        
+        # Check for specific HTML document types
         if 'data analysis' in lowercase_input:
-            return "data analysis html document detected"
+            return "data analysis wikipedia page detected"
         elif 'mathematics' in lowercase_input:
-            return "mathematics html document detected"
+            return "mathematics wikipedia page detected"
         elif 'text processing' in lowercase_input:
-            return "text processing html document detected"
+            return "text processing wikipedia page detected"
+        
+        # Check for other common HTML document types
+        elif 'wikipedia' in lowercase_input:
+            return "generic wikipedia page detected"
+        elif 'blog' in lowercase_input:
+            return "blog page detected"
         else:
-            # Check for other common HTML document types
-            if 'wikipedia' in lowercase_input:
-                return "wikipedia html document detected"
-            elif 'blog' in lowercase_input:
-                return "blog html document detected"
-            else:
-                return "generic html document detected"
+            return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -29,7 +31,8 @@ def tentacle(input_data):
                 # Sort and join the items if it's a comma-separated list
                 sorted_items = sorted(input_data.split(','))
                 # Reverse each item and join them
-                return ','.join(item[::-1].strip() for item in sorted_items)
+                reversed_items = [item[::-1].strip() for item in sorted_items]
+                return f"reversed and sorted: {','.join(reversed_items)}"
             elif input_data.isdigit():
                 # If it's a single number, return its square, cube, and factorial
                 number = int(input_data)
