@@ -22,7 +22,12 @@ def tentacle(input_data):
             # For other HTML documents, attempt to extract more information
             description_match = re.search(r'<meta name="description" content="(.*?)"', input_str)
             description = description_match.group(1) if description_match else "no description found"
-            return f"generic html document detected: {title}, description: {description}"
+            
+            # Extract keywords if available
+            keywords_match = re.search(r'<meta name="keywords" content="(.*?)"', input_str)
+            keywords = keywords_match.group(1) if keywords_match else "no keywords found"
+            
+            return f"generic html document detected: {title}, description: {description}, keywords: {keywords}"
     
     try:
         # Attempt to evaluate the input as a mathematical expression

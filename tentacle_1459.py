@@ -6,13 +6,13 @@ def tentacle(input_data):
     if input_str.startswith('<!doctype'):
         # Check for specific topics in the HTML document
         if 'data analysis' in input_str:
-            return "data analysis html document detected"
+            return "data analysis wikipedia html document detected"
         elif 'mathematics' in input_str:
-            return "mathematics html document detected"
+            return "mathematics wikipedia html document detected"
         elif 'text processing' in input_str:
-            return "text processing html document detected"
+            return "text processing wikipedia html document detected"
         else:
-            return "generic html document detected"
+            return "generic wikipedia html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -39,6 +39,12 @@ def tentacle(input_data):
                     return f"potential wikipedia reference detected: {input_str}"
                 elif any(keyword in input_str for keyword in ['class', 'attribute', 'styling', 'functionality']):
                     return f"potential html component detected: {input_str}"
+                elif 'data analysis' in input_str:
+                    return f"data analysis reference detected: {input_str}"
+                elif 'mathematics' in input_str:
+                    return f"mathematics reference detected: {input_str}"
+                elif 'text processing' in input_str:
+                    return f"text processing reference detected: {input_str}"
                 else:
                     # If no specific keywords, return the input as a lowercase string
                     return input_str

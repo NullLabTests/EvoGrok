@@ -4,7 +4,7 @@ def tentacle(input_data):
     
     # Check if the input looks like the start of an HTML document
     if input_str.startswith('<!doctype'):
-        # Check for specific topics in the HTML document
+        # Check for specific Wikipedia topics in the HTML document
         if 'data analysis' in input_str:
             return "wikipedia data analysis html document detected"
         elif 'mathematics' in input_str:

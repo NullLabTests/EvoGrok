@@ -12,33 +12,33 @@ def tentacle(input_data):
         elif 'text processing' in input_str:
             return "wikipedia text processing html document detected"
         else:
-            return "generic wikipedia html document detected"
+            return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return f"mathematical result: {str(result).lower()}"
+        return f"mathematical expression evaluated: {str(result).lower()}"
     except:
-        # If evaluation fails, process as a comma-separated list or check for keywords
+        # If evaluation fails, process as a comma-separated list or return as is
         if ',' in input_str:
             # Split, sort, and join the list
             sorted_list = sorted(input_str.split(','))
             # Remove any empty strings from the list
             cleaned_list = [item for item in sorted_list if item]
-            return f"sorted list: {','.join(cleaned_list)}"
+            return f"sorted and cleaned list: {','.join(cleaned_list)}"
         else:
-            # If no commas, check for specific keywords
-            if 'data' in input_str and 'analysis' in input_str:
-                return "data analysis text detected"
-            elif 'mathematics' in input_str:
-                return "mathematics text detected"
-            elif 'text' in input_str and 'processing' in input_str:
-                return "text processing text detected"
+            # If no commas, check for specific patterns
+            if input_str.startswith('http') or input_str.startswith('www'):
+                return f"potential url detected: {input_str}"
+            elif any(char.isdigit() for char in input_str):
+                return f"string with numbers detected: {input_str}"
             else:
-                # If no specific keywords, check for potential HTML fragments
-                if '<' in input_str and '>' in input_str:
-                    return "potential html fragment detected"
+                # If no special patterns, check for specific keywords
+                if 'wikipedia' in input_str:
+                    return f"potential wikipedia reference detected: {input_str}"
+                elif any(keyword in input_str for keyword in ['class', 'attribute', 'styling', 'functionality']):
+                    return f"potential html component detected: {input_str}"
                 else:
-                    # If no HTML fragments, return the input as a lowercase string
-                    return f"processed text: {input_str}"
+                    # If no specific keywords, return the input as a lowercase string
+                    return input_str
