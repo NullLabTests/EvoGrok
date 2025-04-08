@@ -29,9 +29,10 @@ def tentacle(input_data):
         
         # Process the result based on its type
         if isinstance(result, (int, float)):
-            # For numbers, return the sorted digits/characters and their sum
+            # For numbers, return the sorted digits/characters, their sum, and the original value
             sorted_digits = ''.join(sorted(str(result).lower()))
-            return f"{sorted_digits}, sum: {sum(int(digit) for digit in str(abs(result)) if digit.isdigit())}"
+            sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
         elif isinstance(result, str):
             # For strings, split, sort, remove duplicates, and join
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
@@ -41,9 +42,9 @@ def tentacle(input_data):
             sorted_items = sorted(set(str(item).lower() for item in result))
             return ','.join(sorted_items)
         else:
-            # For other types, return a lowercase string representation
-            return str(result).lower()
-    except:
+            # For other types, return a lowercase string representation and its type
+            return f"{str(result).lower()}, type: {type(result).__name__}"
+    except Exception as e:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
             # Check if the input contains any HTML-like tags
@@ -58,5 +59,5 @@ def tentacle(input_data):
             sorted_items = sorted(set(str(item).lower() for item in input_data))
             return ','.join(sorted_items)
         else:
-            # For other types, return a lowercase string representation
-            return str(input_data).lower()
+            # For other types, return a lowercase string representation and its type
+            return f"{str(input_data).lower()}, type: {type(input_data).__name__}"

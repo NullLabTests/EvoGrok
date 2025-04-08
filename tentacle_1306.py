@@ -1,3 +1,5 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -13,7 +15,12 @@ def tentacle(input_data):
         else:
             # Check for specific classes or attributes
             if 'class="mw-page-title-main"' in lower_input:
-                return "wikipedia generic html document detected"
+                # Extract the title if possible
+                title_match = re.search(r'class="mw-page-title-main">(.*?)</', lower_input)
+                if title_match:
+                    return f"wikipedia {title_match.group(1)} html document detected"
+                else:
+                    return "wikipedia generic html document detected"
             else:
                 return "generic html document detected"
     
@@ -36,7 +43,17 @@ def tentacle(input_data):
             if char.isdigit():
                 digit_product *= int(char)
         
-        return f"{sorted_result} (unique characters: {unique_chars}, digit sum: {digit_sum}, digit product: {digit_product})"
+        # Check if the result is related to data analysis, mathematics, or text processing
+        if 'data' in sorted_result or 'analysis' in sorted_result:
+            context = "data analysis"
+        elif 'math' in sorted_result or any(char in '+-*/^' for char in sorted_result):
+            context = "mathematics"
+        elif any(word in sorted_result for word in ['text', 'process', 'string', 'regex']):
+            context = "text processing"
+        else:
+            context = "general"
+        
+        return f"{sorted_result} (unique characters: {unique_chars}, digit sum: {digit_sum}, digit product: {digit_product}, context: {context})"
     except:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -53,7 +70,17 @@ def tentacle(input_data):
             # Calculate the total length of all items
             total_length = sum(len(item) for item in sorted_items)
             
-            return f"{result} (item count: {item_count}, average length: {avg_length:.2f}, total length: {total_length})"
+            # Check for context
+            if any(word in result for word in ['data', 'analysis']):
+                context = "data analysis"
+            elif any(word in result for word in ['math', 'equation', 'formula']):
+                context = "mathematics"
+            elif any(word in result for word in ['text', 'process', 'string', 'regex']):
+                context = "text processing"
+            else:
+                context = "general"
+            
+            return f"{result} (item count: {item_count}, average length: {avg_length:.2f}, total length: {total_length}, context: {context})"
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements and join them
             sorted_items = sorted(str(item).lower() for item in input_data)
@@ -68,10 +95,31 @@ def tentacle(input_data):
             # Calculate the total length of all items
             total_length = sum(len(str(item)) for item in input_data)
             
-            return f"{result} (item count: {item_count}, average length: {avg_length:.2f}, total length: {total_length})"
+            # Check for context
+            if any(word in result for word in ['data', 'analysis']):
+                context = "data analysis"
+            elif any(word in result for word in ['math', 'equation', 'formula']):
+                context = "mathematics"
+            elif any(word in result for word in ['text', 'process', 'string', 'regex']):
+                context = "text processing"
+            else:
+                context = "general"
+            
+            return f"{result} (item count: {item_count}, average length: {avg_length:.2f}, total length: {total_length}, context: {context})"
         else:
             # For other types, return a lowercase string representation
             # and include the type of the input, its length, and its hash value
             str_repr = str(input_data).lower()
             input_hash = hash(input_data)
-            return f"{str_repr} (type: {type(input_data).__name__}, length: {len(str_repr)}, hash: {input_hash})"
+            
+            # Check for context
+            if 'data' in str_repr or 'analysis' in str_repr:
+                context = "data analysis"
+            elif 'math' in str_repr or any(char in '+-*/^' for char in str_repr):
+                context = "mathematics"
+            elif any(word in str_repr for word in ['text', 'process', 'string', 'regex']):
+                context = "text processing"
+            else:
+                context = "general"
+            
+            return f"{str_repr} (type: {type(input_data).__name__}, length: {len(str_repr)}, hash: {input_hash}, context: {context})"

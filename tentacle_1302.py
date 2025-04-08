@@ -5,13 +5,13 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lowercase_input = input_data.lower()
         
-        # Determine the type of HTML document based on the title or content
+        # Determine the type of HTML document based on the title
         if 'data analysis' in lowercase_input:
-            return "specialized html document detected: data analysis"
+            return "data analysis html document detected"
         elif 'mathematics' in lowercase_input:
-            return "specialized html document detected: mathematics"
+            return "mathematics html document detected"
         elif 'text processing' in lowercase_input:
-            return "specialized html document detected: text processing"
+            return "text processing html document detected"
         else:
             # Attempt to extract the title from the HTML
             title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
@@ -22,16 +22,11 @@ def tentacle(input_data):
                     return f"data-related html document detected: {title}"
                 elif 'math' in title or 'equation' in title:
                     return f"math-related html document detected: {title}"
-                elif 'text' in title or 'string' in title:
-                    return f"text processing html document detected: {title}"
+                elif 'text' in title or 'language' in title:
+                    return f"text-related html document detected: {title}"
                 else:
-                    return f"generic html document detected: {title}"
+                    return f"html document detected: {title}"
             else:
-                # If no title is found, check for keywords in the content
-                content_keywords = ['data', 'math', 'equation', 'text', 'string']
-                for keyword in content_keywords:
-                    if keyword in lowercase_input:
-                        return f"{keyword}-related html document detected"
                 return "generic html document detected"
     
     try:
@@ -47,9 +42,11 @@ def tentacle(input_data):
                 sorted_items = sorted(input_data.split(','))
                 # Remove any empty items and strip whitespace
                 cleaned_items = [item.strip() for item in sorted_items if item.strip()]
-                return ','.join(cleaned_items)
+                # Capitalize the first letter of each item
+                capitalized_items = [item.capitalize() for item in cleaned_items]
+                return ','.join(capitalized_items)
             elif input_data.replace('.', '').isdigit():
-                # If it's a number (including decimals), return its square, cube, and square root
+                # If it's a single number (including decimals), return its square, cube, and square root
                 number = float(input_data)
                 return f"square: {number ** 2:.2f}, cube: {number ** 3:.2f}, square root: {number ** 0.5:.2f}"
             else:
@@ -59,16 +56,9 @@ def tentacle(input_data):
                 words = lowercase.split()
                 capitalized_words = [word.capitalize() for word in words]
                 capitalized_string = ' '.join(capitalized_words)
-                
-                # Check for specific keywords and provide additional information
-                if 'data' in lowercase:
-                    return f"data-related string detected: original: {lowercase}, reversed: {reversed_string}, capitalized: {capitalized_string}"
-                elif 'math' in lowercase or 'equation' in lowercase:
-                    return f"math-related string detected: original: {lowercase}, reversed: {reversed_string}, capitalized: {capitalized_string}"
-                elif 'text' in lowercase or 'string' in lowercase:
-                    return f"text processing string detected: original: {lowercase}, reversed: {reversed_string}, capitalized: {capitalized_string}"
-                else:
-                    return f"original: {lowercase}, reversed: {reversed_string}, capitalized: {capitalized_string}"
+                # Count the number of vowels in the original string
+                vowels = sum(1 for char in lowercase if char in 'aeiou')
+                return f"original: {lowercase}, reversed: {reversed_string}, capitalized: {capitalized_string}, vowel count: {vowels}"
         else:
-            # For other types of input, return a string representation with type information
-            return f"unknown type ({type(input_data).__name__}): {str(input_data)}"
+            # For non-string inputs, return a string representation and its type
+            return f"unknown type: {str(input_data)}, type: {type(input_data).__name__}"
