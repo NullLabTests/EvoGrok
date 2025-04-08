@@ -23,17 +23,30 @@ def tentacle(input_data):
             sorted_values = sorted(input_data.split(','))
             # Check if all values are numeric
             if all(value.strip().replace('.', '').isdigit() for value in sorted_values):
-                # If numeric, calculate the sum and average
+                # If numeric, calculate the sum, average, and standard deviation
                 values = [float(value.strip()) for value in sorted_values]
                 total = sum(values)
                 average = total / len(values)
-                return f"numeric input: sum={total:.2f}, average={average:.2f}"
+                std_dev = (sum((x - average) ** 2 for x in values) / len(values)) ** 0.5
+                return f"numeric input: sum={total:.2f}, average={average:.2f}, std_dev={std_dev:.2f}"
             else:
-                # If not numeric, return sorted values with a prefix
-                return f"string list: {','.join(sorted_values).lower()}"
+                # If not numeric, return sorted values with a prefix and count unique values
+                unique_count = len(set(sorted_values))
+                return f"string list: {','.join(sorted_values).lower()}, unique_count={unique_count}"
         else:
             # Check if the input is a valid Python identifier
             if input_data.isidentifier():
-                return f"python identifier: {input_data.lower()}"
-            # Return the input as a lowercase string with a prefix
-            return f"string input: {str(input_data).lower()}"
+                # If it's an identifier, check if it's a built-in function or keyword
+                if input_data in dir(__builtins__):
+                    return f"python built-in: {input_data.lower()}"
+                elif input_data in keyword.kwlist:
+                    return f"python keyword: {input_data.lower()}"
+                else:
+                    return f"python identifier: {input_data.lower()}"
+            # Check if the input is a valid JSON string
+            try:
+                json_data = json.loads(input_data)
+                return f"json data: {json.dumps(json_data).lower()}"
+            except json.JSONDecodeError:
+                # If not JSON, return the input as a lowercase string with a prefix
+                return f"string input: {str(input_data).lower()}"

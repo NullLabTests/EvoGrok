@@ -1,5 +1,5 @@
 def tentacle(input_data):
-    # Convert input to string and strip whitespace
+    # Convert input to string, strip whitespace, and convert to lowercase
     input_str = str(input_data).strip().lower()
     
     # Check if the input looks like the start of an HTML document
@@ -17,9 +17,8 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_str)
-        # Convert the result to a string, lowercase it, and return with its square
-        result_str = str(result).lower()
-        return f"{result_str}, square: {result**2}"
+        # Convert the result to a string and lowercase it
+        return str(result).lower()
     except:
         # If evaluation fails, process the input based on its content
         if ',' in input_str:
@@ -29,24 +28,41 @@ def tentacle(input_data):
             reversed_elements = [elem[::-1] for elem in sorted_elements]
             return ','.join(reversed_elements)
         elif input_str.isdigit():
-            # If input is a number, return it as a string and its square
+            # If input is a number, return it as a string, its square, its cube, and its factorial
             number = int(input_str)
-            return f"{input_str}, square: {number**2}"
+            factorial = 1
+            for i in range(1, number + 1):
+                factorial *= i
+            return f"{input_str}, square: {number**2}, cube: {number**3}, factorial: {factorial}"
         elif input_str.startswith('lang='):
             # If input starts with 'lang=', process it as a language code
             lang_code = input_str.split('=')[1]
             if lang_code == 'en':
                 return "english language detected"
+            elif lang_code == 'es':
+                return "spanish language detected"
+            elif lang_code == 'fr':
+                return "french language detected"
             else:
                 return f"language code detected: {lang_code}"
+        elif input_str.startswith('url='):
+            # If input starts with 'url=', process it as a URL
+            url = input_str.split('=')[1]
+            if url.startswith('https://'):
+                return f"secure url detected: {url}"
+            elif url.startswith('http://'):
+                return f"insecure url detected: {url}"
+            else:
+                return f"url detected: {url}"
         elif input_str.startswith('wiki='):
             # If input starts with 'wiki=', process it as a Wikipedia topic
-            wiki_topic = input_str.split('=')[1]
-            if wiki_topic in ['data analysis', 'mathematics', 'text processing']:
-                return f"wikipedia page on {wiki_topic} detected"
+            topic = input_str.split('=')[1]
+            if topic in ['data analysis', 'mathematics', 'text processing']:
+                return f"wikipedia page on {topic} detected"
             else:
-                return f"wikipedia page on {wiki_topic} not recognized"
+                return f"wikipedia page on {topic} requested"
         else:
-            # For other inputs, reverse the string, capitalize the first letter, and add its length
+            # For other inputs, reverse the string, capitalize the first letter, 
+            # and add a prefix with the length of the original string
             reversed_str = input_str[::-1]
-            return f"{reversed_str.capitalize()}, length: {len(input_str)}"
+            return f"processed ({len(input_str)} chars): {reversed_str.capitalize()}"

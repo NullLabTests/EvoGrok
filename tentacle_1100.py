@@ -15,12 +15,22 @@ def tentacle(input_data):
             # Extract the title if possible
             title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
             if title_match:
-                return f"html document detected: {title_match.group(1).lower()}"
+                title = title_match.group(1).strip().lower()
+                # Check for specific keywords in the title
+                if 'data' in title:
+                    return f"data-related html document detected: {title}"
+                elif 'math' in title or 'equation' in title:
+                    return f"math-related html document detected: {title}"
+                elif 'text' in title or 'processing' in title:
+                    return f"text processing html document detected: {title}"
+                else:
+                    return f"html document detected: {title}"
             else:
                 # If no title found, extract the first h1 tag content
                 h1_match = re.search(r'<h1[^>]*>(.*?)</h1>', input_data, re.IGNORECASE | re.DOTALL)
                 if h1_match:
-                    return f"html document detected: {h1_match.group(1).strip().lower()}"
+                    h1_content = h1_match.group(1).strip().lower()
+                    return f"html document detected: {h1_content}"
                 else:
                     return "generic html document detected"
     

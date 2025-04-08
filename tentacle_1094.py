@@ -23,19 +23,20 @@ def tentacle(input_data):
             sorted_values = sorted(input_data.split(','))
             # Check if all values are numeric
             if all(value.strip().replace('.', '').isdigit() for value in sorted_values):
-                # If numeric, calculate the sum and average
+                # If numeric, calculate the sum, average, and median
                 numeric_values = [float(value.strip()) for value in sorted_values]
                 total = sum(numeric_values)
                 average = total / len(numeric_values)
-                return f"numeric input: sum={total:.2f}, average={average:.2f}"
+                median = sorted(numeric_values)[len(numeric_values) // 2] if len(numeric_values) % 2 else (sorted(numeric_values)[len(numeric_values) // 2 - 1] + sorted(numeric_values)[len(numeric_values) // 2]) / 2
+                return f"numeric input: sum={total:.2f}, average={average:.2f}, median={median:.2f}"
             else:
-                # If not numeric, return sorted values and count
-                return f"string input: {','.join(sorted_values).lower()}, count={len(sorted_values)}"
+                # If not numeric, return sorted values and count unique values
+                unique_count = len(set(sorted_values))
+                return f"string input: {','.join(sorted_values).lower()}, unique values: {unique_count}"
         else:
             # Check if the input is a palindrome
             cleaned_input = ''.join(char.lower() for char in input_data if char.isalnum())
-            if cleaned_input == cleaned_input[::-1]:
-                return f"string input: {str(input_data).lower()}, palindrome detected"
-            else:
-                # Return the input as a lowercase string with a prefix
-                return f"string input: {str(input_data).lower()}"
+            is_palindrome = cleaned_input == cleaned_input[::-1]
+            
+            # Return the input as a lowercase string with a prefix and palindrome information
+            return f"string input: {str(input_data).lower()}, palindrome: {is_palindrome}"

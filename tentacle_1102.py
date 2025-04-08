@@ -1,24 +1,27 @@
 import re
 import json
+import math
 
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Detect the type of HTML document based on known patterns
-        if 'data analysis' in input_data.lower():
+        lowercase_input = input_data.lower()
+        if 'data analysis' in lowercase_input:
             return "wikipedia data analysis html document detected"
-        elif 'mathematics' in input_data.lower():
+        elif 'mathematics' in lowercase_input:
             return "wikipedia mathematics html document detected"
-        elif 'text processing' in input_data.lower():
+        elif 'text processing' in lowercase_input:
             return "wikipedia text processing html document detected"
-        elif 'lang="en"' in input_data.lower():
+        elif 'lang="en"' in lowercase_input:
             return "english language html document detected"
         else:
             return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
-        result = eval(input_data)
+        # Use a safe_eval function to prevent code injection
+        result = safe_eval(input_data)
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
@@ -49,5 +52,20 @@ def tentacle(input_data):
                     return f"integer detected: {cleaned_input}"
                 elif cleaned_input.replace('.', '').replace('-', '').isdigit():
                     return f"number detected: {cleaned_input}"
+                elif all(c.isalpha() or c.isspace() for c in cleaned_input):
+                    return f"text detected: {cleaned_input}"
                 else:
                     return cleaned_input
+
+def safe_eval(expression):
+    # Define a safe environment for evaluation
+    safe_dict = {
+        'abs': abs,
+        'max': max,
+        'min': min,
+        'pow': pow,
+        'round': round,
+        'sum': sum,
+        'math': math
+    }
+    return eval(expression, {"__builtins__": None}, safe_dict)

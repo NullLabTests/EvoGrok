@@ -1,8 +1,8 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on known patterns
         input_lower = input_data.lower()
+        # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_lower:
             return "data analysis html document detected"
         elif 'mathematics' in input_lower:
@@ -20,7 +20,7 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return str(result).lower()
+        return f"mathematical expression evaluated: {str(result).lower()}"
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -28,12 +28,12 @@ def tentacle(input_data):
             sorted_values = sorted(input_data.split(','))
             # Remove any empty strings from the sorted list
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
-            return ','.join(cleaned_values)
+            return f"sorted and cleaned comma-separated values: {','.join(cleaned_values)}"
         else:
             # Check if the input is a valid number
             try:
                 float(input_data)
-                return str(input_data).lower()
+                return f"number detected: {str(input_data).lower()}"
             except ValueError:
                 # If not a number, check for specific patterns
                 if input_data.strip().lower().startswith('http'):
@@ -49,5 +49,13 @@ def tentacle(input_data):
                 elif input_data.strip().isdigit():
                     return f"Integer detected: {input_data}"
                 else:
-                    # If no specific pattern matches, return the input as a lowercase string
-                    return str(input_data).lower()
+                    # If no specific pattern matches, perform additional checks based on knowledge
+                    if 'data analysis' in input_data.lower():
+                        return f"Data analysis related text detected: {input_data.lower()}"
+                    elif 'mathematics' in input_data.lower():
+                        return f"Mathematics related text detected: {input_data.lower()}"
+                    elif 'text processing' in input_data.lower():
+                        return f"Text processing related text detected: {input_data.lower()}"
+                    else:
+                        # If no specific pattern or knowledge-based match, return the input as a lowercase string
+                        return f"processed text: {str(input_data).lower()}"

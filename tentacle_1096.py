@@ -23,15 +23,20 @@ def tentacle(input_data):
             sorted_values = sorted(input_data.split(','))
             # Check if all values are numeric
             if all(value.strip().replace('.', '').isdigit() for value in sorted_values):
-                # If numeric, calculate the sum and average
+                # If numeric, calculate the sum, average, and standard deviation
                 numeric_values = [float(value.strip()) for value in sorted_values]
                 total = sum(numeric_values)
                 average = total / len(numeric_values)
-                return f"numeric input: sum={total:.2f}, average={average:.2f}"
+                std_dev = (sum((x - average) ** 2 for x in numeric_values) / len(numeric_values)) ** 0.5
+                return f"numeric input: sum={total:.2f}, average={average:.2f}, std_dev={std_dev:.2f}"
             else:
-                # If not numeric, return sorted values and count
-                sorted_string = ','.join(sorted_values).lower()
-                return f"string input: {sorted_string}, count={len(sorted_values)}"
+                # If not numeric, return sorted values and count unique words
+                unique_words = len(set(word.lower() for word in ' '.join(sorted_values).split()))
+                return f"string input: {','.join(sorted_values).lower()}, unique_words={unique_words}"
         else:
-            # Return the input as a lowercase string with a prefix and character count
-            return f"string input: {str(input_data).lower()}, length={len(str(input_data))}"
+            # Check if the input is a palindrome
+            cleaned_input = ''.join(char.lower() for char in input_data if char.isalnum())
+            is_palindrome = cleaned_input == cleaned_input[::-1]
+            
+            # Return the input as a lowercase string with a prefix and palindrome status
+            return f"string input: {str(input_data).lower()}, palindrome={is_palindrome}"

@@ -1,5 +1,5 @@
 def tentacle(input_data):
-    # Convert input to string and strip whitespace
+    # Convert input to string, strip whitespace, and convert to lowercase
     input_str = str(input_data).strip().lower()
     
     # Check if the input looks like the start of an HTML document
@@ -28,9 +28,12 @@ def tentacle(input_data):
             reversed_elements = [elem[::-1] for elem in sorted_elements]
             return ','.join(reversed_elements)
         elif input_str.isdigit():
-            # If input is a number, return it as a string and its square and cube
+            # If input is a number, return it as a string, its square, its cube, and its factorial
             number = int(input_str)
-            return f"{input_str}, square: {number**2}, cube: {number**3}"
+            factorial = 1
+            for i in range(1, number + 1):
+                factorial *= i
+            return f"{input_str}, square: {number**2}, cube: {number**3}, factorial: {factorial}"
         elif input_str.startswith('lang='):
             # If input starts with 'lang=', process it as a language code
             lang_code = input_str.split('=')[1]
@@ -51,9 +54,16 @@ def tentacle(input_data):
                 return f"insecure url detected: {url}"
             else:
                 return f"url detected: {url}"
+        elif input_str.startswith('date='):
+            # If input starts with 'date=', process it as a date
+            try:
+                from datetime import datetime
+                date = datetime.strptime(input_str.split('=')[1], '%Y-%m-%d')
+                return f"date detected: {date.strftime('%B %d, %Y')}"
+            except ValueError:
+                return "invalid date format"
         else:
-            # For other inputs, reverse the string, capitalize the first letter,
-            # and add the length of the original string
+            # For other inputs, reverse the string, capitalize the first letter, add a prefix, and calculate its length
             reversed_str = input_str[::-1]
-            capitalized_reversed = reversed_str.capitalize()
-            return f"{capitalized_reversed}, original length: {len(input_str)}"
+            processed_str = f"processed: {reversed_str.capitalize()}"
+            return f"{processed_str}, length: {len(input_str)}"
