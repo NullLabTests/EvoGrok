@@ -1,3 +1,5 @@
+import json
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -35,6 +37,19 @@ def tentacle(input_data):
             keys = ','.join(sorted([str(k).lower() for k in input_data.keys()]))
             values = ','.join(sorted([str(v).lower() for v in input_data.values()]))
             return f"keys:{keys},values:{values}"
+        elif isinstance(input_data, str):
+            # Attempt to parse as JSON if it's a string
+            try:
+                json_data = json.loads(input_data)
+                if isinstance(json_data, dict):
+                    keys = ','.join(sorted([str(k).lower() for k in json_data.keys()]))
+                    values = ','.join(sorted([str(v).lower() for v in json_data.values()]))
+                    return f"json keys:{keys},json values:{values}"
+                else:
+                    return ','.join(sorted(str(json_data).lower().split()))
+            except json.JSONDecodeError:
+                # If not JSON, process as regular string
+                return ','.join(sorted(input_data.lower().split()))
         else:
             # For other types of input, convert to lowercase, split, sort, and join
             return ','.join(sorted(str(input_data).lower().split()))

@@ -31,4 +31,9 @@ def tentacle(input_data):
         else:
             # Convert the input to a string, split it into words, sort them, and join with commas
             processed_input = ','.join(sorted(str(input_data).lower().split()))
-            return f"processed input: {processed_input}"
+            
+            # Check if the processed input contains any HTML document types
+            if any(doc_type in processed_input for doc_type in ['data analysis', 'mathematics', 'text processing']):
+                return f"potential {processed_input.split(',')[0]} html document detected"
+            else:
+                return f"processed input: {processed_input}"

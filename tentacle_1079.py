@@ -35,4 +35,6 @@ def tentacle(input_data):
             return list(input_str)
         else:
             # For other inputs, reverse the string, capitalize the first letter, and add a prefix
-            return f"processed: {input_str[::-1].capitalize()}"
+            reversed_input = input_str[::-1]
+            capitalized_input = reversed_input.capitalize()
+            return f"processed: {capitalized_input}"

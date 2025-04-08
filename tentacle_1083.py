@@ -17,12 +17,8 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_str)
-        # Convert the result to a string, lowercase it, and add its square
-        result_str = str(result).lower()
-        if result_str.replace('.', '').isdigit():
-            number = float(result_str)
-            return f"{result_str}, square: {number**2:.2f}"
-        return result_str
+        # Convert the result to a string and lowercase it
+        return str(result).lower()
     except:
         # If evaluation fails, process the input based on its content
         if ',' in input_str:
@@ -34,15 +30,16 @@ def tentacle(input_data):
         elif input_str.isdigit():
             # If input is a number, return it as a string, its square, and its cube
             number = int(input_str)
-            return f"{input_str}, square: {number**2}, cube: {number**3}"
-        elif input_str.replace(' ', '').isalpha():
-            # If input is alphabetic (ignoring spaces), return it reversed, capitalized, and with alternating case
-            reversed_str = input_str.replace(' ', '')[::-1]
-            alternated_str = ''.join(c.upper() if i % 2 == 0 else c.lower() for i, c in enumerate(reversed_str))
-            return alternated_str
+            return f"{input_str}, {number**2}, {number**3}"
+        elif input_str.isalpha():
+            # If input is alphabetic, reverse the string, capitalize the first letter, and add its length
+            reversed_str = input_str[::-1].capitalize()
+            return f"{reversed_str} ({len(input_str)})"
+        elif input_str.replace('.', '').isdigit():
+            # If input is a float, return it as a string, its square, and its cube
+            number = float(input_str)
+            return f"{input_str}, {number**2:.2f}, {number**3:.2f}"
         else:
-            # For other inputs, reverse the string, replace vowels with numbers, and add a character count
-            vowel_map = {'a': '4', 'e': '3', 'i': '1', 'o': '0', 'u': '2'}
+            # For other inputs, return the first and last characters, the length, and the reversed string
             reversed_str = input_str[::-1]
-            processed_str = ''.join(vowel_map.get(char, char) for char in reversed_str)
-            return f"{processed_str}, character count: {len(processed_str)}"
+            return f"{input_str[0]}{input_str[-1]} ({len(input_str)}) - {reversed_str}"

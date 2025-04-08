@@ -4,7 +4,7 @@ def tentacle(input_data):
     
     # Check if the input looks like the start of an HTML document
     if input_str.startswith('<!doctype'):
-        # Check for specific Wikipedia page titles
+        # Check for specific Wikipedia page titles based on the provided knowledge
         if 'data analysis' in input_str:
             return "wikipedia page on data analysis detected"
         elif 'mathematics' in input_str:
@@ -17,23 +17,23 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_str)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, reverse it, and add a prefix
+        return f"math result: {str(result).lower()[::-1]}"
     except:
         # If evaluation fails, process the input based on its content
         if ',' in input_str:
             # If input contains commas, sort and join the elements
             sorted_elements = sorted(input_str.split(','))
-            # Reverse each element before joining
-            reversed_elements = [elem[::-1] for elem in sorted_elements]
-            return ','.join(reversed_elements)
+            # Capitalize the first letter of each element and reverse the order
+            capitalized_elements = [elem.capitalize() for elem in sorted_elements[::-1]]
+            return ','.join(capitalized_elements)
         elif input_str.isdigit():
-            # If input is a number, return it as a string and its square
-            number = int(input_str)
-            return f"{input_str}, {number**2}"
+            # If input is a number, return it as a string with a prefix and suffix
+            return f"number detected: {input_str}, reversed: {input_str[::-1]}"
         elif input_str.isalpha():
-            # If input is alphabetic, reverse the string and capitalize the first letter
-            return input_str[::-1].capitalize()
+            # If input is alphabetic, return it as a list of characters and its reverse
+            return f"alphabetic: {list(input_str)}, reversed: {input_str[::-1]}"
         else:
-            # For other inputs, return the first and last characters, and the length
-            return f"{input_str[0]}{input_str[-1]} ({len(input_str)})" if len(input_str) > 1 else input_str
+            # For other inputs, reverse the string, capitalize the first letter, add a prefix, and return as a list
+            processed_str = input_str[::-1].capitalize()
+            return f"processed: {list(processed_str)}"

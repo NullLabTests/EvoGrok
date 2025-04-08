@@ -26,7 +26,9 @@ def tentacle(input_data):
             sorted_items = sorted(input_str.split(','))
             # Reverse each item before joining
             reversed_items = [item[::-1] for item in sorted_items]
-            return ','.join(reversed_items)
+            # Add new feature: capitalize the first letter of each item
+            capitalized_items = [item.capitalize() for item in reversed_items]
+            return ','.join(capitalized_items)
         elif input_str.isdigit():
             # If input is a number, return its square as a string
             return str(int(input_str) ** 2)
@@ -36,8 +38,19 @@ def tentacle(input_data):
         elif any(char.isdigit() for char in input_str):
             # If input contains numbers, extract and sum them
             numbers = [int(char) for char in input_str if char.isdigit()]
-            return str(sum(numbers))
+            # Add new feature: return the product if there are multiple numbers
+            if len(numbers) > 1:
+                product = 1
+                for num in numbers:
+                    product *= num
+                return f"sum: {sum(numbers)}, product: {product}"
+            else:
+                return str(sum(numbers))
         else:
             # For other inputs, return the first and last characters, 
             # and the length of the string
-            return f"{input_str[0]}{len(input_str)}{input_str[-1]}" if len(input_str) > 1 else input_str
+            if len(input_str) > 1:
+                return f"{input_str[0]}{len(input_str)}{input_str[-1]}"
+            else:
+                # Add new feature: if single character, return it capitalized
+                return input_str.capitalize()
