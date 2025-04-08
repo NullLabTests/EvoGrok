@@ -1,324 +1,360 @@
 import os
 import sqlite3
-import random
 import numpy as np
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import random
+from collections import deque
+import requests
+import psutil
+from openai import OpenAI
 import logging
 import time
 import ast
-from openai import OpenAI
+from datetime import datetime
+import importlib.util
 
-# Configure logging to file and console
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[logging.FileHandler("evo.log"), logging.StreamHandler()]
-)
+# --- Setup ---
 
-# Load xAI API Key
+# Load XAI_API_KEY from environment
 XAI_API_KEY = os.getenv("XAI_API_KEY")
 if not XAI_API_KEY:
-    raise ValueError("XAI_API_KEY is not set.")
+    raise ValueError("XAI_API_KEY must be set in the environment")
 
-# Initialize Grok-2 client
+# Initialize OpenAI client for xAI API
 client = OpenAI(api_key=XAI_API_KEY, base_url="https://api.x.ai/v1")
 
-# Database and constants
-DB_PATH = "evo_w_grok.db"
-POPULATION_SIZE = 100
-MUTATION_RATE = 0.15
-CHECK_INTERVAL = 300  # Check for self-improvement every 5 minutes
+# Set up logging
+logging.basicConfig(filename="evo_combined.log", level=logging.INFO,
+                    format="%(asctime)s - %(levelname)s - %(message)s")
 
-# --------------------- Tool System ---------------------
-class Tool:
-    def __init__(self, name: str, func: callable, description: str = ""):
-        self.name = name
-        self.func = func
-        self.description = description
-        self.uses = 0
+# Initialize database
+DB_PATH = "evo_combined.db"
+conn = sqlite3.connect(DB_PATH)
+cursor = conn.cursor()
 
-    def use(self, *args):
-        self.uses += 1
-        try:
-            return f"Success: {self.func(*args)}"
-        except Exception as e:
-            return f"Failed: {e}"
+# Create tables if they don’t exist
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS tentacles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    code TEXT,
+    performance REAL,
+    creation_time TIMESTAMP,
+    parent_id INTEGER,
+    domains TEXT
+)
+''')
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS challenges (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    description TEXT,
+    input TEXT,
+    expected_output TEXT,
+    domain TEXT
+)
+''')
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS knowledge (
+    key TEXT PRIMARY KEY,
+    value TEXT,
+    fetch_count INTEGER,
+    last_fetched TIMESTAMP
+)
+''')
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS logs (
+    timestamp TIMESTAMP,
+    action TEXT,
+    reward REAL,
+    state TEXT
+)
+''')
+conn.commit()
 
-class ToolBox:
-    def __init__(self):
-        self.tools = {
-            "lower": Tool("lower", lambda x: x.lower(), "Converts text to lowercase"),
-            "add": Tool("add", lambda x: str(eval(x)), "Evaluates arithmetic expressions")
-        }
-    
-    def get(self, name: str):
-        return self.tools.get(name)
-    
-    def list_tools(self):
-        return list(self.tools.keys())
-    
-    def add_tool(self, name: str, func: callable, description: str):
-        self.tools[name] = Tool(name, func, description)
+# Define a diverse set of challenges
+challenges = [
+    {"description": "convert the text to lowercase", "input": "Hello WORLD!", "expected": "helloworld!", "domain": "text processing"},
+    {"description": "evaluate the mathematical expression", "input": "2 + 2", "expected": "4", "domain": "mathematics"},
+    {"description": "determine if the statement is true or false", "input": "If A implies B and B implies C, then A implies C.", "expected": "True", "domain": "logic"},
+    {"description": "sort the list of numbers", "input": "3,1,4,2", "expected": "1,2,3,4", "domain": "data analysis"},
+    {"description": "extract URLs from the text", "input": "Visit https://x.ai for more info.", "expected": "https://x.ai", "domain": "text processing"},
+    {"description": "count the number of words", "input": "This is a test.", "expected": "4", "domain": "text processing"},
+    {"description": "check if the number is prime", "input": "7", "expected": "True", "domain": "mathematics"},
+    {"description": "find the maximum in the list", "input": "[3,1,4,2]", "expected": "4", "domain": "data analysis"},
+    {"description": "evaluate the logical expression", "input": "True and False", "expected": "False", "domain": "logic"},
+    {"description": "solve the equation for x", "input": "2*x + 3 = 7", "expected": "2", "domain": "mathematics"},
+    {"description": "parse and extract entities from text", "input": "John went to Paris.", "expected": "Person: John, Location: Paris", "domain": "natural language processing"},
+]
 
-# --------------------- Agent Definition ---------------------
-class Agent:
-    def __init__(self, toolbox: ToolBox):
-        self.alpha = random.uniform(0, 1)
-        self.gamma = random.uniform(0, 1)
-        self.epsilon = random.uniform(0, 1)
-        self.epsilon_decay = random.uniform(0, 1)
-        self.toolbox = toolbox
-        self.memory = []  # (task, tool_name, result)
-        self.tool_preferences = {}
-        self.fitness_history = []
+# Insert challenges into the database if not already present
+for challenge in challenges:
+    cursor.execute('INSERT OR IGNORE INTO challenges (description, input, expected_output, domain) VALUES (?, ?, ?, ?)',
+                   (challenge["description"], challenge["input"], challenge["expected"], challenge["domain"]))
+conn.commit()
 
-    def fitness(self):
-        base = self.alpha * 0.4 + self.gamma * 0.3 + self.epsilon * 0.2 + self.epsilon_decay * 0.1
-        success_bonus = sum(1 for _, _, r in self.memory if "Success" in r) * 0.15
-        coherence = self.calculate_coherence()
-        emergence_bonus = len(self.toolbox.tools) * 0.05
-        return min(base + success_bonus + coherence + emergence_bonus, 3.0)
+# --- Deep Q-Network (DQN) ---
 
-    def calculate_coherence(self):
-        if not self.memory:
-            return 0
-        task_success = {}
-        for task, tool, result in self.memory:
-            task_success[task] = task_success.get(task, 0) + (1 if "Success" in result else 0)
-        return (sum(task_success.values()) / max(1, len(self.memory))) * 0.3
+class DQN(nn.Module):
+    def __init__(self, state_size, action_size):
+        super(DQN, self).__init__()
+        self.fc1 = nn.Linear(state_size, 64)
+        self.fc2 = nn.Linear(64, 64)
+        self.fc3 = nn.Linear(64, action_size)
 
-    def mutate(self):
-        if random.random() < MUTATION_RATE:
-            delta = random.uniform(-0.15, 0.15)
-            if self.fitness_history:
-                delta *= (1.0 - self.fitness_history[-1] / 3.0)
-            self.alpha = np.clip(self.alpha + delta, 0, 1)
-            self.gamma = np.clip(self.gamma + delta * self.gamma, 0, 1)
-            self.epsilon = np.clip(self.epsilon + delta * self.epsilon, 0, 1)
-            self.epsilon_decay = np.clip(self.epsilon_decay + delta, 0, 1)
+    def forward(self, x):
+        x = torch.relu(self.fc1(x))
+        x = torch.relu(self.fc2(x))
+        return self.fc3(x)
 
-    def solve_task(self, task: str, input_data: str):
-        if task in self.tool_preferences and random.random() > self.epsilon:
-            tool_name = self.tool_preferences[task]
+class DQNAgent:
+    def __init__(self, state_size, action_size):
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        if self.device.type == "cuda":
+            logging.info(f"Using GPU: {torch.cuda.get_device_name(self.device)}")
         else:
-            tool_name = random.choice(self.toolbox.list_tools())
-        tool = self.toolbox.get(tool_name)
-        result = tool.use(input_data) if tool else "No tool available"
-        self.memory.append((task, tool_name, result))
-        if "Success" in result:
-            self.tool_preferences[task] = tool_name
-            self.epsilon = max(0.05, self.epsilon * 0.9)
-        self.reflect(result)
-        return result
+            logging.warning("GPU not available, using CPU")
+        self.state_size = state_size
+        self.action_size = action_size
+        self.memory = deque(maxlen=10000)
+        self.gamma = 0.99  # Discount factor
+        self.epsilon = 1.0  # Exploration rate
+        self.epsilon_min = 0.01
+        self.epsilon_decay = 0.995
+        self.model = DQN(state_size, action_size).to(self.device)
+        self.target_model = DQN(state_size, action_size).to(self.device)
+        self.optimizer = optim.Adam(self.model.parameters(), lr=0.001)
+        self.update_target_model()
 
-    def reflect(self, result):
-        fitness_val = self.fitness()
-        self.fitness_history.append(fitness_val)
-        if len(self.fitness_history) > 5:
-            self.fitness_history.pop(0)
-        if len(self.fitness_history) > 1:
-            trend = self.fitness_history[-1] - self.fitness_history[-2]
-            if trend < 0 and "Failed" in result:
-                self.epsilon = min(1.0, self.epsilon + 0.1)
-            elif trend > 0:
-                self.alpha = min(1.0, self.alpha + 0.05)
+    def update_target_model(self):
+        self.target_model.load_state_dict(self.model.state_dict())
 
-    def request_tool(self, task: str):
-        prompt = f"Generate a valid lambda function for '{task}'. Examples: 'lambda x: x[::-1]' for reverse, 'lambda x: x.lower()' for lowercase."
+    def remember(self, state, action, reward, next_state, done):
+        self.memory.append((state, action, reward, next_state, done))
+
+    def act(self, state):
+        if np.random.rand() <= self.epsilon:
+            return random.randrange(self.action_size)
+        state = torch.FloatTensor(state).unsqueeze(0).to(self.device)
+        with torch.no_grad():
+            q_values = self.model(state)
+        return torch.argmax(q_values).item()
+
+    def replay(self, batch_size):
+        if len(self.memory) < batch_size:
+            return
+        minibatch = random.sample(self.memory, batch_size)
+        for state, action, reward, next_state, done in minibatch:
+            state = torch.FloatTensor(state).unsqueeze(0).to(self.device)
+            next_state = torch.FloatTensor(next_state).unsqueeze(0).to(self.device)
+            target = reward
+            if not done:
+                target = reward + self.gamma * torch.max(self.target_model(next_state)).item()
+            target_f = self.model(state).detach().clone()
+            target_f[0][action] = target
+            loss = nn.MSELoss()(self.model(state), target_f)
+            self.optimizer.zero_grad()
+            loss.backward()
+            self.optimizer.step()
+        if self.epsilon > self.epsilon_min:
+            self.epsilon *= self.epsilon_decay
+
+# --- Tentacle Class ---
+
+class Tentacle:
+    def __init__(self, id, code, domains):
+        self.id = id
+        self.code = code
+        self.domains = domains.split(',')
+        self.performance = 0.0
+        self.file_path = f"tentacle_{id}.py"
+        with open(self.file_path, "w") as f:
+            f.write(code)
+        spec = importlib.util.spec_from_file_location(f"tentacle_{id}", self.file_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        self.func = module.tentacle
+
+    def solve(self, input_data):
         try:
-            response = client.chat.completions.create(
-                model="grok-2",
-                messages=[{"role": "user", "content": prompt}],
-                max_tokens=500,
-                temperature=0.9
-            )
-            code = response.choices[0].message.content.strip()
-            if "lambda" in code and validate_code(code):
-                safe_locals = {}
-                exec(f"func = {code}", {"__builtins__": {}}, safe_locals)
-                tool_name = f"tool_{len(self.toolbox.tools)}"
-                self.toolbox.add_tool(tool_name, safe_locals["func"], f"Auto-generated for {task}")
-                logging.info(f"Added tool: {tool_name} for '{task}'")
-                return tool_name
-            else:
-                logging.warning(f"Invalid lambda from Grok: {code}")
+            return self.func(input_data)
         except Exception as e:
-            logging.error(f"Tool request failed: {e}")
-        return None
+            logging.error(f"Tentacle {self.id} failed: {e}")
+            return None
 
-# --------------------- Database Functions ---------------------
-def initialize_db():
+# Load existing tentacles from the database
+tentacles = {}
+cursor.execute('SELECT id, code, domains FROM tentacles')
+for row in cursor.fetchall():
+    tentacle_id, code, domains = row
+    tentacles[tentacle_id] = Tentacle(tentacle_id, code, domains)
+
+# --- Action Functions ---
+
+def evolve_tentacle():
+    """Evolve a new tentacle using Grok-2 based on high-performing parents and domain knowledge."""
     try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS evolution_log (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                generation INTEGER,
-                best_alpha REAL,
-                best_gamma REAL,
-                best_epsilon REAL,
-                best_epsilon_decay REAL,
-                best_fitness REAL,
-                grok_query TEXT,
-                grok_response TEXT,
-                tokens_used INTEGER,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-            )
-        """)
-        conn.commit()
-        conn.close()
-        logging.info("Database initialized.")
-    except sqlite3.Error as e:
-        logging.error(f"Database initialization failed: {e}")
-
-def log_generation(generation, agent, fitness, prompt, response, tokens):
-    try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-        cursor.execute("""
-            INSERT INTO evolution_log (
-                generation, best_alpha, best_gamma, best_epsilon, best_epsilon_decay,
-                best_fitness, grok_query, grok_response, tokens_used
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            generation, agent.alpha, agent.gamma, agent.epsilon, agent.epsilon_decay,
-            fitness, prompt, response, tokens
-        ))
-        conn.commit()
-        conn.close()
-        logging.info(f"Generation {generation} logged.")
-    except sqlite3.Error as e:
-        logging.error(f"Failed to log generation {generation}: {e}")
-
-# --------------------- Self-Improvement Functions ---------------------
-def validate_code(code):
-    try:
-        ast.parse(code)
-        return True
-    except SyntaxError as e:
-        logging.error(f"Code validation failed: {e}")
-        return False
-
-def get_current_code():
-    with open(__file__, 'r') as f:
-        return f.read()
-
-def get_tail_logs(lines=50):
-    try:
-        with open("evo.log", 'r') as f:
-            return '\n'.join(f.readlines()[-lines:])
-    except Exception as e:
-        logging.error(f"Failed to read logs: {e}")
-        return "No logs available."
-
-def self_improve_code(current_code, logs):
-    prompt = (
-        f"Analyze this Python script and recent logs to identify errors and suggest improvements:\n\n"
-        f"### Script:\n{current_code}\n\n### Recent Logs (last 50 lines):\n{logs}\n\n"
-        "Return the improved full script as a single Python code block. Fix any syntax errors, improve tool generation, "
-        "and enhance adaptability. Ensure it remains executable and maintains its core functionality."
-    )
-    try:
+        cursor.execute('SELECT id, code, domains FROM tentacles ORDER BY performance DESC LIMIT 2')
+        parents = cursor.fetchall()
+        if len(parents) < 2:
+            logging.warning("Not enough tentacles to evolve")
+            return -1.0
+        parent1_id, parent1_code, parent1_domains = parents[0]
+        parent2_id, parent2_code, parent2_domains = parents[1]
+        all_domains = list(set(parent1_domains.split(',') + parent2_domains.split(',')))
+        # Fetch relevant knowledge
+        placeholders = ','.join('?' * len(all_domains))
+        cursor.execute(f'SELECT key, value FROM knowledge WHERE key IN ({placeholders})', all_domains)
+        knowledge = "\n".join([f"{key}: {value[:200]}" for key, value in cursor.fetchall()])
+        # Generate new tentacle code
+        prompt = f"Generate a new Python tentacle function based on these parents and knowledge:\nParent1:\n{parent1_code}\nParent2:\n{parent2_code}\nKnowledge:\n{knowledge}"
         response = client.chat.completions.create(
-            model="grok-2",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=4096,
-            temperature=0.9
+            model="grok-2-latest",
+            messages=[{"role": "user", "content": prompt}]
         )
-        improved_code = response.choices[0].message.content.strip()
-        if improved_code.startswith("```python"):
-            improved_code = improved_code.split("```python")[1].split("```")[0].strip()
-        if validate_code(improved_code):
-            with open(__file__, 'w') as f:
-                f.write(improved_code)
-            logging.info("Successfully updated main.py with Grok's improvements.")
-            return True
+        new_code = response.choices[0].message.content.strip()
+        if "```python" in new_code:
+            new_code = new_code.split("```python")[1].split("```")[0].strip()
+        # Validate syntax
+        try:
+            ast.parse(new_code)
+        except SyntaxError:
+            logging.error("Invalid syntax in generated tentacle code")
+            return -1.0
+        # Insert into database
+        cursor.execute('INSERT INTO tentacles (code, performance, creation_time, parent_id, domains) VALUES (?, ?, ?, ?, ?)',
+                       (new_code, 0.0, datetime.now(), parent1_id, ",".join(all_domains)))
+        conn.commit()
+        tentacle_id = cursor.lastrowid
+        tentacles[tentacle_id] = Tentacle(tentacle_id, new_code, ",".join(all_domains))
+        logging.info(f"Evolved new tentacle: tentacle_{tentacle_id}")
+        return 1.0
+    except Exception as e:
+        logging.error(f"Evolve tentacle failed: {e}")
+        return -1.0
+
+def test_tentacles():
+    """Test a tentacle on a random challenge and update its performance."""
+    try:
+        cursor.execute('SELECT * FROM challenges ORDER BY RANDOM() LIMIT 1')
+        challenge = cursor.fetchone()
+        if not challenge:
+            return -1.0
+        challenge_id, description, input_data, expected_output, domain = challenge
+        # Find tentacles for the domain
+        domain_tentacles = [t for t in tentacles.values() if domain in t.domains]
+        if not domain_tentacles:
+            logging.warning(f"No tentacles for domain: {domain}")
+            return -1.0
+        # Select the best-performing tentacle
+        best_tentacle = max(domain_tentacles, key=lambda t: t.performance)
+        output = best_tentacle.solve(input_data)
+        if str(output) == expected_output:
+            reward = 5.0
+            best_tentacle.performance += 1
         else:
-            logging.warning("Grok's suggested code was invalid; skipping update.")
+            reward = 0.0
+        cursor.execute('UPDATE tentacles SET performance = ? WHERE id = ?', (best_tentacle.performance, best_tentacle.id))
+        conn.commit()
+        logging.info(f"Tested tentacle {best_tentacle.id} on challenge {challenge_id}: Reward {reward}")
+        return reward
     except Exception as e:
-        logging.error(f"Self-improvement failed: {e}")
-    return False
+        logging.error(f"Test tentacles failed: {e}")
+        return -1.0
 
-def construct_grok_prompt(agent):
-    memory_summary = f"Memory: {len(agent.memory)} entries, {sum(1 for _,_,r in agent.memory if 'Success' in r)} successes."
-    return (f"Analyze agent: alpha={agent.alpha:.2f}, gamma={agent.gamma:.2f}, "
-            f"epsilon={agent.epsilon:.2f}, epsilon_decay={agent.epsilon_decay:.2f}. {memory_summary} "
-            "Suggest improvements for adaptability and tool use.")
-
-def query_grok(prompt):
+def fetch_knowledge():
+    """Fetch and summarize a Wikipedia page for a random domain using Grok-2."""
     try:
-        logging.info("Sending query to Grok-2...")
-        response = client.chat.completions.create(
-            model="grok-2",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=2048,
-            temperature=0.8
-        )
-        content = response.choices[0].message.content
-        tokens_used = getattr(response.usage, "total_tokens", 2048)
-        return content, tokens_used
+        domains = list(set([challenge["domain"] for challenge in challenges]))
+        domain = random.choice(domains)
+        url = f"https://en.wikipedia.org/wiki/{domain.replace(' ', '_')}"
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        content = response.text[:1000]  # Limit content size
+        summary = client.chat.completions.create(
+            model="grok-2-latest",
+            messages=[{"role": "user", "content": f"Summarize this: {content}"}]
+        ).choices[0].message.content
+        cursor.execute('INSERT OR REPLACE INTO knowledge (key, value, fetch_count, last_fetched) VALUES (?, ?, 1, ?)',
+                       (domain, summary, datetime.now()))
+        conn.commit()
+        logging.info(f"Fetched knowledge for domain: {domain}")
+        return 1.0
     except Exception as e:
-        logging.warning(f"Grok query failed: {e}")
-        return f"[Mock Response] Insight for: {prompt}", 0
+        logging.error(f"Fetch knowledge failed: {e}")
+        return -1.0
 
-def evolve(population):
-    survivors = sorted(population, key=lambda a: a.fitness(), reverse=True)[:POPULATION_SIZE // 2]
-    offspring = []
-    for _ in range(POPULATION_SIZE - len(survivors)):
-        p1, p2 = random.sample(survivors, 2)
-        child = Agent(p1.toolbox)
-        child.alpha = np.clip((p1.alpha + p2.alpha) / 2 + random.uniform(-0.05, 0.05), 0, 1)
-        child.gamma = np.clip((p1.gamma + p2.gamma) / 2 + random.uniform(-0.05, 0.05), 0, 1)
-        child.epsilon = np.clip((p1.epsilon + p2.epsilon) / 2 + random.uniform(-0.05, 0.05), 0, 1)
-        child.epsilon_decay = np.clip((p1.epsilon_decay + p2.epsilon_decay) / 2 + random.uniform(-0.05, 0.05), 0, 1)
-        child.mutate()
-        if random.random() < 0.3:
-            child.tool_preferences = p1.tool_preferences.copy()
-        offspring.append(child)
-    return survivors + offspring
+def optimize_resources():
+    """Delete low-performing tentacles if CPU or memory usage exceeds 60%."""
+    cpu = psutil.cpu_percent()
+    mem = psutil.virtual_memory().percent
+    if cpu > 60 or mem > 60:
+        cursor.execute('SELECT id FROM tentacles ORDER BY performance ASC LIMIT 1')
+        to_delete = cursor.fetchone()
+        if to_delete:
+            tentacle_id = to_delete[0]
+            cursor.execute('DELETE FROM tentacles WHERE id = ?', (tentacle_id,))
+            conn.commit()
+            if tentacle_id in tentacles:
+                del tentacles[tentacle_id]
+            if os.path.exists(f"tentacle_{tentacle_id}.py"):
+                os.remove(f"tentacle_{tentacle_id}.py")
+            logging.info(f"Deleted tentacle {tentacle_id} due to high resource usage")
+            return 1.0
+    return 0.0
 
-# --------------------- Main Loop ---------------------
-def main():
-    initialize_db()
-    toolbox = ToolBox()
-    population = [Agent(toolbox) for _ in range(POPULATION_SIZE)]
-    tasks = [
-        ("Lowercase Conversion", "HELLO WORLD"),
-        ("Arithmetic Addition", "2 + 3"),
-        ("Reverse String", "WORLD")
-    ]
-    generation = 0
-    last_check = time.time()
+# --- State Function ---
 
+def get_state():
+    """Get the current system state for the DQN agent."""
+    tentacle_count = len(tentacles)
+    avg_performance = np.mean([t.performance for t in tentacles.values()]) if tentacles else 0
+    knowledge_size = cursor.execute('SELECT COUNT(*) FROM knowledge').fetchone()[0]
+    cpu = psutil.cpu_percent()
+    mem = psutil.virtual_memory().percent
+    return np.array([tentacle_count, avg_performance, knowledge_size, cpu, mem], dtype=np.float32)
+
+# --- Main Loop ---
+
+# Initialize DQN agent (state size: 5, action size: 4)
+agent = DQNAgent(state_size=5, action_size=4)  # Actions: evolve, test, fetch, optimize
+
+# Seed initial tentacle if none exist
+if not tentacles:
+    default_code = "def tentacle(input_data):\n    return str(input_data).lower()"
+    cursor.execute('INSERT INTO tentacles (code, performance, creation_time, domains) VALUES (?, ?, ?, ?)',
+                   (default_code, 0.0, datetime.now(), "text processing"))
+    conn.commit()
+    tentacle_id = cursor.lastrowid
+    tentacles[tentacle_id] = Tentacle(tentacle_id, default_code, "text processing")
+    logging.info("Initialized with default tentacle")
+
+iteration = 0
+try:
     while True:
-        logging.info(f"=== Generation {generation} ===")
-        best_agent = max(population, key=lambda a: a.fitness())
-        fitness = best_agent.fitness()
-        prompt = construct_grok_prompt(best_agent)
-
-        for task, input_data in tasks:
-            result = best_agent.solve_task(task, input_data)
-            logging.info(f"Task '{task}' with input '{input_data}' yielded: {result}")
-            if "Failed" in result and random.random() < 0.4:
-                best_agent.request_tool(task)
-
-        grok_response, tokens = query_grok(prompt)
-        log_generation(generation, best_agent, fitness, prompt, grok_response, tokens)
-        logging.info(f"Generation {generation}: Fitness: {fitness:.4f}, Tools: {len(toolbox.tools)}")
-        logging.info(f"Grok insight (first 200 chars): {grok_response[:200]}...")
-
-        # Self-improvement check every 5 minutes
-        if time.time() - last_check >= CHECK_INTERVAL:
-            current_code = get_current_code()
-            recent_logs = get_tail_logs()
-            if self_improve_code(current_code, recent_logs):
-                logging.info("Restarting with updated code...")
-                os.execv(__file__, [__file__])  # Restart with new code
-            last_check = time.time()
-
-        population = evolve(population)
-        generation += 1
-        time.sleep(1)
-
-if __name__ == "__main__":
-    main()
+        state = get_state()
+        action = agent.act(state)
+        if action == 0:
+            reward = evolve_tentacle()
+            action_name = "evolve_tentacle"
+        elif action == 1:
+            reward = test_tentacles()
+            action_name = "test_tentacles"
+        elif action == 2:
+            reward = fetch_knowledge()
+            action_name = "fetch_knowledge"
+        elif action == 3:
+            reward = optimize_resources()
+            action_name = "optimize_resources"
+        next_state = get_state()
+        agent.remember(state, action, reward, next_state, False)
+        agent.replay(batch_size=32)
+        if iteration % 100 == 0:
+            agent.update_target_model()
+        logging.info(f"Iteration {iteration}: Action={action_name}, Reward={reward}, State={state.tolist()}")
+        iteration += 1
+        time.sleep(1)  # Prevent overloading
+except KeyboardInterrupt:
+    logging.info("Script stopped by user")
+finally:
+    conn.close()
