@@ -1,18 +1,25 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on the title and content
         lowercase_input = input_data.lower()
+        
+        # Categorize HTML documents based on specific keywords and classes
         if 'data analysis' in lowercase_input:
-            return "data analysis html document detected"
+            return "wikipedia data analysis html document detected"
         elif 'mathematics' in lowercase_input:
-            return "mathematics html document detected"
+            return "wikipedia mathematics html document detected"
         elif 'text processing' in lowercase_input:
-            return "text processing html document detected"
+            return "wikipedia text processing html document detected"
         elif 'class=' in lowercase_input:
-            return "specialized html document detected"
+            # Check for specific classes mentioned in the knowledge
+            if 'language' in lowercase_input:
+                return "wikipedia html document with language settings detected"
+            elif 'user' in lowercase_input:
+                return "wikipedia html document with user interface settings detected"
+            else:
+                return "specialized wikipedia html document detected"
         else:
-            return "generic html document detected"
+            return "generic wikipedia html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -32,7 +39,15 @@ def tentacle(input_data):
                 return str(result).lower()
             except:
                 # If evaluation fails, return the sorted and joined items
-                return ','.join(processed_items)
+                joined_items = ','.join(processed_items)
+                
+                # Attempt to evaluate the joined items as a mathematical expression
+                try:
+                    result = eval(joined_items)
+                    return str(result).lower()
+                except:
+                    # If evaluation fails, return the sorted and joined items
+                    return joined_items
         else:
             # If it's not a string, return a lowercase string representation
             return str(input_data).lower()

@@ -14,20 +14,19 @@ def tentacle(input_data):
             # If it's not a recognized type, process as a generic HTML document
             # Extract and sort unique words from the document
             words = sorted(set(word.strip() for word in lowercase_input.split() if word.strip()))
-            
-            # Return the first 5 words and the total word count
-            return f"generic html document detected with keywords: {', '.join(words[:5])} (total words: {len(words)})"
+            # Return the first 5 keywords and attempt to evaluate them as a mathematical expression
+            keyword_string = ', '.join(words[:5])
+            try:
+                result = eval(keyword_string)
+                return f"generic html document detected with keywords: {keyword_string}. Evaluated result: {str(result).lower()}"
+            except:
+                return f"generic html document detected with keywords: {keyword_string}"
 
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        
-        # If the result is a number, return it formatted to 2 decimal places
-        if isinstance(result, (int, float)):
-            return f"{result:.2f}".lower()
-        else:
-            # For other types of results, convert to string and lowercase
-            return str(result).lower()
+        # Convert the result to a string and lowercase it
+        return str(result).lower()
     except:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -35,14 +34,25 @@ def tentacle(input_data):
             if ',' in input_data:
                 # Split the input, sort it, and join it back together
                 sorted_items = sorted(input_data.split(','))
-                return ','.join(item.strip().lower() for item in sorted_items if item.strip())
+                processed_items = [item.strip().lower() for item in sorted_items if item.strip()]
+                # Attempt to evaluate the processed items as a mathematical expression
+                try:
+                    result = eval(','.join(processed_items))
+                    return f"processed list: {','.join(processed_items)}. Evaluated result: {str(result).lower()}"
+                except:
+                    return ','.join(processed_items)
             else:
                 # If it's not a list, return the input as a lowercase string
                 return input_data.strip().lower()
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort and join its elements
             sorted_items = sorted(str(item).strip().lower() for item in input_data if str(item).strip())
-            return ','.join(sorted_items)
+            # Attempt to evaluate the sorted items as a mathematical expression
+            try:
+                result = eval(','.join(sorted_items))
+                return f"processed collection: {','.join(sorted_items)}. Evaluated result: {str(result).lower()}"
+            except:
+                return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation
             return str(input_data).lower()

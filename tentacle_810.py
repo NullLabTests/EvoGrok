@@ -1,8 +1,9 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on the title
         lowercase_input = input_data.lower()
+        
+        # Determine the type of HTML document based on the title
         if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
         elif 'mathematics' in lowercase_input:
