@@ -18,22 +18,26 @@ def tentacle(input_data):
         return f"mathematical result: {str(result).lower()}"
     except:
         # If evaluation fails, process the input based on its content
-        if ',' in input_data:
-            # Sort and join the items if it's a comma-separated list
-            sorted_items = sorted(input_data.split(','))
-            return f"sorted list: {','.join(sorted_items)}"
-        elif input_data.isdigit():
-            # If it's a number, return it as a string with a descriptive prefix
-            return f"number: {input_data}"
-        elif input_data.replace(' ', '').isalpha():
-            # If it's a word (ignoring spaces), return it capitalized
-            return f"word: {input_data.title()}"
+        if isinstance(input_data, str):
+            if ',' in input_data:
+                # Sort and join the items if it's a comma-separated list
+                sorted_items = sorted(input_data.split(','))
+                return f"sorted list: {','.join(sorted_items)}"
+            elif input_data.isdigit():
+                # If it's a number, return it as a string with a descriptive prefix
+                return f"number: {input_data}"
+            elif input_data.replace(' ', '').isalpha():
+                # If it's a word (ignoring spaces), return it capitalized
+                return f"word: {input_data.title()}"
+            else:
+                # For any other string input, return it as a lowercase string with a prefix
+                return f"other string: {input_data.lower()}"
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort it and return as a string
             return f"collection: {str(sorted(input_data))}"
         elif callable(input_data):
             # If it's a function, return its name and docstring
-            return f"function: {input_data.__name__} - {input_data.__doc__}"
+            return f"function: {input_data.__name__} - {input_data.__doc__ or 'No docstring available'}"
         else:
-            # For any other input, return it as a lowercase string with a prefix
-            return f"other: {str(input_data).lower()}"
+            # For any other input type, return its type and string representation
+            return f"other type: {type(input_data).__name__} - {str(input_data)}"

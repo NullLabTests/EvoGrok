@@ -15,22 +15,28 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, and return its length and reverse
+        result_str = str(result).lower()
+        return f"length: {len(result_str)}, reverse: {result_str[::-1]}"
     except:
         # If evaluation fails, process the input based on its content
         if ',' in input_data:
             # Sort and join the items if it's a comma-separated list
             sorted_items = sorted(input_data.split(','))
-            # Reverse each item and join them
-            return ','.join(item[::-1] for item in sorted_items)
+            # Reverse each item, lowercase it, and join them
+            return ','.join(item[::-1].lower() for item in sorted_items)
         elif input_data.isdigit():
-            # If it's a single number, return its square and cube
+            # If it's a single number, return its square, cube, and factorial
             number = int(input_data)
-            return f"square: {number ** 2}, cube: {number ** 3}"
+            factorial = 1
+            for i in range(1, number + 1):
+                factorial *= i
+            return f"square: {number ** 2}, cube: {number ** 3}, factorial: {factorial}"
         elif input_data.replace(' ', '').isalpha():
-            # If it's a word (ignoring spaces), return its length and reverse
-            return f"length: {len(input_data)}, reverse: {input_data[::-1]}"
+            # If it's a word (ignoring spaces), return its length, reverse, and uppercase version
+            return f"length: {len(input_data)}, reverse: {input_data[::-1]}, uppercase: {input_data.upper()}"
         else:
-            # For other inputs, reverse the string, convert to lowercase, and remove non-alphanumeric characters
-            return ''.join(char.lower() for char in input_data[::-1] if char.isalnum())
+            # For other inputs, reverse the string, convert to lowercase, remove non-alphanumeric characters,
+            # and return its length
+            processed_input = ''.join(char.lower() for char in input_data[::-1] if char.isalnum())
+            return f"length: {len(processed_input)}, processed: {processed_input}"

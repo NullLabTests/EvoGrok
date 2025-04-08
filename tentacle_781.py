@@ -16,19 +16,29 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return f"mathematical result: {str(result).lower()}"
+        return str(result).lower()
     except:
         # If evaluation fails, process the input based on its content
         if ',' in input_data:
             # Sort and join the items if it's a comma-separated list
             sorted_items = sorted(input_data.split(','))
-            return f"sorted list: {','.join(sorted_items)}"
+            # Reverse each item, convert to lowercase, and join them
+            return ','.join(item[::-1].lower() for item in sorted_items)
         elif input_data.isdigit():
-            # If it's a number, return it as a string with a descriptive prefix
-            return f"number detected: {input_data}"
+            # If it's a single number, return its square, cube, and factorial
+            number = int(input_data)
+            factorial = 1
+            for i in range(1, number + 1):
+                factorial *= i
+            return f"square: {number ** 2}, cube: {number ** 3}, factorial: {factorial}"
         elif input_data.replace(' ', '').isalpha():
-            # If it's a word (ignoring spaces), return it capitalized and with a prefix
-            return f"word detected: {input_data.title()}"
+            # If it's a word (ignoring spaces), return its length, reverse, and vowel count
+            vowels = 'aeiouAEIOU'
+            vowel_count = sum(1 for char in input_data if char in vowels)
+            return f"length: {len(input_data)}, reverse: {input_data[::-1]}, vowels: {vowel_count}"
         else:
-            # For any other input, return it as a lowercase string with a prefix
-            return f"other input detected: {str(input_data).lower()}"
+            # For other inputs, reverse the string, convert to lowercase, 
+            # remove non-alphanumeric characters, and count the unique characters
+            processed = ''.join(char.lower() for char in input_data[::-1] if char.isalnum())
+            unique_chars = len(set(processed))
+            return f"processed: {processed}, unique characters: {unique_chars}"
