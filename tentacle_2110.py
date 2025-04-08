@@ -29,31 +29,21 @@ def tentacle(input_data):
         
         # Process the result based on its type
         if isinstance(result, (int, float)):
-            # For numbers, return the sorted digits/characters, their sum, 
-            # the original result, and a classification of the number type
+            # For numbers, return the sorted digits/characters, their sum, and the original result
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            number_type = "integer" if isinstance(result, int) else "float"
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}, type: {number_type}"
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
         elif isinstance(result, str):
-            # For strings, split, sort, remove duplicates, join, and count unique items
+            # For strings, split, sort, remove duplicates, and join
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
-            unique_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, unique items: {unique_count}"
+            return ','.join(sorted_items)
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements, remove duplicates, join, and count unique items
+            # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
-            unique_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, unique items: {unique_count}, original type: {type(result).__name__}"
-        elif callable(result):
-            # For functions, return the function name and its docstring (if available)
-            func_name = result.__name__ if hasattr(result, '__name__') else 'anonymous function'
-            docstring = result.__doc__ if hasattr(result, '__doc__') and result.__doc__ else 'no docstring'
-            return f"function detected: {func_name}, docstring: {docstring}"
+            return ','.join(sorted_items)
         else:
-            # For other types, return a lowercase string representation, its length, 
-            # the original result, and the type of the result
-            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}, type: {type(result).__name__}"
+            # For other types, return a lowercase string representation, its length, and the original result
+            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
     except Exception as e:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -65,20 +55,18 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Split the input, sort it, remove duplicates, join it back together, and count unique items
+            # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            unique_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, unique items: {unique_count}"
+            return ','.join(sorted_items)
         elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements, remove duplicates, join them, and count unique items
+            # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
-            unique_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, unique items: {unique_count}, original type: {type(input_data).__name__}"
-        elif callable(input_data):
-            # For functions, return the function name and its docstring (if available)
-            func_name = input_data.__name__ if hasattr(input_data, '__name__') else 'anonymous function'
-            docstring = input_data.__doc__ if hasattr(input_data, '__doc__') and input_data.__doc__ else 'no docstring'
-            return f"function detected: {func_name}, docstring: {docstring}"
+            return ','.join(sorted_items)
+        elif isinstance(input_data, (int, float)):
+            # For numbers, return the sorted digits/characters, their sum, and the original input
+            sorted_digits = ''.join(sorted(str(input_data).lower()))
+            sum_of_digits = sum(int(digit) for digit in str(abs(input_data)) if digit.isdigit())
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {input_data}"
         else:
             # For other types, return a lowercase string representation, its length, and the original input
-            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}, type: {type(input_data).__name__}"
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"

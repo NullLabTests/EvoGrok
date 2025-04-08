@@ -20,6 +20,10 @@ def tentacle(input_data):
                     return "wikipedia science html document detected"
                 else:
                     return "wikipedia generic html document detected"
+            elif 'class="infobox"' in lower_input:
+                return "wikipedia infobox html document detected"
+            elif 'id="toc"' in lower_input:
+                return "wikipedia table of contents html document detected"
             else:
                 return "generic html document detected"
     
@@ -41,10 +45,9 @@ def tentacle(input_data):
             # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
             return ','.join(sorted_items)
-        elif isinstance(result, dict):
-            # For dictionaries, sort keys, remove duplicates, and join
-            sorted_items = sorted(set(f"{k}:{v}".lower() for k, v in result.items()))
-            return ','.join(sorted_items)
+        elif callable(result):
+            # For functions, return its name and docstring
+            return f"function: {result.__name__}, docstring: {result.__doc__ or 'None'}"
         else:
             # For other types, return a lowercase string representation, its length, and the original result
             return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
@@ -66,10 +69,9 @@ def tentacle(input_data):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
             return ','.join(sorted_items)
-        elif isinstance(input_data, dict):
-            # For dictionaries, sort keys, remove duplicates, and join
-            sorted_items = sorted(set(f"{k}:{v}".lower() for k, v in input_data.items()))
-            return ','.join(sorted_items)
+        elif callable(input_data):
+            # For functions, return its name and docstring
+            return f"function: {input_data.__name__}, docstring: {input_data.__doc__ or 'None'}"
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
