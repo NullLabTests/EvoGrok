@@ -13,18 +13,42 @@ def tentacle(input_data):
         else:
             # Check for specific classes or attributes
             if 'class="mw-page-title-main"' in lower_input:
-                return "wikipedia generic html document detected"
+                # Further classify based on content
+                if 'statistics' in lower_input:
+                    return "wikipedia statistics html document detected"
+                elif 'science' in lower_input:
+                    return "wikipedia science html document detected"
+                else:
+                    return "wikipedia generic html document detected"
             else:
                 return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string, lowercase it, and sort its characters
-        return ''.join(sorted(str(result).lower()))
+        
+        # Process the result based on its type
+        if isinstance(result, (int, float)):
+            # For numbers, return the sorted digits/characters
+            return ''.join(sorted(str(result).lower()))
+        elif isinstance(result, str):
+            # For strings, split, sort, remove duplicates, and join
+            sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
+            return ','.join(sorted_items)
+        elif isinstance(result, (list, tuple, set)):
+            # For collections, sort elements and join
+            sorted_items = sorted(str(item).lower() for item in result)
+            return ','.join(sorted_items)
+        else:
+            # For other types, return a lowercase string representation
+            return str(result).lower()
     except:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
+            # Check if the input contains any HTML-like tags
+            if '<' in input_data and '>' in input_data:
+                return "potential html fragment detected"
+            
             # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
             return ','.join(sorted_items)
