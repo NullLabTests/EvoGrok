@@ -18,6 +18,10 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
+                elif 'history' in lower_input:
+                    return "wikipedia history html document detected"
+                elif 'technology' in lower_input:
+                    return "wikipedia technology html document detected"
                 else:
                     return "wikipedia generic html document detected"
             else:
@@ -41,6 +45,10 @@ def tentacle(input_data):
             # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
             return ','.join(sorted_items)
+        elif isinstance(result, dict):
+            # For dictionaries, sort keys, remove duplicates, and join key-value pairs
+            sorted_items = sorted(set(f"{k}:{v}" for k, v in result.items()))
+            return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation, its length, and the original result
             return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
@@ -61,6 +69,10 @@ def tentacle(input_data):
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
+            return ','.join(sorted_items)
+        elif isinstance(input_data, dict):
+            # For dictionaries, sort keys, remove duplicates, and join key-value pairs
+            sorted_items = sorted(set(f"{k}:{v}" for k, v in input_data.items()))
             return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation, its length, and the original input

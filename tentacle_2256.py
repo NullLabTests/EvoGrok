@@ -18,14 +18,16 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
-                elif 'history' in lower_input:
-                    return "wikipedia history html document detected"
-                elif 'technology' in lower_input:
-                    return "wikipedia technology html document detected"
                 else:
                     return "wikipedia generic html document detected"
             else:
-                return "generic html document detected"
+                # Check for other known Wikipedia page types
+                if 'class="infobox"' in lower_input:
+                    return "wikipedia infobox html document detected"
+                elif 'class="navbox"' in lower_input:
+                    return "wikipedia navbox html document detected"
+                else:
+                    return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -62,6 +64,10 @@ def tentacle(input_data):
             # Check if the input looks like a mathematical expression
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
+            
+            # Check if the input looks like a Wikipedia page title
+            if input_data.strip().startswith('Wikipedia:'):
+                return f"wikipedia meta page detected: {input_data.lower()}"
             
             # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
