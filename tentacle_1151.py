@@ -1,7 +1,7 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document
+        # Determine the type of HTML document based on known titles
         if 'data analysis' in input_data.lower():
             document_type = 'data analysis'
         elif 'mathematics' in input_data.lower():
@@ -48,9 +48,11 @@ def tentacle(input_data):
             calculations = {
                 'Double': result * 2,
                 'Square': result ** 2,
-                'Square Root': result ** 0.5 if result >= 0 else 'undefined'
+                'Square Root': result ** 0.5 if result >= 0 else 'undefined',
+                'Cube': result ** 3,
+                'Logarithm': math.log(result) if result > 0 else 'undefined'
             }
-            return f"{result_str} (number) - Calculations: {', '.join(f'{k}: {v}' for k, v in calculations.items())}"
+            return f"{result_str} (number) - Calculations: {', '.join(f'{k}: {v:.2f}' for k, v in calculations.items() if v != 'undefined')}"
         
         # If the result is a string, process it like text
         if isinstance(result, str):
@@ -80,5 +82,8 @@ def tentacle(input_data):
         word_frequency = {word: words.count(word) for word in set(words)}
         most_common_word = max(word_frequency, key=word_frequency.get) if words else ''
         
+        # Check for potential HTML structure
+        html_structure = 'html' in words or 'doctype' in words
+        
         # Return a formatted string with word counts, sorted words, detected operators, and word frequency information
-        return f"Text input: {total_words} words, {unique_words} unique - {','.join(sorted(words))}. Most common word: '{most_common_word}' (appears {word_frequency.get(most_common_word, 0)} times). Detected operators: {','.join(sorted(detected_operators))}. Error during evaluation: {str(e)}"
+        return f"Text input: {total_words} words, {unique_words} unique - {','.join(sorted(words))}. Most common word: '{most_common_word}' (appears {word_frequency.get(most_common_word, 0)} times). Detected operators: {','.join(sorted(detected_operators))}. Potential HTML structure detected: {html_structure}. Error during evaluation: {str(e)}"

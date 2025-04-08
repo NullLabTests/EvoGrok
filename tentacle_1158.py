@@ -1,35 +1,23 @@
 def tentacle(input_data):
-    """
-    Process input data to detect HTML documents, evaluate mathematical expressions,
-    or analyze text content.
-
-    Args:
-    input_data (any): The input to be processed.
-
-    Returns:
-    str: A string describing the result of the processing.
-    """
     # Convert input to lowercase string for easier processing
     input_str = str(input_data).lower().strip()
-
+    
     # Check if the input looks like the start of an HTML document
     if input_str.startswith('<!doctype'):
-        # Check for specific Wikipedia topics in the HTML document
-        if 'data analysis' in input_str and 'wikipedia' in input_str:
-            return "wikipedia data analysis html document detected"
-        elif 'mathematics' in input_str and 'wikipedia' in input_str:
-            return "wikipedia mathematics html document detected"
-        elif 'text processing' in input_str and 'wikipedia' in input_str:
-            return "wikipedia text processing html document detected"
-        # Check for generic HTML content
-        elif '<html' in input_str or '<body' in input_str:
-            return "generic html content detected"
+        # Check for specific Wikipedia page topics in the HTML document
+        if 'data analysis' in input_str:
+            return "wikipedia page on data analysis detected"
+        elif 'mathematics' in input_str:
+            return "wikipedia page on mathematics detected"
+        elif 'text processing' in input_str:
+            return "wikipedia page on text processing detected"
         else:
+            # If it's an HTML document but not a known Wikipedia page
             return "generic html document detected"
-
+    
     try:
         # Attempt to evaluate the input as a mathematical expression
-        result = eval(input_data)
+        result = eval(input_str)
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
@@ -41,7 +29,7 @@ def tentacle(input_data):
             cleaned_list = [item.strip() for item in sorted_list if item.strip()]
             return ','.join(cleaned_list)
         else:
-            # Check for specific keywords
+            # If no commas, check for specific keywords
             if 'data' in input_str and 'analysis' in input_str:
                 return "data analysis mentioned"
             elif 'mathematics' in input_str:

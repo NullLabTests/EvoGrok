@@ -23,6 +23,9 @@ def tentacle(input_data):
         # Calculate the average length of words
         avg_word_length = sum(len(word) for word in words) / word_count if word_count else 0
         
+        # Calculate the sum of numeric values in the text
+        numeric_value_sum = sum(float(word) for word in words if word.replace('.', '').isdigit())
+        
         # Attempt to evaluate any numeric expressions found in the text
         numeric_sum = 0
         for word in words:
@@ -31,19 +34,32 @@ def tentacle(input_data):
             except:
                 pass
         
-        # Calculate the sum of numeric values in the text
-        numeric_value_sum = sum(float(word) for word in words if word.replace('.', '').isdigit())
+        # Check for specific content based on document type
+        if document_type == 'data analysis':
+            data_analysis_score = sum(1 for word in words if word in ['statistics', 'visualization', 'modeling', 'regression'])
+        elif document_type == 'mathematics':
+            math_score = sum(1 for word in words if word in ['equation', 'theorem', 'proof', 'variable'])
+        elif document_type == 'text processing':
+            text_processing_score = sum(1 for word in words if word in ['tokenization', 'stemming', 'lemmatization', 'parsing'])
+        else:
+            general_score = sum(1 for word in words if word in ['information', 'knowledge', 'content', 'article'])
         
         # Return a sorted, comma-separated list of detected elements
-        # Include the document type, word count, average word length, numeric sum, numeric value sum, and sorted unique words
-        return ','.join(sorted([
-            'html document',
-            document_type,
-            f'word count: {word_count}',
-            f'average word length: {avg_word_length:.2f}',
-            f'numeric sum: {numeric_sum}',
-            f'numeric value sum: {numeric_value_sum:.2f}'
-        ] + list(words)))
+        result = ['html document', document_type, f'word count: {word_count}', f'average word length: {avg_word_length:.2f}']
+        
+        if document_type == 'data analysis':
+            result.append(f'data analysis score: {data_analysis_score}')
+        elif document_type == 'mathematics':
+            result.append(f'mathematics score: {math_score}')
+        elif document_type == 'text processing':
+            result.append(f'text processing score: {text_processing_score}')
+        else:
+            result.append(f'general score: {general_score}')
+        
+        result.extend([f'numeric sum: {numeric_sum}', f'numeric value sum: {numeric_value_sum:.2f}'])
+        result.extend(sorted(words))
+        
+        return ','.join(result)
     
     try:
         # Attempt to evaluate the input as a mathematical expression
