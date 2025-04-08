@@ -3,19 +3,22 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_data.lower():
-            return "data analysis html document detected"
+            return "wikipedia data analysis html document detected"
         elif 'mathematics' in input_data.lower():
-            return "mathematics html document detected"
+            return "wikipedia mathematics html document detected"
         elif 'text processing' in input_data.lower():
-            return "text processing html document detected"
+            return "wikipedia text processing html document detected"
         else:
             return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, round to 2 decimal places if it's a float, and lowercase it
+        if isinstance(result, float):
+            return f"{result:.2f}".lower()
+        else:
+            return str(result).lower()
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -35,6 +38,8 @@ def tentacle(input_data):
                     return f"greeting detected: {input_data.lower()}"
                 elif 'python' in input_data.lower():
                     return f"python reference detected: {input_data.lower()}"
+                elif input_data.lower().startswith('<!') and '>' in input_data:
+                    return "potential html tag detected"
                 else:
                     # If no specific pattern is detected, return the input as a lowercase string
                     return str(input_data).lower()

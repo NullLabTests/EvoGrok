@@ -14,14 +14,8 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        result_str = str(result).lower()
-        
-        # New functionality: Check if the result is an integer
-        if result_str.isdigit():
-            return f"{result_str} (integer)"
-        else:
-            return result_str
+        # Convert the result to a string, lowercase it, and capitalize the first letter
+        return f"evaluated result: {str(result).lower().capitalize()}"
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -30,22 +24,21 @@ def tentacle(input_data):
             # Remove any leading/trailing whitespace from each value
             cleaned_values = [value.strip() for value in sorted_values]
             # Join the cleaned and sorted values
-            result = ','.join(cleaned_values)
+            sorted_string = ','.join(cleaned_values)
+            # Check if the sorted string is a valid number
+            try:
+                float(sorted_string)
+                return f"sorted numeric values: {sorted_string.lower()}"
+            except ValueError:
+                # If not a number, reverse the sorted string and capitalize the first letter
+                reversed_string = sorted_string[::-1].lower()
+                return f"sorted and reversed: {reversed_string.capitalize()}"
         else:
             # Check if the input is a valid number
             try:
                 float(input_data)
-                result = str(input_data).lower()
+                return f"numeric value: {str(input_data).lower()}"
             except ValueError:
-                # If not a number, reverse the string
-                result = input_data[::-1].lower()
-        
-        # Check if the result is a palindrome
-        if result == result[::-1]:
-            return f"{result} (palindrome)"
-        else:
-            # New functionality: Check if the result contains any digits
-            if any(char.isdigit() for char in result):
-                return f"{result} (contains digits)"
-            else:
-                return result
+                # If not a number, reverse the string, capitalize the first letter, and add "processed: " prefix
+                reversed_string = input_data[::-1].lower()
+                return f"processed: {reversed_string.capitalize()}"

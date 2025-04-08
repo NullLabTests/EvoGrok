@@ -23,11 +23,15 @@ def tentacle(input_data):
             sorted_values = sorted(input_data.split(','))
             # Remove any leading/trailing whitespace from each value
             cleaned_values = [value.strip() for value in sorted_values]
-            return ','.join(cleaned_values).lower()
+            # Join the cleaned values with commas
+            processed_input = ','.join(cleaned_values)
         else:
-            # Check if the input is a string and return it as a lowercase string
-            if isinstance(input_data, str):
-                return input_data.lower()
-            else:
-                # If the input is not a string, convert it to a string and return it lowercase
-                return str(input_data).lower()
+            processed_input = input_data
+        
+        # Check if the processed input contains any uppercase letters
+        if any(char.isupper() for char in processed_input):
+            # If it does, return the input as is (preserving case)
+            return processed_input
+        else:
+            # If it doesn't, return the input as a lowercase string
+            return processed_input.lower()

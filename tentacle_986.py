@@ -2,20 +2,21 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
-        if 'data analysis' in input_data.lower():
-            return "wikipedia data analysis html document detected"
-        elif 'mathematics' in input_data.lower():
-            return "wikipedia mathematics html document detected"
-        elif 'text processing' in input_data.lower():
-            return "wikipedia text processing html document detected"
+        input_lower = input_data.lower()
+        if 'data analysis' in input_lower:
+            return "Wikipedia Data Analysis HTML document detected - This document likely contains information about statistical methods and data processing techniques."
+        elif 'mathematics' in input_lower:
+            return "Wikipedia Mathematics HTML document detected - This document covers various mathematical concepts and theories."
+        elif 'text processing' in input_lower:
+            return "Wikipedia Text Processing HTML document detected - This document discusses methods for manipulating and analyzing text data."
         else:
-            return "generic html document detected"
-    
+            return "Generic HTML document detected - This document may contain various types of content."
+
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return str(result).lower()
+        return f"Mathematical expression evaluated: {str(result).lower()}"
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -31,10 +32,10 @@ def tentacle(input_data):
         
         # Check if the result contains any of the HTML document types
         if 'data analysis' in result:
-            return f"{result}, wikipedia data analysis html document detected"
+            return f"{result}, related to Wikipedia Data Analysis HTML document"
         elif 'mathematics' in result:
-            return f"{result}, wikipedia mathematics html document detected"
+            return f"{result}, related to Wikipedia Mathematics HTML document"
         elif 'text processing' in result:
-            return f"{result}, wikipedia text processing html document detected"
+            return f"{result}, related to Wikipedia Text Processing HTML document"
         else:
             return result

@@ -23,11 +23,33 @@ def tentacle(input_data):
             sorted_values = sorted(input_data.split(','))
             # Remove any leading/trailing whitespace from each value
             cleaned_values = [value.strip() for value in sorted_values]
-            return ','.join(cleaned_values).lower()
+            # Join the cleaned and sorted values
+            result = ','.join(cleaned_values)
         else:
-            # Check if the input is a string and return it as a lowercase string
-            if isinstance(input_data, str):
-                return input_data.lower()
+            # Check if the input is a valid number
+            try:
+                float(input_data)
+                result = str(input_data).lower()
+            except ValueError:
+                # If not a number, return the input as a lowercase string
+                result = str(input_data).lower()
+        
+        # Additional processing for non-HTML, non-mathematical inputs
+        if ' ' in result:
+            # Split the result into words and sort them alphabetically
+            words = result.split()
+            sorted_words = sorted(words)
+            # Join the sorted words with spaces
+            sorted_result = ' '.join(sorted_words)
+            
+            # Check for specific patterns in the sorted result
+            if 'data' in sorted_result and 'analysis' in sorted_result:
+                return "data analysis text detected"
+            elif 'mathematics' in sorted_result:
+                return "mathematics text detected"
+            elif 'text' in sorted_result and 'processing' in sorted_result:
+                return "text processing text detected"
             else:
-                # If the input is not a string, convert it to a string and return it lowercase
-                return str(input_data).lower()
+                return sorted_result
+        else:
+            return result
