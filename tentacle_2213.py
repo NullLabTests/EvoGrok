@@ -10,16 +10,18 @@ def tentacle(input_data):
             return "wikipedia mathematics html document detected"
         elif 'text processing' in lower_input:
             return "wikipedia text processing html document detected"
-        elif 'class="mw-page-title-main"' in lower_input:
-            # Further classify based on content
-            if 'statistics' in lower_input:
-                return "wikipedia statistics html document detected"
-            elif 'science' in lower_input:
-                return "wikipedia science html document detected"
-            else:
-                return "wikipedia generic html document detected"
         else:
-            return "generic html document detected"
+            # Check for specific classes or attributes
+            if 'class="mw-page-title-main"' in lower_input:
+                # Further classify based on content
+                if 'statistics' in lower_input:
+                    return "wikipedia statistics html document detected"
+                elif 'science' in lower_input:
+                    return "wikipedia science html document detected"
+                else:
+                    return "wikipedia generic html document detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -52,6 +54,15 @@ def tentacle(input_data):
             # Check if the input looks like a mathematical expression
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
+            
+            # Check for specific Wikipedia-related keywords
+            lower_input = input_data.lower()
+            if 'data analysis' in lower_input:
+                return "potential wikipedia data analysis content detected"
+            elif 'mathematics' in lower_input:
+                return "potential wikipedia mathematics content detected"
+            elif 'text processing' in lower_input:
+                return "potential wikipedia text processing content detected"
             
             # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
