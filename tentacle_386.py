@@ -17,11 +17,21 @@ def tentacle(input_data):
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
-        # If evaluation fails, process the input as a comma-separated list
+        # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
             # Split the input, sort it, and join it back together
             sorted_items = sorted(input_data.split(','))
-            return ','.join(item.strip().lower() for item in sorted_items if item.strip())
+            processed_items = ','.join(item.strip().lower() for item in sorted_items if item.strip())
+            
+            # Check if the processed items contain specific keywords
+            if 'data' in processed_items and 'analysis' in processed_items:
+                return f"{processed_items}, data analysis detected"
+            elif 'math' in processed_items or 'mathematics' in processed_items:
+                return f"{processed_items}, mathematics detected"
+            elif 'text' in processed_items and 'processing' in processed_items:
+                return f"{processed_items}, text processing detected"
+            else:
+                return processed_items
         else:
             # If it's not a string, return a lowercase string representation
             return str(input_data).lower()

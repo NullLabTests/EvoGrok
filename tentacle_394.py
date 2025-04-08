@@ -9,7 +9,9 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "text processing html document detected".lower()
         else:
-            return "html document detected".lower()
+            # If no specific type is detected, process the content
+            content = input_data.lower().split('>', 1)[1].split('<', 1)[0]
+            return ','.join(sorted(content.split()))
     
     try:
         # Attempt to evaluate the input as a mathematical expression
