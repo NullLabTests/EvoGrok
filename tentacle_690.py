@@ -11,8 +11,10 @@ def tentacle(input_data):
             return "mathematics html document detected"
         elif 'text processing' in input_str:
             return "text processing html document detected"
-        elif any(topic in input_str for topic in ['science', 'technology', 'engineering']):
+        elif any(topic in input_str for topic in ['science', 'technology', 'engineering', 'stem']):
             return "stem-related html document detected"
+        elif 'wikipedia' in input_str:
+            return "wikipedia html document detected"
         else:
             return "generic html document detected"
     
@@ -22,7 +24,7 @@ def tentacle(input_data):
         # Convert the result to a string and lowercase it
         return f"mathematical result: {str(result).lower()}"
     except:
-        # If evaluation fails, process as a comma-separated list or check for number patterns
+        # If evaluation fails, process as a comma-separated list or check for specific patterns
         if ',' in input_str:
             # Split, sort, and join the list
             sorted_list = sorted(input_str.split(','))
@@ -30,17 +32,21 @@ def tentacle(input_data):
             cleaned_list = [item.strip() for item in sorted_list if item.strip()]
             return f"sorted list: {','.join(cleaned_list)}"
         else:
-            # If no commas, check for specific number patterns
+            # If no commas, check for specific patterns
             if input_str.isdigit():
                 return f"positive integer: {input_str}"
             elif input_str.replace('.', '').isdigit():
-                return f"decimal: {input_str}"
+                return f"decimal number: {input_str}"
             elif input_str.replace('-', '').isdigit():
                 return f"negative number: {input_str}"
+            elif input_str.startswith('http://') or input_str.startswith('https://'):
+                return f"url detected: {input_str}"
+            elif '@' in input_str and '.' in input_str.split('@')[-1]:
+                return f"email address detected: {input_str}"
+            elif input_str == 'true' or input_str == 'false':
+                return f"boolean value: {input_str}"
+            elif input_str.startswith('0x') and all(c in '0123456789abcdef' for c in input_str[2:]):
+                return f"hexadecimal number: {input_str}"
             else:
-                # If no specific pattern matches, check for potential HTML fragments
-                if '<' in input_str and '>' in input_str:
-                    return "potential html fragment detected"
-                else:
-                    # If no other patterns match, return the input as a lowercase string
-                    return input_str
+                # If no specific pattern matches, return the input as a lowercase string
+                return f"text input: {input_str}"

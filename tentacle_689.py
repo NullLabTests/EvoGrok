@@ -11,8 +11,10 @@ def tentacle(input_data):
             return "mathematics html document detected"
         elif 'text processing' in input_str:
             return "text processing html document detected"
-        elif any(topic in input_str for topic in ['science', 'technology', 'engineering']):
+        elif any(topic in input_str for topic in ['science', 'technology', 'engineering', 'stem']):
             return "stem-related html document detected"
+        elif 'wikipedia' in input_str:
+            return "wikipedia html document detected"
         else:
             return "generic html document detected"
     
@@ -41,6 +43,8 @@ def tentacle(input_data):
                 return f"url detected: {input_str}"
             elif '@' in input_str and '.' in input_str.split('@')[-1]:
                 return f"email address detected: {input_str}"
+            elif input_str.replace(' ', '').isalnum():
+                return f"alphanumeric string: {input_str}"
             else:
                 # If no specific pattern matches, return the input as a lowercase string
                 return f"text input: {input_str}"

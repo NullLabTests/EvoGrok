@@ -2,18 +2,14 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
-        lowercase_input = input_data.lower()
-        if 'data analysis' in lowercase_input:
+        if 'data analysis' in input_data.lower():
             return "data analysis html document detected"
-        elif 'mathematics' in lowercase_input:
+        elif 'mathematics' in input_data.lower():
             return "mathematics html document detected"
-        elif 'text processing' in lowercase_input:
+        elif 'text processing' in input_data.lower():
             return "text processing html document detected"
         else:
-            # Extract and return the title if available, otherwise return generic message
-            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
-            if title_match:
-                return f"html document detected: {title_match.group(1).strip().lower()}"
+            # If no specific type is detected, return a generic message
             return "generic html document detected"
     
     try:
@@ -28,22 +24,24 @@ def tentacle(input_data):
             sorted_values = sorted(input_data.split(','))
             # Remove any empty strings and strip whitespace
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
-            # Join the cleaned values
-            joined_values = ','.join(cleaned_values)
-            # Check if the result is a valid number
-            try:
-                float(joined_values)
-                return joined_values.lower()
-            except ValueError:
-                return joined_values.lower()
+            # If there's only one non-empty value, return it as lowercase
+            if len(cleaned_values) == 1:
+                return cleaned_values[0].lower()
+            # Otherwise, join the cleaned values
+            return ','.join(cleaned_values)
         else:
-            # Check if the input is a valid number
+            # Check if the input is a valid number (integer or float)
             try:
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, check for HTML-like tags
-                if '<' in input_data and '>' in input_data:
-                    return "html-like content detected"
-                # If no special cases, return the input as a lowercase string
-                return str(input_data).lower()
+                # If not a number, check for specific keywords
+                if 'data analysis' in input_data.lower():
+                    return "data analysis text detected"
+                elif 'mathematics' in input_data.lower():
+                    return "mathematics text detected"
+                elif 'text processing' in input_data.lower():
+                    return "text processing text detected"
+                else:
+                    # If no specific keywords are found, return the input as a lowercase string
+                    return str(input_data).lower()

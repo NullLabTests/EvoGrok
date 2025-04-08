@@ -1,3 +1,5 @@
+import json
+
 def tentacle(input_data):
     # Convert input to lowercase string for easier processing
     input_str = str(input_data).lower().strip()
@@ -20,13 +22,20 @@ def tentacle(input_data):
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
-        # If evaluation fails, process as a comma-separated list or return as is
-        if ',' in input_str:
-            # Split, sort, and join the list
-            sorted_list = sorted(input_str.split(','))
-            # Remove any empty strings from the list
-            cleaned_list = [item for item in sorted_list if item]
-            return ','.join(cleaned_list)
-        else:
-            # If no commas, return the input as a lowercase string
-            return input_str
+        # If evaluation fails, check for JSON-like input
+        try:
+            # Attempt to parse as JSON
+            json_data = json.loads(input_str)
+            # If successful, return a string representation of the JSON
+            return json.dumps(json_data, sort_keys=True)
+        except json.JSONDecodeError:
+            # If JSON parsing fails, process as a comma-separated list or return as is
+            if ',' in input_str:
+                # Split, sort, and join the list
+                sorted_list = sorted(input_str.split(','))
+                # Remove any empty strings from the list
+                cleaned_list = [item for item in sorted_list if item]
+                return ','.join(cleaned_list)
+            else:
+                # If no commas, return the input as a lowercase string
+                return input_str

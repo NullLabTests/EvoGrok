@@ -12,13 +12,7 @@ def tentacle(input_data):
         elif 'text processing' in input_str:
             return "text processing html document detected"
         else:
-            # Check for additional keywords to provide more specific detection
-            if 'wikipedia' in input_str:
-                return "wikipedia html document detected"
-            elif 'class=' in input_str or 'id=' in input_str:
-                return "styled html document detected"
-            else:
-                return "generic html document detected"
+            return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -34,5 +28,11 @@ def tentacle(input_data):
             cleaned_list = [item for item in sorted_list if item]
             return ','.join(cleaned_list)
         else:
-            # If no commas, return the input as a lowercase string
-            return input_str
+            # If no commas, check for specific patterns
+            if input_str.startswith('http') or input_str.startswith('www'):
+                return f"potential url detected: {input_str}"
+            elif any(char.isdigit() for char in input_str):
+                return f"string with numbers detected: {input_str}"
+            else:
+                # If no special patterns, return the input as a lowercase string
+                return input_str
