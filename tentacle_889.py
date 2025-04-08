@@ -22,7 +22,8 @@ def tentacle(input_data):
         return {
             'type': 'html',
             'document_type': document_type,
-            'elements': sorted(detected_elements)
+            'elements': sorted(detected_elements),
+            'original_input': input_data.strip()
         }
     
     try:
@@ -31,27 +32,33 @@ def tentacle(input_data):
         
         # Process the result
         if isinstance(result, (int, float)):
-            # If the result is a number, return it as is
+            # If the result is a number, return it with additional information
             return {
                 'type': 'number',
-                'value': result
+                'value': result,
+                'string_value': str(result).lower(),
+                'original_input': input_data.strip()
             }
         else:
             # Convert the result to a string, split it into words, sort them
             words = sorted(str(result).lower().split())
             
-            # Return the sorted words as a list
+            # Return the sorted words as a list with additional information
             return {
                 'type': 'math_result',
-                'words': words
+                'words': words,
+                'original_result': str(result),
+                'original_input': input_data.strip()
             }
-    except:
+    except Exception as e:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them
         words = sorted(str(input_data).lower().split())
         
-        # Return the sorted words as a list
+        # Return the sorted words as a list with additional information
         return {
             'type': 'text',
-            'words': words
+            'words': words,
+            'original_input': input_data.strip(),
+            'error': str(e) if str(e) else None
         }

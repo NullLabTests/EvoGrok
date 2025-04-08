@@ -18,11 +18,16 @@ def tentacle(input_data):
         # Add the document type to detected elements
         detected_elements.append(document_type)
         
-        # Return a dictionary with HTML-specific information
+        # Process the content of the HTML document
+        content = input_data.lower().split('>', 1)[1].split('</', 1)[0]
+        words = sorted(content.split())
+        
+        # Return a dictionary with HTML-specific information and processed content
         return {
             'type': 'html',
             'document_type': document_type,
-            'elements': sorted(detected_elements)
+            'elements': sorted(detected_elements),
+            'content': words
         }
     
     try:
@@ -34,7 +39,8 @@ def tentacle(input_data):
             # If the result is a number, return it as is
             return {
                 'type': 'number',
-                'value': result
+                'value': result,
+                'words': sorted(str(result).lower().split())
             }
         else:
             # Convert the result to a string, split it into words, sort them

@@ -23,8 +23,11 @@ def tentacle(input_data):
         total_length = sum(len(word) for word in words)
         avg_word_length = total_length / word_count if word_count > 0 else 0
         
-        # Return a formatted string with document type, word count, average word length, and sorted words
-        return f"html document ({document_type}): {word_count} unique words, avg length {avg_word_length:.2f} - {','.join(sorted(words))}"
+        # Count the number of digits in the HTML content
+        digit_count = sum(c.isdigit() for c in input_data)
+        
+        # Return a formatted string with document type, word count, average word length, digit count, and sorted words
+        return f"html document ({document_type}): {word_count} unique words, avg length {avg_word_length:.2f}, {digit_count} digits - {','.join(sorted(words))}"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -34,23 +37,25 @@ def tentacle(input_data):
         result_str = str(result)
         
         # If the result is a number, return it with its type and some basic statistics
-        if result_str.replace('.', '').isdigit():
+        if result_str.replace('.', '').replace('-', '').isdigit():
             number = float(result_str)
-            return f"{number} (number): min={min(number, 0)}, max={max(number, 0)}, abs={abs(number)}"
+            return f"{number} (number): min={min(number, 0)}, max={max(number, 0)}, abs={abs(number)}, square={number**2}"
         
         # If the result is a string, process it like text
         if isinstance(result, str):
             words = result_str.lower().split()
             total_words = len(words)
             unique_words = len(set(words))
-            return f"string result from math eval: {total_words} words, {unique_words} unique - {','.join(sorted(words))}"
+            avg_word_length = sum(len(word) for word in words) / total_words if total_words > 0 else 0
+            return f"string result from math eval: {total_words} words, {unique_words} unique, avg length {avg_word_length:.2f} - {','.join(sorted(words))}"
         
         # For other types of results, return the type, value, and a string representation
         return f"{type(result).__name__} result from math eval: {result} - {str(result)}"
     
     except:
         # If evaluation fails, process the input as text
-        words = str(input_data).lower().split()
+        input_str = str(input_data).lower()
+        words = input_str.split()
         
         # Count the number of words and unique words
         total_words = len(words)
@@ -60,5 +65,8 @@ def tentacle(input_data):
         total_length = sum(len(word) for word in words)
         avg_word_length = total_length / total_words if total_words > 0 else 0
         
-        # Return a formatted string with word counts, average word length, and sorted words
-        return f"text input: {total_words} words, {unique_words} unique, avg length {avg_word_length:.2f} - {','.join(sorted(words))}"
+        # Count the number of digits in the input
+        digit_count = sum(c.isdigit() for c in input_str)
+        
+        # Return a formatted string with word counts, average word length, digit count, and sorted words
+        return f"text input: {total_words} words, {unique_words} unique, avg length {avg_word_length:.2f}, {digit_count} digits - {','.join(sorted(words))}"

@@ -30,9 +30,13 @@ def tentacle(input_data):
             if keyword in words:
                 relevant_keywords.add(keyword)
         
-        # Return a formatted string with document type, word count, sorted words, and relevant keywords
-        return f"HTML document ({document_type}): {word_count} unique words - {','.join(sorted(words))}. Relevant keywords: {','.join(sorted(relevant_keywords))}"
-    
+        # Check for mathematical operators in the HTML content
+        operators = set(['+', '-', '*', '/', '**', '%'])
+        detected_operators = operators.intersection(words)
+        
+        # Return a formatted string with document type, word count, sorted words, relevant keywords, and detected operators
+        return f"HTML document ({document_type}): {word_count} unique words - {','.join(sorted(words))}. Relevant keywords: {','.join(sorted(relevant_keywords))}. Detected operators: {','.join(sorted(detected_operators))}"
+
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
@@ -40,23 +44,28 @@ def tentacle(input_data):
         # Convert the result to a string
         result_str = str(result)
         
-        # If the result is a number, return it with its type and a simple calculation
+        # If the result is a number, return it with its type, a simple calculation, and its binary representation
         if result_str.replace('.', '').isdigit():
             calculation = result * 2
-            return f"{result_str} (number) - Double: {calculation}"
+            binary_representation = bin(int(result)) if result.is_integer() else 'N/A (float)'
+            return f"{result_str} (number) - Double: {calculation}, Binary: {binary_representation}"
         
-        # If the result is a string, process it like text
+        # If the result is a string, process it like text with enhanced analysis
         if isinstance(result, str):
             words = result_str.lower().split()
             total_words = len(words)
             unique_words = len(set(words))
-            return f"String result: {total_words} words, {unique_words} unique - {','.join(sorted(words))}"
+            # Check for mathematical operators in the string result
+            operators = set(['+', '-', '*', '/', '**', '%'])
+            detected_operators = operators.intersection(set(result_str))
+            return f"String result: {total_words} words, {unique_words} unique - {','.join(sorted(words))}. Detected operators: {','.join(sorted(detected_operators))}"
         
-        # For other types of results, return the type, value, and a simple representation
-        return f"{type(result).__name__} result: {result_str} - Simple repr: {repr(result)}"
+        # For other types of results, return the type, value, a simple representation, and its length (if applicable)
+        result_length = len(result) if hasattr(result, '__len__') else 'N/A'
+        return f"{type(result).__name__} result: {result_str} - Simple repr: {repr(result)}, Length: {result_length}"
     
     except:
-        # If evaluation fails, process the input as text
+        # If evaluation fails, process the input as text with enhanced analysis
         words = str(input_data).lower().split()
         
         # Count the number of words and unique words

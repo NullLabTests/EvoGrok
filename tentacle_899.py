@@ -23,11 +23,27 @@ def tentacle(input_data):
         # Calculate the average length of words
         avg_word_length = sum(len(word) for word in words) / word_count if word_count else 0
         
+        # Attempt to evaluate any numeric expressions found in the text
+        numeric_sum = 0
+        for word in words:
+            try:
+                numeric_sum += eval(word)
+            except:
+                pass
+        
+        # Calculate the sum of numeric values in the text
+        numeric_value_sum = sum(float(word) for word in words if word.replace('.', '').isdigit())
+        
         # Return a sorted, comma-separated list of detected elements
-        # Include the document type, word count, average word length, and sorted unique words
-        return ','.join(sorted(['html document', document_type, 
-                                f'word count: {word_count}', 
-                                f'average word length: {avg_word_length:.2f}'] + list(words)))
+        # Include the document type, word count, average word length, numeric sum, numeric value sum, and sorted unique words
+        return ','.join(sorted([
+            'html document',
+            document_type,
+            f'word count: {word_count}',
+            f'average word length: {avg_word_length:.2f}',
+            f'numeric sum: {numeric_sum}',
+            f'numeric value sum: {numeric_value_sum:.2f}'
+        ] + list(words)))
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -42,11 +58,19 @@ def tentacle(input_data):
         # Calculate the average length of words in the result
         avg_word_length = sum(len(word) for word in result_words) / len(result_words) if result_words else 0
         
+        # Attempt to evaluate any numeric expressions found in the result
+        expression_sum = 0
+        for word in result_words:
+            try:
+                expression_sum += eval(word)
+            except:
+                pass
+        
         # Sort the words and join with commas
         sorted_words = ','.join(sorted(result_words))
         
-        # Return the sorted words along with the sum of numeric values and average word length
-        return f'{sorted_words}, numeric sum: {numeric_sum}, average word length: {avg_word_length:.2f}'
+        # Return the sorted words along with the numeric sum, average word length, and expression sum
+        return f'{sorted_words}, numeric sum: {numeric_sum:.2f}, average word length: {avg_word_length:.2f}, expression sum: {expression_sum}'
     except:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words
@@ -55,8 +79,19 @@ def tentacle(input_data):
         # Calculate the average length of words
         avg_word_length = sum(len(word) for word in input_words) / len(input_words) if input_words else 0
         
+        # Attempt to evaluate any numeric expressions found in the text
+        expression_sum = 0
+        for word in input_words:
+            try:
+                expression_sum += eval(word)
+            except:
+                pass
+        
+        # Calculate the sum of numeric values in the text
+        numeric_sum = sum(float(word) for word in input_words if word.replace('.', '').isdigit())
+        
         # Sort the words and join with commas
         sorted_words = ','.join(sorted(input_words))
         
-        # Return the sorted words along with the average word length
-        return f'{sorted_words}, average word length: {avg_word_length:.2f}'
+        # Return the sorted words along with the average word length, numeric sum, and expression sum
+        return f'{sorted_words}, average word length: {avg_word_length:.2f}, numeric sum: {numeric_sum:.2f}, expression sum: {expression_sum}'
