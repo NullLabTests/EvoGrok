@@ -23,7 +23,7 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
             # Remove any empty strings that might result from leading/trailing commas
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
@@ -40,7 +40,7 @@ def tentacle(input_data):
                     # If it's valid JSON, return a string representation
                     return str(json_data).lower()
                 except json.JSONDecodeError:
-                    # If not JSON, check for specific keywords (extended from Parent2)
+                    # If not JSON, check for specific keywords
                     lowercase_input = input_data.lower()
                     if 'data' in lowercase_input and 'analysis' in lowercase_input:
                         return "data analysis text detected"
@@ -59,5 +59,15 @@ def tentacle(input_data):
                         if re.search(url_pattern, input_data):
                             return "url detected"
                         
-                        # If no specific patterns or keywords, return the input as a lowercase string (from Parent1)
+                        # Check for Wikipedia page patterns
+                        wikipedia_pattern = r'<!DOCTYPE html><html.*class=".*client.*">'
+                        if re.search(wikipedia_pattern, input_data, re.IGNORECASE):
+                            if 'data analysis' in input_data.lower():
+                                return "wikipedia data analysis page detected"
+                            elif 'mathematics' in input_data.lower():
+                                return "wikipedia mathematics page detected"
+                            elif 'text processing' in input_data.lower():
+                                return "wikipedia text processing page detected"
+                        
+                        # If no specific patterns or keywords, return the input as a lowercase string
                         return str(input_data).lower()

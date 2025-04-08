@@ -45,6 +45,12 @@ def tentacle(input_data):
                     # New feature: Check for common file extensions
                     elif any(input_data.lower().endswith(ext) for ext in ['.txt', '.pdf', '.jpg', '.png', '.docx']):
                         return f"file with extension detected: {input_data.lower()}"
+                    # New feature: Check for JSON-like structure
+                    elif input_data.strip().startswith('{') and input_data.strip().endswith('}'):
+                        return f"json-like structure detected: {input_data.lower()}"
+                    # New feature: Check for XML-like structure
+                    elif input_data.strip().startswith('<') and input_data.strip().endswith('>'):
+                        return f"xml-like structure detected: {input_data.lower()}"
                     else:
                         # If no specific pattern is detected, return the input as a lowercase string
                         return str(input_data).lower()

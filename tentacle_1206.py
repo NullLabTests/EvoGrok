@@ -1,4 +1,5 @@
 import json
+import re
 
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
@@ -21,8 +22,8 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if isinstance(input_data, str):
+            # Sort and join comma-separated values (inspired by Parent2)
             if ',' in input_data:
-                # Sort and join comma-separated values (inspired by Parent2)
                 sorted_values = sorted(input_data.split(','))
                 # Remove any empty strings and strip whitespace
                 cleaned_values = [value.strip() for value in sorted_values if value.strip()]
@@ -34,7 +35,7 @@ def tentacle(input_data):
             if '<' in result and '>' in result:
                 return f"string with html tags detected: {result}"
             
-            # New feature: Check if the input looks like JSON
+            # Check if the input looks like JSON (extended from Parent2)
             try:
                 json_obj = json.loads(result)
                 if isinstance(json_obj, dict):
