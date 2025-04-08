@@ -10,12 +10,7 @@ def tentacle(input_data):
         elif 'text processing' in lowercase_input:
             return "text processing html document detected"
         else:
-            # If no specific type is detected, try to evaluate as a mathematical expression
-            try:
-                result = eval(input_data)
-                return f"html document evaluated: {str(result).lower()}"
-            except:
-                return "generic html document detected"
+            return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -25,16 +20,19 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as text
         if ',' in input_data:
-            # Sort and join comma-separated values
+            # Sort and join comma-separated values (from Parent2)
             sorted_values = sorted(input_data.split(','))
-            # Remove any empty strings that might result from leading/trailing commas
-            non_empty_values = [value.strip() for value in sorted_values if value.strip()]
-            return ','.join(non_empty_values)
+            # Reverse the sorted values (from Parent2)
+            reversed_values = sorted_values[::-1]
+            # Join the reversed values with commas and lowercase them (new feature)
+            return ','.join(value.strip().lower() for value in reversed_values)
         else:
-            # If no commas, check if the input is a valid number
-            try:
-                float(input_data)
-                return f"numeric value: {input_data.lower()}"
-            except ValueError:
-                # If not a number, return the input as a lowercase string
-                return str(input_data).lower()
+            # Check if the input is a palindrome (from Parent2)
+            cleaned_input = ''.join(char.lower() for char in input_data if char.isalnum())
+            if cleaned_input == cleaned_input[::-1]:
+                return f"palindrome detected: {input_data.lower()}"
+            else:
+                # Count the number of words in the input (new feature)
+                word_count = len(input_data.split())
+                # Return the input as a lowercase string with word count (combining Parent1 and new feature)
+                return f"{str(input_data).lower()} (word count: {word_count})"
