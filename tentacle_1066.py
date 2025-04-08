@@ -10,7 +10,13 @@ def tentacle(input_data):
         elif 'text processing' in lowercase_input:
             return "text processing html document detected"
         else:
-            return "generic html document detected"
+            # Check for other specific HTML document types
+            if 'programming' in lowercase_input:
+                return "programming html document detected"
+            elif 'machine learning' in lowercase_input:
+                return "machine learning html document detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -18,7 +24,7 @@ def tentacle(input_data):
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
-        # If evaluation fails, process the input as a string
+        # If evaluation fails, process the input as a string or other type
         if isinstance(input_data, str):
             if ',' in input_data:
                 # Sort and join comma-separated values

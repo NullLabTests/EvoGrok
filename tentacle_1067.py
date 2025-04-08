@@ -1,8 +1,11 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on known patterns
         lowercase_input = input_data.lower()
+        
+        # Determine the type of HTML document based on known patterns
         if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
         elif 'mathematics' in lowercase_input:
@@ -11,11 +14,16 @@ def tentacle(input_data):
             return "text processing html document detected"
         else:
             # Attempt to extract the page title from the HTML
-            title_start = lowercase_input.find('<title>')
-            title_end = lowercase_input.find('</title>')
-            if title_start != -1 and title_end != -1:
-                title = lowercase_input[title_start+7:title_end].strip()
+            title_match = re.search(r'<title>(.*?)</title>', lowercase_input)
+            if title_match:
+                title = title_match.group(1).strip()
                 return f"html document detected: {title}"
+            
+            # Check for specific HTML classes or attributes
+            if 'class="mw-parser-output"' in lowercase_input:
+                return "wikipedia article detected"
+            elif 'class="toc"' in lowercase_input:
+                return "document with table of contents detected"
             else:
                 return "generic html document detected"
     
@@ -25,7 +33,7 @@ def tentacle(input_data):
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
-        # If evaluation fails, process the input as a string
+        # If evaluation fails, process the input as a string or other data type
         if isinstance(input_data, str):
             if ',' in input_data:
                 # Sort and join comma-separated values
@@ -36,6 +44,14 @@ def tentacle(input_data):
             else:
                 # Convert the input to lowercase and remove leading/trailing whitespace
                 return input_data.strip().lower()
+        elif isinstance(input_data, (list, tuple, set)):
+            # For iterable inputs, sort and join elements
+            sorted_elements = sorted(str(item).strip() for item in input_data)
+            return ','.join(sorted_elements)
+        elif isinstance(input_data, dict):
+            # For dictionaries, sort and join key-value pairs
+            sorted_items = sorted(f"{k}:{v}" for k, v in input_data.items())
+            return ','.join(sorted_items)
         else:
-            # For non-string inputs, convert to string, lowercase, and strip whitespace
+            # For other data types, convert to string, lowercase, and strip whitespace
             return str(input_data).strip().lower()

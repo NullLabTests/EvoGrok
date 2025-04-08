@@ -1,8 +1,11 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on known patterns
         lowercase_input = input_data.lower()
+        
+        # Categorize specific types of HTML documents
         if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
         elif 'mathematics' in lowercase_input:
@@ -13,28 +16,49 @@ def tentacle(input_data):
             # Attempt to extract the title from the HTML
             title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
             if title_match:
-                return f"html document detected: {title_match.group(1).strip().lower()}"
+                title = title_match.group(1).strip().lower()
+                # Check for specific keywords in the title
+                if 'data' in title:
+                    return f"data-related html document detected: {title}"
+                elif 'math' in title or 'equation' in title:
+                    return f"math-related html document detected: {title}"
+                elif 'text' in title or 'string' in title:
+                    return f"text-related html document detected: {title}"
+                else:
+                    return f"html document detected: {title}"
             else:
                 return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, and check if it's a palindrome
+        result_str = str(result).lower()
+        if result_str == result_str[::-1]:
+            return f"{result_str} (palindrome)"
+        else:
+            return result_str
     except:
         # If evaluation fails, process the input as a string
-        if ',' in str(input_data):
+        input_str = str(input_data)
+        
+        if ',' in input_str:
             # Sort and join comma-separated values
-            sorted_values = sorted(str(input_data).split(','))
+            sorted_values = sorted(input_str.split(','))
             # Remove any empty strings, strip whitespace, and remove duplicates
             cleaned_values = list(dict.fromkeys([value.strip() for value in sorted_values if value.strip()]))
             return ','.join(cleaned_values)
         else:
             # Convert the input to lowercase, remove leading/trailing whitespace, and capitalize the first letter
-            processed_input = str(input_data).strip().lower().capitalize()
+            processed_input = input_str.strip().lower().capitalize()
+            
             # Check if the input is a palindrome
             if processed_input == processed_input[::-1]:
                 return f"{processed_input} (palindrome)"
-            else:
-                return processed_input
+            
+            # Check if the input contains any digits
+            if any(char.isdigit() for char in processed_input):
+                return f"{processed_input} (contains numbers)"
+            
+            # If none of the above, return the processed input
+            return processed_input
