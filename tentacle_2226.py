@@ -18,16 +18,10 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
-                elif 'machine learning' in lower_input:
-                    return "wikipedia machine learning html document detected"
                 else:
                     return "wikipedia generic html document detected"
             else:
-                # Check for other common HTML document types
-                if 'html>' in lower_input and 'head>' in lower_input and 'body>' in lower_input:
-                    return "standard html5 document detected"
-                else:
-                    return "generic html document detected"
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -38,7 +32,7 @@ def tentacle(input_data):
             # For numbers, return the sorted digits/characters, their sum, and the original result
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            return f"{sorted_digits}, sum: {sum_of_digits}, product: {result if result == 0 else int(result)}"
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
         elif isinstance(result, str):
             # For strings, split, sort, remove duplicates, and join
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
@@ -46,10 +40,6 @@ def tentacle(input_data):
         elif isinstance(result, (list, tuple, set)):
             # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
-            return ','.join(sorted_items)
-        elif isinstance(result, dict):
-            # For dictionaries, sort keys and values, remove duplicates, and join
-            sorted_items = sorted(set(f"{k}:{v}".lower() for k, v in result.items()))
             return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation, its length, and the original result
@@ -65,9 +55,14 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Check if the input looks like a URL
-            if input_data.startswith(('http://', 'https://')):
-                return f"url detected: {input_data.lower()}"
+            # Check for specific keywords related to Wikipedia topics
+            lower_input = input_data.lower()
+            if 'data analysis' in lower_input:
+                return "potential data analysis text detected"
+            elif 'mathematics' in lower_input:
+                return "potential mathematics text detected"
+            elif 'text processing' in lower_input:
+                return "potential text processing text detected"
             
             # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
@@ -75,10 +70,6 @@ def tentacle(input_data):
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
-            return ','.join(sorted_items)
-        elif isinstance(input_data, dict):
-            # For dictionaries, sort keys and values, remove duplicates, and join
-            sorted_items = sorted(set(f"{k}:{v}".lower() for k, v in input_data.items()))
             return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation, its length, and the original input

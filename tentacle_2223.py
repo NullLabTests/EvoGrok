@@ -18,10 +18,20 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
+                elif 'machine learning' in lower_input:
+                    return "wikipedia machine learning html document detected"
+                elif 'programming' in lower_input:
+                    return "wikipedia programming html document detected"
                 else:
                     return "wikipedia generic html document detected"
             else:
-                return "generic html document detected"
+                # Check for other common HTML document types
+                if 'html' in lower_input and 'head' in lower_input and 'body' in lower_input:
+                    return "generic html5 document detected"
+                elif '<html' in lower_input and 'xmlns' in lower_input:
+                    return "xhtml document detected"
+                else:
+                    return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -34,13 +44,18 @@ def tentacle(input_data):
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
             return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
         elif isinstance(result, str):
-            # For strings, split, sort, remove duplicates, and join
+            # For strings, split, sort, remove duplicates, join, and calculate length
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
-            return ','.join(sorted_items)
+            joined_result = ','.join(sorted_items)
+            return f"{joined_result}, length: {len(joined_result)}"
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements, remove duplicates, and join
+            # For collections, sort elements, remove duplicates, join, and calculate length
             sorted_items = sorted(set(str(item).lower() for item in result))
-            return ','.join(sorted_items)
+            joined_result = ','.join(sorted_items)
+            return f"{joined_result}, length: {len(joined_result)}"
+        elif callable(result):
+            # For functions, return the function name and its docstring
+            return f"function: {result.__name__}, docstring: {result.__doc__ or 'None'}"
         else:
             # For other types, return a lowercase string representation, its length, and the original result
             return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
@@ -55,17 +70,18 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Process the input as a string
-            return process_string(input_data)
+            # Split the input, sort it, remove duplicates, join it, and calculate length
+            sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
+            joined_result = ','.join(sorted_items)
+            return f"{joined_result}, length: {len(joined_result)}"
         elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements, remove duplicates, and join them
+            # If it's a collection, sort its elements, remove duplicates, join them, and calculate length
             sorted_items = sorted(set(str(item).lower() for item in input_data))
-            return ','.join(sorted_items)
+            joined_result = ','.join(sorted_items)
+            return f"{joined_result}, length: {len(joined_result)}"
+        elif callable(input_data):
+            # For functions, return the function name and its docstring
+            return f"function: {input_data.__name__}, docstring: {input_data.__doc__ or 'None'}"
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
-
-def process_string(input_str):
-    # Split the input, sort it, remove duplicates, and join it back together
-    sorted_items = sorted(set(item.strip().lower() for item in input_str.split(',')))
-    return ','.join(sorted_items)
