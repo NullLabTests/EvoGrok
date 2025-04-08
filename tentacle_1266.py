@@ -3,11 +3,11 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_data.lower():
-            return "wikipedia data analysis html document detected, includes various classes and attributes for styling and functionality"
+            return "wikipedia data analysis html document detected, includes various classes and attributes for styling and functionality, related to data analysis"
         elif 'mathematics' in input_data.lower():
-            return "wikipedia mathematics html document detected, starts with DOCTYPE declaration"
+            return "wikipedia mathematics html document detected, starts with DOCTYPE declaration, related to mathematics"
         elif 'text processing' in input_data.lower():
-            return "wikipedia text processing html document detected, includes various classes and attributes for styling and functionality"
+            return "wikipedia text processing html document detected, includes various classes and attributes for styling and functionality, related to text processing"
         else:
             return "generic html document detected"
     
@@ -36,5 +36,15 @@ def tentacle(input_data):
             output += ", related to wikipedia mathematics html document"
         elif 'text processing' in output:
             output += ", related to wikipedia text processing html document"
+    
+    # Check if the output contains any numbers
+    if any(char.isdigit() for char in output):
+        # If numbers are present, append a message about potential mathematical operations
+        output += ", may involve mathematical operations"
+    
+    # Check if the output contains any common programming keywords
+    programming_keywords = ['if', 'else', 'for', 'while', 'def', 'class', 'import']
+    if any(keyword in output for keyword in programming_keywords):
+        output += ", may be related to programming concepts"
     
     return output

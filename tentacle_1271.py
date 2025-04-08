@@ -2,11 +2,12 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
-        if 'data analysis' in input_data.lower():
+        input_lower = input_data.lower()
+        if 'data analysis' in input_lower:
             return "wikipedia data analysis html document detected"
-        elif 'mathematics' in input_data.lower():
+        elif 'mathematics' in input_lower:
             return "wikipedia mathematics html document detected"
-        elif 'text processing' in input_data.lower():
+        elif 'text processing' in input_lower:
             return "wikipedia text processing html document detected"
         else:
             return "generic html document detected"
@@ -14,7 +15,6 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
         result_str = str(result).lower()
         
         # Check if the result contains any of the HTML document types

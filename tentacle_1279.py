@@ -33,5 +33,9 @@ def tentacle(input_data):
             # If it does, return the input as is (preserving case)
             return processed_input
         else:
-            # If it doesn't, return the input as a lowercase string
-            return processed_input.lower()
+            # If it doesn't, check if it's a palindrome
+            if processed_input == processed_input[::-1]:
+                return f"{processed_input} is a palindrome"
+            else:
+                # Return the input as a lowercase string
+                return processed_input.lower()
