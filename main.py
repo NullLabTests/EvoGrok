@@ -23,7 +23,7 @@ if not XAI_API_KEY:
     raise ValueError("XAI_API_KEY must be set in the environment")
 
 # Initialize OpenAI client for xAI API
-client = OpenAI(api_key=XAI_API_KEY, base_url="https://api.x.ai/v1", httpx_extra_kwargs={"proxies": None})
+client = OpenAI(api_key=XAI_API_KEY, base_url="https://api.x.ai/v1")
 
 # Set up logging
 logging.basicConfig(filename="evo_combined.log", level=logging.INFO,
