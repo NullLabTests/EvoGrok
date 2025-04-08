@@ -18,17 +18,17 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return f"mathematical result: {str(result).lower()}"
+        return str(result).lower()
     except:
-        # If evaluation fails, process as a comma-separated list or check for keywords
+        # If evaluation fails, process as a comma-separated list or check for specific topics
         if ',' in input_str:
             # Split, sort, and join the list
             sorted_list = sorted(input_str.split(','))
-            # Remove any empty strings from the list
-            cleaned_list = [item for item in sorted_list if item]
-            return f"sorted list: {','.join(cleaned_list)}"
+            # Remove any empty strings that might result from leading/trailing commas
+            cleaned_list = [item.strip() for item in sorted_list if item.strip()]
+            return ','.join(cleaned_list)
         else:
-            # Check for specific keywords
+            # Check for specific keywords in non-HTML text
             if 'data' in input_str and 'analysis' in input_str:
                 return "data analysis text detected"
             elif 'mathematics' in input_str:
@@ -36,13 +36,5 @@ def tentacle(input_data):
             elif 'text' in input_str and 'processing' in input_str:
                 return "text processing text detected"
             else:
-                # If no specific keywords, check for numeric content
-                if any(char.isdigit() for char in input_str):
-                    return "numeric content detected"
-                else:
-                    # If no numeric content, perform additional text analysis
-                    word_count = len(input_str.split())
-                    if word_count > 10:
-                        return f"long text detected (word count: {word_count})"
-                    else:
-                        return f"short text detected (word count: {word_count})"
+                # If no keywords match, return the input as a lowercase string
+                return input_str

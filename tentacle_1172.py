@@ -19,7 +19,10 @@ def tentacle(input_data):
         elif 'text processing' in title:
             return f"text processing html document detected: {title}"
         else:
-            return f"generic html document detected: {title}"
+            # For other HTML documents, attempt to extract more information
+            description_match = re.search(r'<meta name="description" content="(.*?)"', input_str)
+            description = description_match.group(1) if description_match else "no description found"
+            return f"generic html document detected: {title}, description: {description}"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -40,7 +43,17 @@ def tentacle(input_data):
                 sorted_list = sorted(input_str.split(','))
                 # Remove any empty strings from the list
                 cleaned_list = [item for item in sorted_list if item]
-                return f"sorted list: {','.join(cleaned_list)}"
+                # Attempt to convert items to numbers if possible
+                try:
+                    numeric_list = [float(item) for item in cleaned_list]
+                    return f"sorted numeric list: {','.join(map(str, sorted(numeric_list)))}"
+                except ValueError:
+                    return f"sorted list: {','.join(cleaned_list)}"
             else:
-                # If no commas, return the input as a lowercase string
-                return f"string input: {input_str}"
+                # If no commas, check if it's a single number
+                try:
+                    number = float(input_str)
+                    return f"single number: {number}"
+                except ValueError:
+                    # If not a number, return the input as a lowercase string
+                    return f"string input: {input_str}"

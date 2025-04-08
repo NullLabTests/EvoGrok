@@ -13,8 +13,12 @@ def tentacle(input_data):
             return "wikipedia text processing html document detected"
         else:
             # Check for additional keywords to provide more specific detection
-            if 'class=' in input_str or 'id=' in input_str:
+            if 'wikipedia' in input_str:
+                return "wikipedia html document detected"
+            elif 'class=' in input_str or 'id=' in input_str:
                 return "styled html document detected"
+            elif 'lang' in input_str:
+                return "language-specified html document detected"
             else:
                 return "generic html document detected"
     
@@ -32,5 +36,13 @@ def tentacle(input_data):
             cleaned_list = [item for item in sorted_list if item]
             return ','.join(cleaned_list)
         else:
-            # If no commas, return the input as a lowercase string
-            return input_str
+            # If no commas, check for specific keywords
+            if 'data' in input_str and 'analysis' in input_str:
+                return "data analysis related text detected"
+            elif 'math' in input_str or 'equation' in input_str:
+                return "mathematics related text detected"
+            elif 'text' in input_str and 'process' in input_str:
+                return "text processing related text detected"
+            else:
+                # If no specific keywords, return the input as a lowercase string
+                return input_str
