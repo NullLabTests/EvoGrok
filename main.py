@@ -23,7 +23,7 @@ if not XAI_API_KEY:
     raise ValueError("XAI_API_KEY must be set in the environment")
 
 # Initialize OpenAI client for xAI API
-client = OpenAI(api_key=XAI_API_KEY, base_url="https://api.x.ai/v1")
+client = OpenAI(api_key=XAI_API_KEY, base_url="https://api.x.ai/v1", httpx_extra_kwargs={"proxies": None})
 
 # Set up logging
 logging.basicConfig(filename="evo_combined.log", level=logging.INFO,
@@ -319,15 +319,23 @@ def get_state():
 # Initialize DQN agent (state size: 5, action size: 4)
 agent = DQNAgent(state_size=5, action_size=4)  # Actions: evolve, test, fetch, optimize
 
-# Seed initial tentacle if none exist
-if not tentacles:
-    default_code = "def tentacle(input_data):\n    return str(input_data).lower()"
-    cursor.execute('INSERT INTO tentacles (code, performance, creation_time, domains) VALUES (?, ?, ?, ?)',
-                   (default_code, 0.0, datetime.now(), "text processing"))
+# Seed initial tentacles if fewer than 2 exist
+cursor.execute('SELECT COUNT(*) FROM tentacles')
+tentacle_count = cursor.fetchone()[0]
+if tentacle_count < 2:
+    default_code1 = "def tentacle(input_data):\n    return str(input_data).lower()"
+    default_code2 = "def tentacle(input_data):\n    return str(input_data).upper()"
+    cursor.execute('INSERT OR IGNORE INTO tentacles (code, performance, creation_time, domains) VALUES (?, ?, ?, ?)',
+                   (default_code1, 0.0, datetime.now(), "text processing"))
+    cursor.execute('INSERT OR IGNORE INTO tentacles (code, performance, creation_time, domains) VALUES (?, ?, ?, ?)',
+                   (default_code2, 0.0, datetime.now(), "text processing"))
     conn.commit()
-    tentacle_id = cursor.lastrowid
-    tentacles[tentacle_id] = Tentacle(tentacle_id, default_code, "text processing")
-    logging.info("Initialized with default tentacle")
+    cursor.execute('SELECT id, code, domains FROM tentacles')
+    for row in cursor.fetchall():
+        tentacle_id, code, domains = row
+        if tentacle_id not in tentacles:
+            tentacles[tentacle_id] = Tentacle(tentacle_id, code, domains)
+    logging.info(f"Initialized {len(tentacles)} tentacles")
 
 iteration = 0
 try:
