@@ -1,5 +1,5 @@
 def tentacle(input_data):
-    # Convert input to string and strip whitespace
+    # Convert input to string, strip whitespace, and convert to lowercase
     input_str = str(input_data).strip().lower()
     
     # Check if the input looks like the start of an HTML document
@@ -28,17 +28,30 @@ def tentacle(input_data):
             reversed_elements = [elem[::-1] for elem in sorted_elements]
             return ','.join(reversed_elements)
         elif input_str.isdigit():
-            # If input is a number, return it as a string and its square
+            # If input is a number, return it as a string, its square, and its cube
             number = int(input_str)
-            return f"{input_str}, square: {number**2}"
+            return f"{input_str}, square: {number**2}, cube: {number**3}"
         elif input_str.startswith('lang='):
             # If input starts with 'lang=', process it as a language code
             lang_code = input_str.split('=')[1]
             if lang_code == 'en':
                 return "english language detected"
+            elif lang_code == 'es':
+                return "spanish language detected"
+            elif lang_code == 'fr':
+                return "french language detected"
             else:
                 return f"language code detected: {lang_code}"
+        elif input_str.startswith('url='):
+            # If input starts with 'url=', process it as a URL
+            url = input_str.split('=')[1]
+            if url.startswith('https://'):
+                return f"secure url detected: {url}"
+            elif url.startswith('http://'):
+                return f"insecure url detected: {url}"
+            else:
+                return f"url detected: {url}"
         else:
-            # For other inputs, reverse the string and capitalize the first letter
+            # For other inputs, reverse the string, capitalize the first letter, and add a prefix
             reversed_str = input_str[::-1]
-            return reversed_str.capitalize()
+            return f"processed: {reversed_str.capitalize()}"

@@ -17,8 +17,9 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_str)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, and return with its square
+        result_str = str(result).lower()
+        return f"{result_str}, square: {result**2}"
     except:
         # If evaluation fails, process the input based on its content
         if ',' in input_str:
@@ -30,10 +31,22 @@ def tentacle(input_data):
         elif input_str.isdigit():
             # If input is a number, return it as a string and its square
             number = int(input_str)
-            return f"{input_str}, {number ** 2}"
-        elif input_str.isalpha():
-            # If input is alphabetic, return it in uppercase
-            return input_str.upper()
+            return f"{input_str}, square: {number**2}"
+        elif input_str.startswith('lang='):
+            # If input starts with 'lang=', process it as a language code
+            lang_code = input_str.split('=')[1]
+            if lang_code == 'en':
+                return "english language detected"
+            else:
+                return f"language code detected: {lang_code}"
+        elif input_str.startswith('wiki='):
+            # If input starts with 'wiki=', process it as a Wikipedia topic
+            wiki_topic = input_str.split('=')[1]
+            if wiki_topic in ['data analysis', 'mathematics', 'text processing']:
+                return f"wikipedia page on {wiki_topic} detected"
+            else:
+                return f"wikipedia page on {wiki_topic} not recognized"
         else:
-            # For other inputs, reverse the string and capitalize the first letter
-            return input_str[::-1].capitalize()
+            # For other inputs, reverse the string, capitalize the first letter, and add its length
+            reversed_str = input_str[::-1]
+            return f"{reversed_str.capitalize()}, length: {len(input_str)}"

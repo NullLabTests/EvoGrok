@@ -4,7 +4,7 @@ def tentacle(input_data):
     
     # Check if the input looks like the start of an HTML document
     if input_str.startswith('<!doctype'):
-        # Check for specific Wikipedia page titles
+        # Check for specific Wikipedia page titles based on knowledge
         if 'data analysis' in input_str:
             return "wikipedia page on data analysis detected"
         elif 'mathematics' in input_str:
@@ -23,18 +23,21 @@ def tentacle(input_data):
         # If evaluation fails, process the input based on its content
         if ',' in input_str:
             # If input contains commas, sort and join the elements
-            sorted_elements = sorted(input_str.split(','))
-            # Reverse each element before joining
-            reversed_elements = [elem[::-1] for elem in sorted_elements]
-            return ','.join(reversed_elements)
+            sorted_items = sorted(input_str.split(','))
+            # Reverse each item before joining
+            reversed_items = [item[::-1] for item in sorted_items]
+            return ','.join(reversed_items)
         elif input_str.isdigit():
-            # If input is a number, return it as a string and its square
-            number = int(input_str)
-            return f"{input_str}, square: {number**2}"
+            # If input is a number, return its square as a string
+            return str(int(input_str) ** 2)
         elif input_str.isalpha():
-            # If input is alphabetic, return it reversed and capitalized
+            # If input is alphabetic, reverse the string and capitalize it
             return input_str[::-1].capitalize()
+        elif any(char.isdigit() for char in input_str):
+            # If input contains numbers, extract and sum them
+            numbers = [int(char) for char in input_str if char.isdigit()]
+            return str(sum(numbers))
         else:
-            # For other inputs, reverse the string and remove non-alphanumeric characters
-            cleaned_input = ''.join(char for char in input_str if char.isalnum())
-            return cleaned_input[::-1]
+            # For other inputs, return the first and last characters, 
+            # and the length of the string
+            return f"{input_str[0]}{len(input_str)}{input_str[-1]}" if len(input_str) > 1 else input_str

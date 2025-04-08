@@ -23,12 +23,14 @@ def tentacle(input_data):
             sorted_values = sorted(input_data.split(','))
             # Check if all values are numeric
             if all(value.strip().replace('.', '').isdigit() for value in sorted_values):
-                # If numeric, calculate the sum
-                total = sum(float(value.strip()) for value in sorted_values)
-                return f"numeric input sum: {total:.2f}"
+                # If numeric, calculate the sum and average
+                numeric_values = [float(value.strip()) for value in sorted_values]
+                total = sum(numeric_values)
+                average = total / len(numeric_values)
+                return f"numeric input: sum={total:.2f}, average={average:.2f}"
             else:
                 # If not numeric, return sorted values
-                return ','.join(sorted_values).lower()
+                return f"string input: {','.join(sorted_values).lower()}"
         else:
             # Return the input as a lowercase string with a prefix
             return f"string input: {str(input_data).lower()}"

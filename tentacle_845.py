@@ -30,15 +30,10 @@ def tentacle(input_data):
         elif input_str.isdigit():
             # If input is a number, return it as a string and its square
             number = int(input_str)
-            return f"{input_str}, square: {number**2}"
-        elif input_str.startswith('lang='):
-            # If input starts with 'lang=', process it as a language code
-            lang_code = input_str.split('=')[1]
-            if lang_code == 'en':
-                return "english language detected"
-            else:
-                return f"language code detected: {lang_code}"
+            return f"{input_str}, {number**2}"
+        elif input_str.isalpha():
+            # If input is alphabetic, reverse the string and capitalize the first letter
+            return input_str[::-1].capitalize()
         else:
-            # For other inputs, reverse the string and capitalize the first letter
-            reversed_str = input_str[::-1]
-            return reversed_str.capitalize()
+            # For other inputs, return the first and last characters, and the length
+            return f"{input_str[0]}{input_str[-1]} ({len(input_str)})" if len(input_str) > 1 else input_str

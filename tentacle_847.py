@@ -31,11 +31,23 @@ def tentacle(input_data):
             # If input is a number, return it as a string and its square
             number = int(input_str)
             return f"{input_str}, square: {number**2}"
-        elif input_str.replace(' ', '').isalpha():
-            # If input is alphabetic (ignoring spaces), return it reversed and capitalized
-            return input_str.replace(' ', '')[::-1].capitalize()
+        elif input_str.startswith('lang='):
+            # If input starts with 'lang=', process it as a language code
+            lang_code = input_str.split('=')[1]
+            if lang_code == 'en':
+                return "english language detected"
+            else:
+                return f"language code detected: {lang_code}"
+        elif ' ' in input_str:
+            # If input contains spaces, reverse the order of words
+            words = input_str.split()
+            reversed_words = words[::-1]
+            return ' '.join(reversed_words)
+        elif input_str.startswith('http'):
+            # If input looks like a URL, extract the domain
+            domain = input_str.split('/')[2]
+            return f"url detected, domain: {domain}"
         else:
-            # For other inputs, reverse the string and replace vowels with numbers
-            vowel_map = {'a': '4', 'e': '3', 'i': '1', 'o': '0', 'u': '2'}
+            # For other inputs, reverse the string and capitalize the first letter
             reversed_str = input_str[::-1]
-            return ''.join(vowel_map.get(char, char) for char in reversed_str)
+            return reversed_str.capitalize()
