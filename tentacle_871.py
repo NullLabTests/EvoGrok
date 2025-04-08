@@ -22,9 +22,10 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         
-        # If evaluation succeeds, return the result and its square
+        # If evaluation succeeds, return the result, its square, and its cube
         square = result ** 2
-        return f"result: {result:.2f}, square: {square:.2f}"
+        cube = result ** 3
+        return f"result: {result:.2f}, square: {square:.2f}, cube: {cube:.2f}"
     except:
         # If evaluation fails, process the input as text
         if ',' in input_data:
@@ -51,5 +52,14 @@ def tentacle(input_data):
                 cube = number ** 3
                 return f"number: {number:.2f}, square: {square:.2f}, cube: {cube:.2f}"
             else:
-                # Return the input as a lowercase string
-                return str(input_data).lower()
+                # Check for keywords related to the Wikipedia pages
+                lowercase_input = input_data.lower()
+                if 'data analysis' in lowercase_input:
+                    return "data analysis mentioned"
+                elif 'mathematics' in lowercase_input:
+                    return "mathematics mentioned"
+                elif 'text processing' in lowercase_input:
+                    return "text processing mentioned"
+                else:
+                    # Return the input as a lowercase string
+                    return str(input_data).lower()

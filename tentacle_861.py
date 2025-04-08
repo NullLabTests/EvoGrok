@@ -12,7 +12,12 @@ def tentacle(input_data):
         elif 'text processing' in lowercase_input and 'lang="en"' in lowercase_input:
             return "wikipedia english text processing html document detected"
         else:
-            return "generic html document detected"
+            # Attempt to extract the title from the HTML
+            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
+            if title_match:
+                return f"wikipedia {title_match.group(1).lower()} html document detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -31,8 +36,9 @@ def tentacle(input_data):
             
             # Check if the result looks like a list of numbers
             if all(re.match(r'^-?\d+(\.\d+)?$', value) for value in cleaned_values):
-                # Calculate and return the sum of the numbers
-                return f"sum: {sum(float(value) for value in cleaned_values)}"
+                # Calculate and return the sum and average of the numbers
+                numbers = [float(value) for value in cleaned_values]
+                return f"sum: {sum(numbers)}, average: {sum(numbers)/len(numbers)}"
             else:
                 return result
         else:
@@ -42,5 +48,11 @@ def tentacle(input_data):
             # Check if the input looks like a Wikipedia page title
             if cleaned_input.startswith('wikipedia: '):
                 return f"wikipedia page detected: {cleaned_input[11:]}"
+            # Check if the input looks like a URL
+            elif re.match(r'^https?://', cleaned_input):
+                return f"url detected: {cleaned_input}"
+            # Check if the input looks like an email address
+            elif re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', cleaned_input):
+                return f"email address detected: {cleaned_input}"
             else:
                 return cleaned_input

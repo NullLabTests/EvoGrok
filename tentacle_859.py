@@ -16,7 +16,13 @@ def tentacle(input_data):
             title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
             if title_match:
                 return f"html document detected: {title_match.group(1).lower()}"
-            return "generic html document detected"
+            else:
+                # If no title found, extract the first h1 tag content
+                h1_match = re.search(r'<h1[^>]*>(.*?)</h1>', input_data, re.IGNORECASE | re.DOTALL)
+                if h1_match:
+                    return f"html document detected: {h1_match.group(1).strip().lower()}"
+                else:
+                    return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -29,9 +35,9 @@ def tentacle(input_data):
             if ',' in input_data:
                 # Sort and join comma-separated values
                 sorted_values = sorted(input_data.split(','))
-                # Remove any empty values
-                non_empty_values = [v.strip() for v in sorted_values if v.strip()]
-                return ','.join(non_empty_values)
+                # Remove any leading/trailing whitespace from each value
+                cleaned_values = [value.strip() for value in sorted_values]
+                return ','.join(cleaned_values)
             else:
                 # Attempt to parse as JSON
                 try:

@@ -3,13 +3,13 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_data.lower():
-            return "data analysis html document detected"
+            return "Wikipedia page on Data Analysis detected"
         elif 'mathematics' in input_data.lower():
-            return "mathematics html document detected"
+            return "Wikipedia page on Mathematics detected"
         elif 'text processing' in input_data.lower():
-            return "text processing html document detected"
+            return "Wikipedia page on Text Processing detected"
         else:
-            return "generic html document detected"
+            return "Generic HTML document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -37,6 +37,10 @@ def tentacle(input_data):
                     return f"Email address detected: {input_data}"
                 elif len(input_data) > 1 and input_data.isupper():
                     return f"All uppercase text detected: {input_data.lower()}"
+                elif input_data.strip().isdigit():
+                    return f"Integer detected: {input_data}"
+                elif any(char.isdigit() for char in input_data) and any(char.isalpha() for char in input_data):
+                    return f"Alphanumeric string detected: {input_data.lower()}"
                 else:
                     # If no specific pattern matches, return the input as a lowercase string
                     return str(input_data).lower()

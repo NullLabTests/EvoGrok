@@ -8,7 +8,8 @@ def tentacle(input_data):
     the document's purpose. Otherwise, it attempts to evaluate the input as
     a mathematical expression. If evaluation fails, it processes the input
     based on its format: sorting and joining comma-separated values,
-    reversing strings, or returning the input as a lowercase string.
+    reversing strings, performing basic text analysis, or returning the
+    input as a lowercase string.
 
     Args:
         input_data (str): The input data to process.
@@ -17,17 +18,17 @@ def tentacle(input_data):
         str: Processed output based on the input's content and type.
     """
     # Convert input to string and strip whitespace
-    input_str = str(input_data).strip()
+    input_str = str(input_data).strip().lower()
 
     # Check if the input looks like the start of an HTML document
-    if input_str.lower().startswith('<!doctype'):
+    if input_str.startswith('<!doctype'):
         # Check for specific HTML document types
-        if 'data analysis' in input_str.lower():
-            return "data analysis html document detected - used for analyzing and interpreting data"
-        elif 'mathematics' in input_str.lower():
-            return "mathematics html document detected - covers mathematical concepts and theories"
-        elif 'text processing' in input_str.lower():
-            return "text processing html document detected - focuses on manipulating and analyzing text"
+        if 'data analysis' in input_str and 'wikipedia' in input_str:
+            return "data analysis html document detected - wikipedia page on data analysis, used for analyzing and interpreting data"
+        elif 'mathematics' in input_str and 'wikipedia' in input_str:
+            return "mathematics html document detected - wikipedia page on mathematics, covering mathematical concepts and theories"
+        elif 'text processing' in input_str and 'wikipedia' in input_str:
+            return "text processing html document detected - wikipedia page on text processing, focusing on manipulating and analyzing text"
         else:
             return "generic html document detected"
 
@@ -36,14 +37,19 @@ def tentacle(input_data):
         result = eval(input_str)
         # Convert the result to a string, lowercase it, and reverse it
         return str(result).lower()[::-1]
-    except:
-        # If evaluation fails, check if the input is comma-separated
+    except (SyntaxError, NameError, TypeError):
+        # If evaluation fails due to syntax or undefined variables, process as string
         if ',' in input_str:
             # Sort and join the elements
             return ','.join(sorted(input_str.split(',')))
         elif len(input_str) > 0:
-            # Reverse the input string
-            return input_str[::-1]
+            # Perform basic text analysis
+            word_count = len(input_str.split())
+            unique_words = len(set(input_str.split()))
+            return f"reversed: {input_str[::-1]}, word count: {word_count}, unique words: {unique_words}"
         else:
             # Return the input as a lowercase string
-            return input_str.lower()
+            return input_str
+    except Exception as e:
+        # Handle any other exceptions
+        return f"error processing input: {str(e)}"

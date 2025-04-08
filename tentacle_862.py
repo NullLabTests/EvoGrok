@@ -29,17 +29,21 @@ def tentacle(input_data):
             sorted_values = sorted(input_data.split(','))
             # Remove extra whitespace from each value
             cleaned_values = [re.sub(r'\s+', ' ', value.strip()) for value in sorted_values]
-            return ','.join(cleaned_values)
+            result = ','.join(cleaned_values)
         else:
             # Convert to lowercase, remove extra whitespace, and replace multiple spaces with a single space
-            processed_input = re.sub(r'\s+', ' ', input_data.lower()).strip()
-            
-            # Check for specific patterns in the processed input
-            if re.search(r'\b\d{4}-\d{2}-\d{2}\b', processed_input):
-                return f"date detected: {processed_input}"
-            elif re.search(r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b', processed_input):
-                return f"ip address detected: {processed_input}"
-            elif re.search(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', processed_input):
-                return f"email address detected: {processed_input}"
-            else:
-                return processed_input
+            result = re.sub(r'\s+', ' ', input_data.lower()).strip()
+        
+        # Check for specific patterns in the processed input
+        if re.search(r'\b\d{4}-\d{2}-\d{2}\b', result):
+            return f"date detected: {result}"
+        elif re.search(r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b', result):
+            return f"ip address detected: {result}"
+        elif re.search(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', result):
+            return f"email address detected: {result}"
+        elif re.search(r'\bhttps?://\S+\b', result):
+            return f"url detected: {result}"
+        elif re.search(r'\b\d{10}\b', result):
+            return f"possible phone number detected: {result}"
+        else:
+            return result

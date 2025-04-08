@@ -4,18 +4,23 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Detect the type of HTML document based on known patterns
-        if 'data analysis' in input_data.lower():
+        lowercase_input = input_data.lower()
+        if 'data analysis' in lowercase_input and 'wikipedia' in lowercase_input:
+            return "wikipedia data analysis html document detected"
+        elif 'mathematics' in lowercase_input and 'wikipedia' in lowercase_input:
+            return "wikipedia mathematics html document detected"
+        elif 'text processing' in lowercase_input and 'wikipedia' in lowercase_input:
+            return "wikipedia text processing html document detected"
+        elif 'wikipedia' in lowercase_input:
+            return "wikipedia html document detected"
+        elif 'data analysis' in lowercase_input:
             return "data analysis html document detected"
-        elif 'mathematics' in input_data.lower():
+        elif 'mathematics' in lowercase_input:
             return "mathematics html document detected"
-        elif 'text processing' in input_data.lower():
+        elif 'text processing' in lowercase_input:
             return "text processing html document detected"
         else:
-            # If no specific type is detected, check for other keywords
-            if 'wikipedia' in input_data.lower():
-                return "wikipedia html document detected"
-            else:
-                return "generic html document detected"
+            return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -41,5 +46,9 @@ def tentacle(input_data):
                 return f"url detected: {processed_input}"
             elif re.match(r'^\d{4}-\d{2}-\d{2}$', processed_input):
                 return f"date detected (YYYY-MM-DD): {processed_input}"
+            elif re.match(r'^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$', processed_input):
+                return f"uuid detected: {processed_input}"
+            elif re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', processed_input):
+                return f"ip address detected: {processed_input}"
             else:
                 return processed_input

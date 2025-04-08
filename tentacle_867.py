@@ -21,15 +21,29 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string, lowercase it, remove extra whitespace, and replace multiple spaces with a single space
-        return re.sub(r'\s+', ' ', str(result).lower()).strip()
+        processed_result = re.sub(r'\s+', ' ', str(result).lower()).strip()
+        
+        # Check if the result is a number and format it
+        try:
+            numeric_result = float(processed_result)
+            if numeric_result.is_integer():
+                return f"{int(numeric_result):,}"
+            else:
+                return f"{numeric_result:.2f}"
+        except ValueError:
+            return processed_result
     except:
         # If evaluation fails, process the input as text
         if ',' in input_data:
             # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove extra whitespace from each value and convert to lowercase
-            cleaned_values = [re.sub(r'\s+', ' ', value.strip().lower()) for value in sorted_values]
+            # Remove extra whitespace from each value, convert to lowercase, and remove non-alphanumeric characters
+            cleaned_values = [re.sub(r'\W+', ' ', value.strip().lower()) for value in sorted_values]
+            # Remove any resulting empty strings
+            cleaned_values = [value for value in cleaned_values if value]
             return ','.join(cleaned_values)
         else:
-            # Convert to lowercase, remove extra whitespace, and replace multiple spaces with a single space
-            return re.sub(r'\s+', ' ', input_data.lower()).strip()
+            # Convert to lowercase, remove extra whitespace, replace multiple spaces with a single space, and remove non-alphanumeric characters
+            processed_input = re.sub(r'\W+', ' ', input_data.lower()).strip()
+            # If the result is empty after processing, return the original input
+            return processed_input if processed_input else input_data

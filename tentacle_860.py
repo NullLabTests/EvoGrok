@@ -38,4 +38,16 @@ def tentacle(input_data):
                 return ','.join(cleaned_values)
             else:
                 # Convert to lowercase and remove extra whitespace
-                return re.sub(r'\s+', ' ', input_data.lower()).strip()
+                cleaned_input = re.sub(r'\s+', ' ', input_data.lower()).strip()
+                
+                # Check for specific patterns in the cleaned input
+                if cleaned_input.startswith('http://') or cleaned_input.startswith('https://'):
+                    return f"url detected: {cleaned_input}"
+                elif '@' in cleaned_input and '.' in cleaned_input.split('@')[-1]:
+                    return f"email address detected: {cleaned_input}"
+                elif cleaned_input.isdigit():
+                    return f"integer detected: {cleaned_input}"
+                elif cleaned_input.replace('.', '').replace('-', '').isdigit():
+                    return f"number detected: {cleaned_input}"
+                else:
+                    return cleaned_input
