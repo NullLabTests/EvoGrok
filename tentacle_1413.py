@@ -1,10 +1,17 @@
 import re
 
 def tentacle(input_data):
-    # Check if the input is a URL
+    # Compile the URL pattern
     url_pattern = re.compile(r'^(https?://)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$', re.IGNORECASE)
+    
+    # Function to process text
+    def process_text(text):
+        words = sorted(text.lower().split())
+        processed = ','.join(words)
+        return processed if ',' in processed else processed.replace(',', '')
+    
+    # Check if the input is a URL
     if isinstance(input_data, str) and url_pattern.match(input_data):
-        # Check if the URL contains specific keywords
         if 'data' in input_data.lower():
             return "data-related url detected"
         elif 'math' in input_data.lower():
@@ -16,7 +23,6 @@ def tentacle(input_data):
     
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on known patterns
         if 'data analysis' in input_data.lower():
             return 'data analysis html document detected'
         elif 'mathematics' in input_data.lower():
@@ -42,16 +48,14 @@ def tentacle(input_data):
                 return "html document detected in evaluated string"
             else:
                 # Process the string as text
-                processed_result = ','.join(sorted(result.lower().split()))
-                return processed_result if ',' in processed_result else processed_result.replace(',', '')
+                return process_text(result)
+        elif isinstance(result, (list, tuple, set)):
+            # For collections, process each item and join the results
+            processed_items = [process_text(str(item)) for item in result]
+            return ','.join(processed_items)
         else:
-            # For other types, convert to string, split into words, sort them, and join with commas
-            processed_result = ','.join(sorted(str(result).lower().split()))
-            # If the result is a single word, return it as is; otherwise, return the sorted, comma-separated list
-            return processed_result if ',' in processed_result else processed_result.replace(',', '')
+            # For other types, process as text
+            return process_text(str(result))
     except:
         # If evaluation fails, process the input as text
-        # Convert to lowercase, split into words, sort them, and join with commas
-        processed_input = ','.join(sorted(str(input_data).lower().split()))
-        # If the result is a single word, return it as is; otherwise, return the sorted, comma-separated list
-        return processed_input if ',' in processed_input else processed_input.replace(',', '')
+        return process_text(str(input_data))

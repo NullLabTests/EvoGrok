@@ -24,16 +24,35 @@ def tentacle(input_data):
         if 'html5' in input_data.lower():
             detected_elements.append('html5')
         
+        # Extract content between first '>' and '<'
+        content = input_data.split('>', 1)[1].split('<', 1)[0].strip()
+        
         # Attempt to evaluate the content as a mathematical expression
         try:
-            content = input_data.split('>', 1)[1].split('<', 1)[0].strip()
             result = eval(content)
             detected_elements.append(f"evaluated result: {str(result).lower()}")
         except:
             pass
         
-        # Return a sorted, comma-separated list of unique detected elements
-        return ','.join(sorted(set(detected_elements)))
+        # Process the content as text
+        words = sorted(content.lower().split())
+        keywords = []
+        if 'data' in words or 'analysis' in words:
+            keywords.append('data analysis')
+        if 'math' in words or 'equation' in words or 'algebra' in words or 'geometry' in words:
+            keywords.append('mathematics')
+        if 'text' in words or 'string' in words or 'nlp' in words or 'regex' in words:
+            keywords.append('text processing')
+        
+        detected_elements.extend(keywords + words)
+        
+        # Return a structured output
+        return {
+            "type": "html document",
+            "category": document_type,
+            "elements": sorted(set(detected_elements)),
+            "content": content
+        }
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -44,12 +63,13 @@ def tentacle(input_data):
         
         # Check if the result is a single number
         if result_str.replace('.', '').replace('-', '').isdigit():
-            return f"numeric result: {result_str}"
+            return {
+                "type": "numeric result",
+                "value": result_str
+            }
         
-        # If not a single number, split into words, sort, and join with commas
+        # If not a single number, process as text
         words = sorted(result_str.split())
-        
-        # Check for specific keywords and add them to the beginning of the result
         keywords = []
         if 'data' in words or 'analysis' in words:
             keywords.append('data analysis')
@@ -58,13 +78,16 @@ def tentacle(input_data):
         if 'text' in words or 'string' in words or 'nlp' in words or 'regex' in words:
             keywords.append('text processing')
         
-        return f"evaluated expression: {','.join(keywords + words)}"
+        return {
+            "type": "evaluated expression",
+            "category": keywords[0] if keywords else "unknown",
+            "value": result_str,
+            "keywords": keywords,
+            "words": words
+        }
     except:
         # If evaluation fails, process the input as text
-        # Convert to lowercase, split into words, sort them, and join with commas
         words = sorted(str(input_data).lower().split())
-        
-        # Check for specific keywords and add them to the beginning of the result
         keywords = []
         if 'data' in words or 'analysis' in words:
             keywords.append('data analysis')
@@ -73,4 +96,9 @@ def tentacle(input_data):
         if 'text' in words or 'string' in words or 'nlp' in words or 'regex' in words:
             keywords.append('text processing')
         
-        return f"processed text: {','.join(keywords + words)}"
+        return {
+            "type": "processed text",
+            "category": keywords[0] if keywords else "unknown",
+            "keywords": keywords,
+            "words": words
+        }

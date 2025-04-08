@@ -25,7 +25,7 @@ def tentacle(input_data):
             detected_elements.append('html5')
         
         # Return a sorted, comma-separated list of unique detected elements
-        return ','.join(sorted(set(detected_elements)))
+        return f"html document detected: {','.join(sorted(set(detected_elements)))}"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -41,32 +41,39 @@ def tentacle(input_data):
         # If not a single number, process as text
         words = sorted(result_str.split())
         
-        # Check for specific keywords and add them to the beginning of the result
-        keywords = []
+        # Check for specific keywords and categorize the result
+        categories = []
         if any(keyword in words for keyword in ['data', 'analysis', 'statistics', 'visualization']):
-            keywords.append('data analysis')
+            categories.append('data analysis')
         if any(keyword in words for keyword in ['math', 'equation', 'algebra', 'geometry']):
-            keywords.append('mathematics')
+            categories.append('mathematics')
         if any(keyword in words for keyword in ['text', 'string', 'nlp', 'regex']):
-            keywords.append('text processing')
+            categories.append('text processing')
         
-        # Add the original result to the end of the list
-        keywords.append(result_str)
+        # Combine categories and words, ensuring uniqueness
+        result_list = list(set(categories + words))
         
-        return ','.join(keywords)
+        # Sort the result and join with commas
+        return f"mathematical expression evaluated: {','.join(sorted(result_list))}"
     except:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them, and join with commas
         words = sorted(str(input_data).lower().split())
         
-        # Check for specific keywords and add them to the beginning of the result
-        keywords = []
+        # Check for specific keywords and categorize the result
+        categories = []
         if any(keyword in words for keyword in ['data', 'analysis', 'statistics', 'visualization']):
-            keywords.append('data analysis')
+            categories.append('data analysis')
         if any(keyword in words for keyword in ['math', 'equation', 'algebra', 'geometry']):
-            keywords.append('mathematics')
+            categories.append('mathematics')
         if any(keyword in words for keyword in ['text', 'string', 'nlp', 'regex']):
-            keywords.append('text processing')
+            categories.append('text processing')
         
-        # Return the keywords followed by the sorted words
-        return ','.join(keywords + words)
+        # Remove any empty strings from the words list
+        words = [word for word in words if word]
+        
+        # Combine categories and words, ensuring uniqueness
+        result_list = list(set(categories + words))
+        
+        # Sort the result and join with commas
+        return f"text processed: {','.join(sorted(result_list))}"

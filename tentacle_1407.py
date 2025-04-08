@@ -24,10 +24,21 @@ def tentacle(input_data):
             return f"Mathematical result: {processed_result.capitalize()}"
         else:
             return f"Mathematical result: {processed_result.replace(',', '').capitalize()}"
-    except:
+    except Exception as e:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them, and join with commas
         processed_input = ','.join(sorted(str(input_data).lower().split()))
+        
+        # Check if the input contains any numbers
+        if any(char.isdigit() for char in input_data):
+            # If numbers are present, treat it as a potential numeric expression
+            try:
+                # Attempt to evaluate the input as a numeric expression
+                numeric_result = eval(''.join(char for char in input_data if char.isdigit() or char in '+-*/().'))
+                return f"Numeric expression result: {numeric_result}"
+            except:
+                # If numeric evaluation fails, proceed with text processing
+                pass
         
         # If the result is a single word, return it capitalized
         # Otherwise, return the sorted, comma-separated list with the first word capitalized

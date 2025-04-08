@@ -40,6 +40,13 @@ def tentacle(input_data):
         elif processed_input == 'text,processing':
             return 'wikipedia text processing text detected'
         
+        # New feature: Check for common programming language keywords
+        programming_keywords = ['python', 'java', 'javascript', 'c++', 'ruby']
+        detected_languages = [lang for lang in programming_keywords if lang in processed_input]
+        
+        if detected_languages:
+            return f"programming language detected: {', '.join(detected_languages)}"
+        
         # If the result is a single word, return it capitalized; otherwise, return the sorted, comma-separated list
         if ',' not in processed_input:
             return processed_input.capitalize()

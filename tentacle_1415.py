@@ -59,10 +59,17 @@ def tentacle(input_data):
                         digits = ''.join(char for char in input_data if char.isdigit())
                         return f"contains digits: {digits}"
                     else:
-                        # New feature: Check for uppercase letters
+                        # Check for uppercase letters
                         if any(char.isupper() for char in input_data):
                             uppercase_count = sum(1 for char in input_data if char.isupper())
                             return f"contains uppercase letters: {uppercase_count}"
                         else:
-                            # Return the input as a lowercase string
-                            return str(input_data).lower()
+                            # New feature: Check for email addresses
+                            import re
+                            email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+                            email_matches = re.findall(email_pattern, input_data)
+                            if email_matches:
+                                return f"email address detected: {', '.join(email_matches)}"
+                            else:
+                                # Return the input as a lowercase string (from Parent1)
+                                return str(input_data).lower()

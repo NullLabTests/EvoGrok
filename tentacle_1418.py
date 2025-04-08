@@ -7,13 +7,13 @@ def tentacle(input_data):
         # Determine the type of HTML document and add relevant elements
         if 'data analysis' in input_data.lower():
             document_type = 'data analysis'
-            detected_elements.extend(['wikipedia page', 'html5', 'statistics', 'data visualization'])
+            detected_elements.extend(['wikipedia page', 'html5', 'statistics', 'data visualization', 'layout features'])
         elif 'mathematics' in input_data.lower():
             document_type = 'mathematics'
-            detected_elements.extend(['wikipedia page', 'html5', 'algebra', 'geometry'])
+            detected_elements.extend(['wikipedia page', 'html5', 'algebra', 'geometry', 'doctype declaration'])
         elif 'text processing' in input_data.lower():
             document_type = 'text processing'
-            detected_elements.extend(['wikipedia page', 'html5', 'nlp', 'regex'])
+            detected_elements.extend(['wikipedia page', 'html5', 'nlp', 'regex', 'language settings'])
         
         # Add the document type to detected elements
         detected_elements.append(document_type)
@@ -43,11 +43,11 @@ def tentacle(input_data):
         
         # Check for specific keywords and add them to the beginning of the result
         keywords = []
-        if any(keyword in words for keyword in ['data', 'analysis', 'statistics', 'visualization']):
+        if any(keyword in words for keyword in ['data', 'analysis', 'statistics', 'visualization', 'layout']):
             keywords.append('data analysis')
-        if any(keyword in words for keyword in ['math', 'equation', 'algebra', 'geometry']):
+        if any(keyword in words for keyword in ['math', 'equation', 'algebra', 'geometry', 'doctype']):
             keywords.append('mathematics')
-        if any(keyword in words for keyword in ['text', 'string', 'nlp', 'regex']):
+        if any(keyword in words for keyword in ['text', 'string', 'nlp', 'regex', 'language']):
             keywords.append('text processing')
         
         # Add the original result to the end of the list
@@ -61,11 +61,11 @@ def tentacle(input_data):
         
         # Check for specific keywords and add them to the beginning of the result
         keywords = []
-        if any(keyword in words for keyword in ['data', 'analysis', 'statistics', 'visualization']):
+        if any(keyword in words for keyword in ['data', 'analysis', 'statistics', 'visualization', 'layout']):
             keywords.append('data analysis')
-        if any(keyword in words for keyword in ['math', 'equation', 'algebra', 'geometry']):
+        if any(keyword in words for keyword in ['math', 'equation', 'algebra', 'geometry', 'doctype']):
             keywords.append('mathematics')
-        if any(keyword in words for keyword in ['text', 'string', 'nlp', 'regex']):
+        if any(keyword in words for keyword in ['text', 'string', 'nlp', 'regex', 'language']):
             keywords.append('text processing')
         
         # Remove any empty strings from the words list
