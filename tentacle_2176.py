@@ -1,5 +1,3 @@
-import re
-
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -12,22 +10,28 @@ def tentacle(input_data):
             return "wikipedia mathematics html document detected"
         elif 'text processing' in lower_input:
             return "wikipedia text processing html document detected"
-        elif 'statistics' in lower_input:
-            return "wikipedia statistics html document detected"
-        elif 'science' in lower_input:
-            return "wikipedia science html document detected"
-        elif 'programming' in lower_input:
-            return "wikipedia programming html document detected"
-        elif 'class="mw-page-title-main"' in lower_input:
-            # Further classify based on content
-            if 'history' in lower_input:
-                return "wikipedia history html document detected"
-            elif 'literature' in lower_input:
-                return "wikipedia literature html document detected"
-            else:
-                return "wikipedia generic html document detected"
         else:
-            return "generic html document detected"
+            # Check for specific classes or attributes
+            if 'class="mw-page-title-main"' in lower_input:
+                # Further classify based on content
+                if 'statistics' in lower_input:
+                    return "wikipedia statistics html document detected"
+                elif 'science' in lower_input:
+                    return "wikipedia science html document detected"
+                elif 'history' in lower_input:
+                    return "wikipedia history html document detected"
+                elif 'technology' in lower_input:
+                    return "wikipedia technology html document detected"
+                else:
+                    return "wikipedia generic html document detected"
+            else:
+                # Check for other common Wikipedia attributes
+                if 'class="infobox"' in lower_input:
+                    return "wikipedia infobox html document detected"
+                elif 'id="toc"' in lower_input:
+                    return "wikipedia toc html document detected"
+                else:
+                    return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -44,19 +48,20 @@ def tentacle(input_data):
                     product_of_digits *= int(digit)
             return f"{sorted_digits}, sum: {sum_of_digits}, product: {product_of_digits}, original: {result}"
         elif isinstance(result, str):
-            # For strings, split, sort, remove duplicates, join, and count words
-            words = result.split()
+            # For strings, split, sort, remove duplicates, count unique items, and join
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
-            word_count = len(words)
-            return f"{','.join(sorted_items)}, word count: {word_count}"
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique count: {unique_count}"
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements, remove duplicates, join, and count items
+            # For collections, sort elements, remove duplicates, count unique items, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique count: {unique_count}"
+        elif isinstance(result, dict):
+            # For dictionaries, sort keys, join key-value pairs, and count items
+            sorted_items = sorted(f"{k}:{v}" for k, v in result.items())
             item_count = len(sorted_items)
             return f"{','.join(sorted_items)}, item count: {item_count}"
-        elif callable(result):
-            # For functions, return its name and docstring
-            return f"function: {result.__name__}, docstring: {result.__doc__ or 'None'}"
         else:
             # For other types, return a lowercase string representation, its length, type, and the original result
             return f"{str(result).lower()}, length: {len(str(result))}, type: {type(result).__name__}, original: {result}"
@@ -64,30 +69,27 @@ def tentacle(input_data):
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
             # Check if the input contains any HTML-like tags
-            if re.search(r'<[^>]+>', input_data):
+            if '<' in input_data and '>' in input_data:
                 return "potential html fragment detected"
             
             # Check if the input looks like a mathematical expression
-            if re.search(r'[+\-*/()]', input_data):
+            if any(char in input_data for char in '+-*/()^%'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Check if the input looks like a URL
-            if re.match(r'^(https?|ftp)://', input_data):
-                return f"url detected: {input_data.lower()}"
-            
-            # Split the input, sort it, remove duplicates, join it back together, and count words
-            words = input_data.split()
+            # Split the input, sort it, remove duplicates, count unique items, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            word_count = len(words)
-            return f"{','.join(sorted_items)}, word count: {word_count}"
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique count: {unique_count}"
         elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements, remove duplicates, join them, and count items
+            # If it's a collection, sort its elements, remove duplicates, count unique items, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique count: {unique_count}"
+        elif isinstance(input_data, dict):
+            # For dictionaries, sort keys, join key-value pairs, and count items
+            sorted_items = sorted(f"{k}:{v}" for k, v in input_data.items())
             item_count = len(sorted_items)
             return f"{','.join(sorted_items)}, item count: {item_count}"
-        elif callable(input_data):
-            # For functions, return its name and docstring
-            return f"function: {input_data.__name__}, docstring: {input_data.__doc__ or 'None'}"
         else:
             # For other types, return a lowercase string representation, its length, type, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, type: {type(input_data).__name__}, original: {input_data}"
