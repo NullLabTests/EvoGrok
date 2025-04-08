@@ -10,16 +10,18 @@ def tentacle(input_data):
             return "wikipedia mathematics html document detected"
         elif 'text processing' in lower_input:
             return "wikipedia text processing html document detected"
-        elif 'class="mw-page-title-main"' in lower_input:
-            # Further classify based on content
-            if 'statistics' in lower_input:
-                return "wikipedia statistics html document detected"
-            elif 'science' in lower_input:
-                return "wikipedia science html document detected"
-            else:
-                return "wikipedia generic html document detected"
         else:
-            return "generic html document detected"
+            # Check for specific classes or attributes
+            if 'class="mw-page-title-main"' in lower_input:
+                # Further classify based on content
+                if 'statistics' in lower_input:
+                    return "wikipedia statistics html document detected"
+                elif 'science' in lower_input:
+                    return "wikipedia science html document detected"
+                else:
+                    return "wikipedia generic html document detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -27,22 +29,18 @@ def tentacle(input_data):
         
         # Process the result based on its type
         if isinstance(result, (int, float)):
-            # For numbers, return the sorted digits/characters, their sum, product, and the original result
+            # For numbers, return the sorted digits/characters, their sum, and the original result
             sorted_digits = ''.join(sorted(str(result).lower()))
-            digits = [int(digit) for digit in str(abs(result)) if digit.isdigit()]
-            sum_of_digits = sum(digits)
-            product_of_digits = 1 if digits else 0
-            for digit in digits:
-                product_of_digits *= digit
-            return f"{sorted_digits}, sum: {sum_of_digits}, product: {product_of_digits}, original: {result}"
+            sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
         elif isinstance(result, str):
-            # For strings, split, sort, remove duplicates, count unique items, and join
-            items = sorted(set(item.strip().lower() for item in result.split(',')))
-            return f"{','.join(items)}, unique count: {len(items)}"
+            # For strings, split, sort, remove duplicates, and join
+            sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
+            return ','.join(sorted_items)
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements, remove duplicates, count unique items, and join
-            items = sorted(set(str(item).lower() for item in result))
-            return f"{','.join(items)}, unique count: {len(items)}"
+            # For collections, sort elements, remove duplicates, and join
+            sorted_items = sorted(set(str(item).lower() for item in result))
+            return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation, its length, and the original result
             return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
@@ -57,13 +55,21 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Split the input, sort it, remove duplicates, count unique items, and join it back together
-            items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            return f"{','.join(items)}, unique count: {len(items)}"
+            # Attempt to process as a list of items
+            items = [item.strip().lower() for item in input_data.split(',')]
+            
+            # Check if it's a valid list of numbers
+            if all(item.replace('.', '').replace('-', '').isdigit() for item in items):
+                numbers = [float(item) for item in items]
+                return f"list of numbers: {sorted(numbers)}, sum: {sum(numbers)}, count: {len(numbers)}"
+            
+            # If not numbers, process as a list of strings
+            sorted_items = sorted(set(items))
+            return ','.join(sorted_items)
         elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements, remove duplicates, count unique items, and join them
-            items = sorted(set(str(item).lower() for item in input_data))
-            return f"{','.join(items)}, unique count: {len(items)}"
+            # If it's a collection, sort its elements, remove duplicates, and join them
+            sorted_items = sorted(set(str(item).lower() for item in input_data))
+            return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"

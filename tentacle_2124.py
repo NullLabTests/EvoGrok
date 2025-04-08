@@ -55,14 +55,9 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Process the input string based on its content
-            if ',' in input_data:
-                # Split the input, sort it, remove duplicates, and join it back together
-                sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-                return ','.join(sorted_items)
-            else:
-                # Return the lowercase input string and its length
-                return f"{input_data.lower()}, length: {len(input_data)}"
+            # Split the input, sort it, remove duplicates, and join it back together
+            sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
+            return ','.join(sorted_items)
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
@@ -70,3 +65,25 @@ def tentacle(input_data):
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
+
+    # New feature: Check for Wikipedia-related content in non-HTML inputs
+    if isinstance(input_data, str):
+        lower_input = input_data.lower()
+        if 'wikipedia' in lower_input:
+            if 'data analysis' in lower_input:
+                return "wikipedia data analysis content detected"
+            elif 'mathematics' in lower_input:
+                return "wikipedia mathematics content detected"
+            elif 'text processing' in lower_input:
+                return "wikipedia text processing content detected"
+            else:
+                return "wikipedia content detected"
+
+    # New feature: Process numeric inputs that weren't valid Python expressions
+    if isinstance(input_data, (int, float)):
+        sorted_digits = ''.join(sorted(str(input_data).lower()))
+        sum_of_digits = sum(int(digit) for digit in str(abs(input_data)) if digit.isdigit())
+        return f"{sorted_digits}, sum: {sum_of_digits}, original: {input_data}"
+
+    # If none of the above conditions are met, return the input as a lowercase string
+    return str(input_data).lower()
