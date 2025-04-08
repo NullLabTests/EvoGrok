@@ -15,7 +15,7 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return f"mathematical result: {str(result).lower()}"
+        return f"mathematical expression evaluated: {str(result).lower()}"
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -38,10 +38,10 @@ def tentacle(input_data):
                     return f"email address detected: {input_data}"
                 elif len(input_data) > 1 and input_data.isupper():
                     return f"all uppercase text detected: {input_data.lower()}"
-                elif input_data.strip().isalpha():
-                    return f"alphabetic text detected: {input_data.lower()}"
+                elif input_data.strip().lower() in ['true', 'false']:
+                    return f"boolean value detected: {input_data.lower()}"
                 elif any(char.isdigit() for char in input_data):
-                    return f"text with numbers detected: {input_data.lower()}"
+                    return f"alphanumeric string detected: {input_data.lower()}"
                 else:
                     # If no specific pattern is detected, return the input as a lowercase string
-                    return f"generic text detected: {str(input_data).lower()}"
+                    return f"generic string detected: {str(input_data).lower()}"

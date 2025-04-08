@@ -5,24 +5,27 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if input_str.startswith('<!doctype'):
         # Check for specific topics in the HTML document
-        if 'data analysis' in input_str:
-            return "data analysis wikipedia page detected"
-        elif 'mathematics' in input_str:
-            return "mathematics wikipedia page detected"
-        elif 'text processing' in input_str:
-            return "text processing wikipedia page detected"
+        if 'data analysis' in input_str and 'wikipedia' in input_str:
+            return "wikipedia page on data analysis detected"
+        elif 'mathematics' in input_str and 'wikipedia' in input_str:
+            return "wikipedia page on mathematics detected"
+        elif 'text processing' in input_str and 'wikipedia' in input_str:
+            return "wikipedia page on text processing detected"
         elif any(topic in input_str for topic in ['science', 'technology', 'engineering', 'stem']):
-            return "stem-related wikipedia page detected"
+            return "stem-related html document detected"
         elif 'wikipedia' in input_str:
-            return "generic wikipedia page detected"
+            return "generic wikipedia html document detected"
         else:
             return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return f"mathematical result: {str(result).lower()}"
+        # Convert the result to a string and format it
+        if isinstance(result, (int, float)):
+            return f"mathematical result: {result:.2f}"
+        else:
+            return f"mathematical result: {str(result)}"
     except:
         # If evaluation fails, process as a comma-separated list or check for specific patterns
         if ',' in input_str:
@@ -47,6 +50,8 @@ def tentacle(input_data):
                 return f"boolean value: {input_str}"
             elif input_str.startswith('0x') and all(c in '0123456789abcdef' for c in input_str[2:]):
                 return f"hexadecimal number: {input_str}"
+            elif input_str.replace(' ', '').isalnum():
+                return f"alphanumeric string: {input_str}"
             else:
                 # If no specific pattern matches, return the input as a lowercase string
                 return f"text input: {input_str}"

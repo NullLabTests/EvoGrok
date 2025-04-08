@@ -6,15 +6,15 @@ def tentacle(input_data):
     if input_str.startswith('<!doctype'):
         # Check for specific topics in the HTML document
         if 'data analysis' in input_str:
-            return "data analysis html document detected"
+            return "data analysis wikipedia page detected"
         elif 'mathematics' in input_str:
-            return "mathematics html document detected"
+            return "mathematics wikipedia page detected"
         elif 'text processing' in input_str:
-            return "text processing html document detected"
+            return "text processing wikipedia page detected"
         elif any(topic in input_str for topic in ['science', 'technology', 'engineering']):
-            return "stem-related html document detected"
+            return "stem-related wikipedia page detected"
         else:
-            return "generic html document detected"
+            return "generic wikipedia page detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -48,5 +48,15 @@ def tentacle(input_data):
                     # If still no match, check for other keywords
                     elif any(keyword in input_str for keyword in ['python', 'programming', 'coding']):
                         return f"programming-related content detected: {input_str}"
-                    # If no keywords match, return the input as a lowercase string
-                    return input_str
+                    # If no keywords match, perform text processing
+                    elif any(char.isalnum() for char in input_str):
+                        # Count words and characters
+                        words = input_str.split()
+                        word_count = len(words)
+                        char_count = len(input_str)
+                        # Calculate average word length
+                        avg_word_length = sum(len(word) for word in words) / word_count if word_count > 0 else 0
+                        return f"text processed: {word_count} words, {char_count} characters, average word length: {avg_word_length:.2f}"
+                    # If input is empty or only contains whitespace
+                    else:
+                        return "empty or whitespace input detected"

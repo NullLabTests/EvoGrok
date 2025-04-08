@@ -6,21 +6,21 @@ def tentacle(input_data):
     if input_str.startswith('<!doctype'):
         # Check for specific topics in the HTML document
         if 'data analysis' in input_str:
-            return "data analysis html document detected"
+            return "data analysis wikipedia page detected"
         elif 'mathematics' in input_str:
-            return "mathematics html document detected"
+            return "mathematics wikipedia page detected"
         elif 'text processing' in input_str:
-            return "text processing html document detected"
-        elif any(topic in input_str for topic in ['science', 'technology', 'engineering']):
-            return "stem-related html document detected"
+            return "text processing wikipedia page detected"
+        elif any(topic in input_str for topic in ['science', 'technology', 'engineering', 'stem']):
+            return "stem-related wikipedia page detected"
         else:
-            return "generic html document detected"
+            return "generic wikipedia page detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return f"mathematical result: {str(result).lower()}"
+        return f"mathematical expression evaluated to: {str(result).lower()}"
     except:
         # If evaluation fails, process as a comma-separated list or check for number patterns
         if ',' in input_str:
@@ -28,15 +28,15 @@ def tentacle(input_data):
             sorted_list = sorted(input_str.split(','))
             # Remove any empty strings that might result from leading/trailing commas
             cleaned_list = [item.strip() for item in sorted_list if item.strip()]
-            return f"sorted list: {','.join(cleaned_list)}"
+            return f"sorted and cleaned list: {','.join(cleaned_list)}"
         else:
             # If no commas, check for specific number patterns
             if input_str.isdigit():
-                return f"positive integer: {input_str}"
+                return f"positive integer detected: {input_str}"
             elif input_str.replace('.', '').isdigit():
-                return f"decimal: {input_str}"
+                return f"decimal number detected: {input_str}"
             elif input_str.replace('-', '').isdigit():
-                return f"negative number: {input_str}"
+                return f"negative number detected: {input_str}"
             else:
                 # If no specific pattern matches, check for potential HTML fragments
                 if '<' in input_str and '>' in input_str:
@@ -45,5 +45,9 @@ def tentacle(input_data):
                     # If no other patterns match, check for Wikipedia-related content
                     if 'wikipedia' in input_str:
                         return f"wikipedia content detected: {input_str}"
-                    # If still no match, return the input as a lowercase string
-                    return input_str
+                    # If still no match, check for specific keywords from the knowledge
+                    elif any(keyword in input_str for keyword in ['data analysis', 'mathematics', 'text processing']):
+                        return f"topic-related content detected: {input_str}"
+                    # If no match at all, return the input as a lowercase string
+                    else:
+                        return input_str
