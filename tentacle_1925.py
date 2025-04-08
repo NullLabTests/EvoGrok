@@ -18,10 +18,18 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
+                elif 'programming' in lower_input:
+                    return "wikipedia programming html document detected"
                 else:
                     return "wikipedia generic html document detected"
             else:
-                return "generic html document detected"
+                # Check for other common Wikipedia classes
+                if 'class="infobox"' in lower_input:
+                    return "wikipedia infobox html document detected"
+                elif 'class="toc"' in lower_input:
+                    return "wikipedia table of contents html document detected"
+                else:
+                    return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -30,27 +38,26 @@ def tentacle(input_data):
         # Process the result based on its type
         if isinstance(result, (int, float)):
             # For numbers, return the sorted digits/characters, their sum, 
-            # the original result, and whether it's prime (for integers)
-            sorted_digits = ''.join(sorted(str(result).lower()))
+            # the original result, and whether it's positive or negative
+            sorted_digits = ''.join(sorted(str(abs(result)).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            
-            if isinstance(result, int) and result > 1:
-                is_prime = all(result % i != 0 for i in range(2, int(result**0.5) + 1))
-                prime_status = "prime" if is_prime else "not prime"
-            else:
-                prime_status = "n/a"
-            
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}, prime status: {prime_status}"
+            sign = "positive" if result >= 0 else "negative"
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}, sign: {sign}"
         elif isinstance(result, str):
-            # For strings, split, sort, remove duplicates, join, and count unique words
-            sorted_items = sorted(set(item.strip().lower() for item in result.split()))
-            unique_word_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, unique words: {unique_word_count}"
+            # For strings, split, sort, remove duplicates, join, and count unique items
+            sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique items: {unique_count}"
         elif isinstance(result, (list, tuple, set)):
             # For collections, sort elements, remove duplicates, join, and count unique items
             sorted_items = sorted(set(str(item).lower() for item in result))
-            unique_item_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, unique items: {unique_item_count}"
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique items: {unique_count}"
+        elif isinstance(result, dict):
+            # For dictionaries, process keys and values separately
+            keys = sorted(set(str(key).lower() for key in result.keys()))
+            values = sorted(set(str(value).lower() for value in result.values()))
+            return f"keys: {','.join(keys)}, values: {','.join(values)}"
         else:
             # For other types, return a lowercase string representation, its length, 
             # the original result, and its type
@@ -68,13 +75,19 @@ def tentacle(input_data):
             
             # Split the input, sort it, remove duplicates, join it back together, and count unique items
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            unique_item_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, unique items: {unique_item_count}"
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique items: {unique_count}"
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements, remove duplicates, join them, and count unique items
             sorted_items = sorted(set(str(item).lower() for item in input_data))
-            unique_item_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, unique items: {unique_item_count}"
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique items: {unique_count}"
+        elif isinstance(input_data, dict):
+            # For dictionaries, process keys and values separately
+            keys = sorted(set(str(key).lower() for key in input_data.keys()))
+            values = sorted(set(str(value).lower() for value in input_data.values()))
+            return f"keys: {','.join(keys)}, values: {','.join(values)}"
         else:
-            # For other types, return a lowercase string representation, its length, and the original input
-            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
+            # For other types, return a lowercase string representation, its length, 
+            # the original input, and its type
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}, type: {type(input_data).__name__}"
