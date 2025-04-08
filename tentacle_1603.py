@@ -38,5 +38,23 @@ def tentacle(input_data):
         return f"{processed_result}, wikipedia mathematics html document detected: starts with DOCTYPE declaration and includes key elements"
     elif 'text processing' in processed_result:
         return f"{processed_result}, wikipedia text processing html document detected: includes DOCTYPE declaration and classes related to the topic"
-    else:
-        return processed_result
+    
+    # New feature: Check if the result is a number and perform additional processing
+    try:
+        number = float(processed_result)
+        if number.is_integer():
+            # If it's an integer, return its binary representation
+            return bin(int(number))[2:]
+        else:
+            # If it's a float, return its rounded value to 2 decimal places
+            return str(round(number, 2))
+    except ValueError:
+        # If it's not a number, check for specific patterns
+        if 'data' in processed_result and 'analysis' in processed_result:
+            return f"{processed_result}, potential data analysis reference"
+        elif 'math' in processed_result or 'equation' in processed_result:
+            return f"{processed_result}, potential mathematics reference"
+        elif 'text' in processed_result and 'processing' in processed_result:
+            return f"{processed_result}, potential text processing reference"
+        else:
+            return processed_result

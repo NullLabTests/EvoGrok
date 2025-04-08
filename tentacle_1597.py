@@ -1,16 +1,15 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on known patterns
         input_lower = input_data.lower()
         if 'data analysis' in input_lower:
-            return "Wikipedia Data Analysis HTML document detected - This document likely contains information about statistical methods and data processing techniques."
+            return "Wikipedia Data Analysis HTML document detected - This document likely contains information about statistical methods, data processing techniques, and related topics."
         elif 'mathematics' in input_lower:
-            return "Wikipedia Mathematics HTML document detected - This document covers various mathematical concepts and theories."
+            return "Wikipedia Mathematics HTML document detected - This document covers various mathematical concepts, theories, and their applications."
         elif 'text processing' in input_lower:
-            return "Wikipedia Text Processing HTML document detected - This document discusses methods for manipulating and analyzing text data."
+            return "Wikipedia Text Processing HTML document detected - This document discusses methods for manipulating, analyzing, and processing text data."
         else:
-            return "Generic HTML document detected - This document may contain various types of content."
+            return "Generic HTML document detected - This document may contain various types of content, including text, images, and interactive elements."
 
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -32,11 +31,11 @@ def tentacle(input_data):
         
         # Check if the result contains any of the HTML document types
         if 'data analysis' in result:
-            return f"{result}, related to Wikipedia Data Analysis HTML document - statistical methods and data processing techniques may be discussed."
+            return f"{result}, related to Wikipedia Data Analysis HTML document - statistical methods, data processing techniques, and related topics may be discussed."
         elif 'mathematics' in result:
-            return f"{result}, related to Wikipedia Mathematics HTML document - various mathematical concepts and theories may be covered."
+            return f"{result}, related to Wikipedia Mathematics HTML document - various mathematical concepts, theories, and their applications may be covered."
         elif 'text processing' in result:
-            return f"{result}, related to Wikipedia Text Processing HTML document - methods for manipulating and analyzing text data may be discussed."
+            return f"{result}, related to Wikipedia Text Processing HTML document - methods for manipulating, analyzing, and processing text data may be discussed."
         else:
             # Check if the input can be converted to a number
             try:

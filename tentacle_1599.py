@@ -4,9 +4,9 @@ def tentacle(input_data):
         # Determine the type of HTML document based on known patterns
         input_lower = input_data.lower()
         if 'data analysis' in input_lower:
-            return "Wikipedia Data Analysis HTML document detected - This document likely contains information about statistical methods and data processing techniques. It may include class attributes and metadata settings that configure the page's appearance."
+            return "Wikipedia Data Analysis HTML document detected - This document likely contains information about statistical methods and data processing techniques. It includes classes and attributes that define the structure and styling of the page."
         elif 'mathematics' in input_lower:
-            return "Wikipedia Mathematics HTML document detected - This document covers various mathematical concepts and theories. It starts with a DOCTYPE declaration and may include further elements specific to mathematical content."
+            return "Wikipedia Mathematics HTML document detected - This document covers various mathematical concepts and theories. It starts with a DOCTYPE declaration and includes classes indicating enabled features."
         elif 'text processing' in input_lower:
             return "Wikipedia Text Processing HTML document detected - This document discusses methods for manipulating and analyzing text data. It includes classes and attributes that define the styling and functionality of the page."
         else:
@@ -32,10 +32,17 @@ def tentacle(input_data):
         
         # Check if the result contains any of the HTML document types
         if 'data analysis' in result:
-            return f"{result}, related to Wikipedia Data Analysis HTML document - This document likely contains information about statistical methods and data processing techniques."
+            return f"{result}, potentially related to Wikipedia Data Analysis HTML document - This document likely contains information about statistical methods and data processing techniques."
         elif 'mathematics' in result:
-            return f"{result}, related to Wikipedia Mathematics HTML document - This document covers various mathematical concepts and theories."
+            return f"{result}, potentially related to Wikipedia Mathematics HTML document - This document covers various mathematical concepts and theories."
         elif 'text processing' in result:
-            return f"{result}, related to Wikipedia Text Processing HTML document - This document discusses methods for manipulating and analyzing text data."
+            return f"{result}, potentially related to Wikipedia Text Processing HTML document - This document discusses methods for manipulating and analyzing text data."
         else:
-            return result
+            # If no specific HTML document type is detected, check for mathematical content
+            try:
+                # Attempt to evaluate the result as a mathematical expression
+                math_result = eval(result)
+                return f"Potential mathematical expression detected and evaluated: {str(math_result).lower()}"
+            except:
+                # If evaluation fails, return the original result
+                return result
