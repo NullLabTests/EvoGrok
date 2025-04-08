@@ -1,13 +1,17 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on the title
-        if 'data analysis' in input_data.lower():
+        # Determine the type of HTML document based on the content
+        lowercase_input = input_data.lower()
+        
+        if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
-        elif 'mathematics' in input_data.lower():
+        elif 'mathematics' in lowercase_input:
             return "mathematics html document detected"
-        elif 'text processing' in input_data.lower():
+        elif 'text processing' in lowercase_input:
             return "text processing html document detected"
+        elif 'wikipedia' in lowercase_input:
+            return "wikipedia html document detected"
         else:
             return "generic html document detected"
     
@@ -15,7 +19,7 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return str(result).lower()
+        return f"mathematical expression evaluated: {str(result).lower()}"
     except:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -30,8 +34,10 @@ def tentacle(input_data):
                 return f"{processed_items}, mathematics detected"
             elif 'text' in processed_items and 'processing' in processed_items:
                 return f"{processed_items}, text processing detected"
+            elif 'wikipedia' in processed_items:
+                return f"{processed_items}, wikipedia reference detected"
             else:
                 return processed_items
         else:
             # If it's not a string, return a lowercase string representation
-            return str(input_data).lower()
+            return f"non-string input detected: {str(input_data).lower()}"

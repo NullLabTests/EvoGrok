@@ -1,13 +1,16 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on the title
-        if 'data analysis' in input_data.lower():
+        # Determine the type of HTML document based on the title and content
+        lowercase_input = input_data.lower()
+        if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
-        elif 'mathematics' in input_data.lower():
+        elif 'mathematics' in lowercase_input:
             return "mathematics html document detected"
-        elif 'text processing' in input_data.lower():
+        elif 'text processing' in lowercase_input:
             return "text processing html document detected"
+        elif 'class=' in lowercase_input:
+            return "specialized html document detected"
         else:
             return "generic html document detected"
     
@@ -21,17 +24,15 @@ def tentacle(input_data):
         if isinstance(input_data, str):
             # Split the input, sort it, and join it back together
             sorted_items = sorted(input_data.split(','))
-            processed_items = ','.join(item.strip().lower() for item in sorted_items if item.strip())
+            processed_items = [item.strip().lower() for item in sorted_items if item.strip()]
             
-            # Check if the processed items contain specific keywords
-            if 'data' in processed_items and 'analysis' in processed_items:
-                return f"{processed_items}, data analysis detected"
-            elif 'math' in processed_items or 'mathematics' in processed_items:
-                return f"{processed_items}, mathematics detected"
-            elif 'text' in processed_items and 'processing' in processed_items:
-                return f"{processed_items}, text processing detected"
-            else:
-                return processed_items
+            # If the processed items form a valid mathematical expression, evaluate it
+            try:
+                result = eval(','.join(processed_items))
+                return str(result).lower()
+            except:
+                # If evaluation fails, return the sorted and joined items
+                return ','.join(processed_items)
         else:
             # If it's not a string, return a lowercase string representation
             return str(input_data).lower()
