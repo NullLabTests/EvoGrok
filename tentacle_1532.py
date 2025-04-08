@@ -10,13 +10,7 @@ def tentacle(input_data):
         elif 'text processing' in lowercase_input:
             return "text processing wikipedia page detected"
         else:
-            # Check for specific class attributes mentioned in the knowledge
-            if 'class="client-nojs"' in lowercase_input:
-                return "wikipedia page detected"
-            elif 'class="vector-feature-language-in-header-enabled"' in lowercase_input:
-                return "wikipedia page with language feature detected"
-            else:
-                return "generic html document detected"
+            return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -54,13 +48,10 @@ def tentacle(input_data):
             return f"numeric input: {numeric_value}"
         except ValueError:
             # If conversion to float fails, check for potential mathematical expressions
-            if any(char in result for char in '+-*/^'):
-                return f"potential mathematical expression: {result}"
-            
-            # Check for Wikipedia-related patterns
-            if result.startswith('wikipedia:'):
-                topic = result.split(':', 1)[1].strip()
-                return f"wikipedia topic detected: {topic}"
-            
-            # If no other patterns match, return the processed string
-            return result
+            try:
+                # Attempt to evaluate the input as a mathematical expression
+                eval_result = eval(result)
+                return f"potential mathematical expression: {str(eval_result).lower()}"
+            except:
+                # If all else fails, return the processed string
+                return result

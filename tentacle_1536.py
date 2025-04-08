@@ -1,14 +1,14 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on known patterns
         lowercase_input = input_data.lower()
+        # Determine the type of HTML document based on known patterns and knowledge
         if 'data analysis' in lowercase_input:
-            return "data analysis html document detected"
+            return "wikipedia data analysis html document detected"
         elif 'mathematics' in lowercase_input:
-            return "mathematics html document detected"
+            return "wikipedia mathematics html document detected"
         elif 'text processing' in lowercase_input:
-            return "text processing html document detected"
+            return "wikipedia text processing html document detected"
         else:
             # Check for specific class attributes
             if 'class="client-nojs"' in lowercase_input:
@@ -23,7 +23,7 @@ def tentacle(input_data):
         result = eval(input_data)
         # Convert the result to a string, apply formatting, and lowercase it
         if isinstance(result, float):
-            return f"{result:.4f}".lower()
+            return f"{result:.6f}".lower()  # Increased precision to 6 decimal places
         else:
             return str(result).lower()
     except:
@@ -40,14 +40,14 @@ def tentacle(input_data):
                     try:
                         eval_result = eval(stripped_value)
                         if isinstance(eval_result, float):
-                            processed_values.append(f"{eval_result:.4f}".lower())
+                            processed_values.append(f"{eval_result:.6f}".lower())  # Increased precision
                         else:
                             processed_values.append(str(eval_result).lower())
                     except:
                         # If evaluation fails, check if it's a number and format it
                         try:
                             number = float(stripped_value)
-                            processed_values.append(f"{number:.4f}".lower())
+                            processed_values.append(f"{number:.6f}".lower())  # Increased precision
                         except:
                             # If it's not a number, check for specific patterns
                             if stripped_value.isupper():

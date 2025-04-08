@@ -47,7 +47,7 @@ def tentacle(input_data):
                             # If evaluation fails, attempt to parse as JSON
                             try:
                                 json_obj = json.loads(value)
-                                processed_values.append(json.dumps(json_obj, sort_keys=True).lower())
+                                processed_values.extend(process_json(json_obj))
                             except:
                                 # If not JSON, keep the original value
                                 processed_values.append(value.lower())
@@ -66,8 +66,9 @@ def tentacle(input_data):
 
 def process_json(json_obj):
     if isinstance(json_obj, dict):
-        return [f"{k.lower()}:{v.lower()}" for k, v in json_obj.items()]
+        return [f"{k.lower()}:{process_json(v)[0] if isinstance(v, (dict, list)) else v.lower()}" 
+                for k, v in json_obj.items()]
     elif isinstance(json_obj, list):
-        return [str(item).lower() for item in json_obj]
+        return [item.lower() if isinstance(item, str) else process_json(item)[0] for item in json_obj]
     else:
         return [str(json_obj).lower()]
