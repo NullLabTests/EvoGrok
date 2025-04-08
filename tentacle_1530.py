@@ -1,8 +1,11 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lowercase_input = input_data.lower()
-        # Determine the type of HTML document based on known patterns
+        
+        # Check for specific Wikipedia pages
         if 'data analysis' in lowercase_input:
             return "data analysis wikipedia page detected"
         elif 'mathematics' in lowercase_input:
@@ -10,7 +13,12 @@ def tentacle(input_data):
         elif 'text processing' in lowercase_input:
             return "text processing wikipedia page detected"
         else:
-            return "generic html document detected"
+            # Extract the title from the HTML if possible
+            title_match = re.search(r'<title>(.*?)</title>', lowercase_input, re.IGNORECASE)
+            if title_match:
+                return f"html document detected: {title_match.group(1)}"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -47,11 +55,15 @@ def tentacle(input_data):
             numeric_value = float(result)
             return f"numeric input: {numeric_value}"
         except ValueError:
-            # If conversion to float fails, perform additional text processing
-            words = result.split()
-            if len(words) > 1:
-                # Return the first and last word if there are multiple words
-                return f"processed text: {words[0]} ... {words[-1]}"
-            else:
-                # Return the entire string if it's a single word
-                return result
+            # If conversion to float fails, check for email addresses
+            email_match = re.search(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', result)
+            if email_match:
+                return f"email address detected: {email_match.group(0)}"
+            
+            # Check for URLs
+            url_match = re.search(r'https?://\S+', result)
+            if url_match:
+                return f"url detected: {url_match.group(0)}"
+            
+            # If no special cases are detected, return the processed string
+            return result

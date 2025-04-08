@@ -18,6 +18,8 @@ def tentacle(input_data):
                 return "technology-related html document detected"
             elif 'engineering' in lower_input:
                 return "engineering-related html document detected"
+            elif 'wikipedia' in lower_input:
+                return "wikipedia html document detected"
             else:
                 return "generic html document detected"
     
@@ -34,15 +36,15 @@ def tentacle(input_data):
             return str(result).lower()
     except:
         # If evaluation fails, process the input as a string
-        if ',' in input_data:
+        lower_input = input_data.lower()
+        
+        if ',' in lower_input:
             # Sort and join comma-separated values
-            sorted_values = sorted(input_data.split(','))
+            sorted_values = sorted(lower_input.split(','))
             # Remove any leading/trailing whitespace from each value
             cleaned_values = [value.strip() for value in sorted_values]
-            # Convert each value to lowercase
-            lowercased_values = [value.lower() for value in cleaned_values]
             # Join the processed values
-            return ','.join(lowercased_values)
+            return ','.join(cleaned_values)
         else:
             # Check if the input is a valid number
             try:
@@ -51,7 +53,6 @@ def tentacle(input_data):
                 return str(input_data).lower()
             except ValueError:
                 # If not a number, check for specific keywords
-                lower_input = input_data.lower()
                 if 'data' in lower_input and 'analysis' in lower_input:
                     return "data analysis related content detected"
                 elif 'math' in lower_input or 'equation' in lower_input:
@@ -69,6 +70,8 @@ def tentacle(input_data):
                         return "technology-related content detected"
                     elif 'engineering' in lower_input:
                         return "engineering-related content detected"
+                    elif 'wikipedia' in lower_input:
+                        return "wikipedia-related content detected"
                     else:
                         # If not a palindrome or matching any keywords, reverse the string and convert to lowercase
                         return lower_input[::-1]
