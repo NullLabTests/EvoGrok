@@ -23,7 +23,9 @@ def tentacle(input_data):
             'type': 'html',
             'document_type': document_type,
             'elements': sorted(detected_elements),
-            'original_input': input_data.strip()
+            'original_input': input_data.strip(),
+            'word_count': len(input_data.split()),
+            'character_count': len(input_data)
         }
     
     try:
@@ -37,7 +39,9 @@ def tentacle(input_data):
                 'type': 'number',
                 'value': result,
                 'string_value': str(result).lower(),
-                'original_input': input_data.strip()
+                'original_input': input_data.strip(),
+                'is_integer': isinstance(result, int),
+                'is_positive': result > 0
             }
         else:
             # Convert the result to a string, split it into words, sort them
@@ -48,7 +52,8 @@ def tentacle(input_data):
                 'type': 'math_result',
                 'words': words,
                 'original_result': str(result),
-                'original_input': input_data.strip()
+                'original_input': input_data.strip(),
+                'word_count': len(words)
             }
     except Exception as e:
         # If evaluation fails, process the input as text
@@ -60,5 +65,7 @@ def tentacle(input_data):
             'type': 'text',
             'words': words,
             'original_input': input_data.strip(),
+            'word_count': len(words),
+            'character_count': len(input_data),
             'error': str(e) if str(e) else None
         }

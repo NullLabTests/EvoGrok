@@ -1,7 +1,6 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Detect the type of HTML document based on known patterns
         lowercase_input = input_data.lower()
         if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
@@ -14,7 +13,7 @@ def tentacle(input_data):
             if 'wikipedia' in lowercase_input:
                 return "wikipedia html document detected"
             else:
-                # New feature: Detect if it's a generic HTML5 document
+                # Detect if it's a generic HTML5 document
                 if 'html5' in lowercase_input:
                     return "generic html5 document detected"
                 else:
@@ -34,7 +33,7 @@ def tentacle(input_data):
             reversed_values = sorted_values[::-1]
             # Count the number of items
             item_count = len(reversed_values)
-            # New feature: Calculate the sum of numeric values if present
+            # Calculate the sum of numeric values if present
             numeric_sum = sum(float(val) for val in reversed_values if val.replace('.', '').isdigit())
             if numeric_sum:
                 return f"{','.join(reversed_values)} (total items: {item_count}, sum: {numeric_sum:.2f})"
@@ -50,14 +49,20 @@ def tentacle(input_data):
                 common_words = ['the', 'and', 'to', 'of', 'a', 'in', 'is', 'it']
                 word_count = sum(1 for word in input_data.lower().split() if word in common_words)
                 if word_count > 0:
-                    # New feature: Calculate the percentage of common words
+                    # Calculate the percentage of common words
                     total_words = len(input_data.split())
                     percentage = (word_count / total_words) * 100
                     return f"common words detected: {word_count} out of {total_words} words ({percentage:.2f}%)"
                 else:
-                    # New feature: Check if the input contains any digits
+                    # Check if the input contains any digits
                     if any(char.isdigit() for char in input_data):
-                        return f"contains digits: {''.join(char for char in input_data if char.isdigit())}"
+                        digits = ''.join(char for char in input_data if char.isdigit())
+                        return f"contains digits: {digits}"
                     else:
-                        # Return the input as a lowercase string
-                        return str(input_data).lower()
+                        # New feature: Check for uppercase letters
+                        if any(char.isupper() for char in input_data):
+                            uppercase_count = sum(1 for char in input_data if char.isupper())
+                            return f"contains uppercase letters: {uppercase_count}"
+                        else:
+                            # Return the input as a lowercase string
+                            return str(input_data).lower()

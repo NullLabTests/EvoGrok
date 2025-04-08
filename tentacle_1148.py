@@ -18,16 +18,20 @@ def tentacle(input_data):
         # Add the document type to detected elements
         detected_elements.append(document_type)
         
-        # Process the content of the HTML document
-        content = input_data.lower().split('>', 1)[1].split('</', 1)[0]
+        # Process the text content of the HTML document
+        content = input_data.lower().split('>', 1)[-1].split('<', 1)[0].strip()
         words = sorted(content.split())
         
-        # Return a dictionary with HTML-specific information and processed content
+        # Return a dictionary with HTML-specific information and text analysis
         return {
             'type': 'html',
             'document_type': document_type,
             'elements': sorted(detected_elements),
-            'content': words
+            'text_analysis': {
+                'words': words,
+                'word_count': len(words)
+            },
+            'original_input': input_data.strip()
         }
     
     try:
@@ -36,28 +40,39 @@ def tentacle(input_data):
         
         # Process the result
         if isinstance(result, (int, float)):
-            # If the result is a number, return it as is
+            # If the result is a number, return it with additional information
             return {
                 'type': 'number',
                 'value': result,
-                'words': sorted(str(result).lower().split())
+                'string_value': str(result).lower(),
+                'text_analysis': {
+                    'words': sorted(str(result).lower().split()),
+                    'word_count': len(str(result).lower().split())
+                },
+                'original_input': input_data.strip()
             }
         else:
             # Convert the result to a string, split it into words, sort them
             words = sorted(str(result).lower().split())
             
-            # Return the sorted words as a list
+            # Return the sorted words as a list with additional information
             return {
                 'type': 'math_result',
-                'words': words
+                'words': words,
+                'word_count': len(words),
+                'original_result': str(result),
+                'original_input': input_data.strip()
             }
-    except:
+    except Exception as e:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them
         words = sorted(str(input_data).lower().split())
         
-        # Return the sorted words as a list
+        # Return the sorted words as a list with additional information
         return {
             'type': 'text',
-            'words': words
+            'words': words,
+            'word_count': len(words),
+            'original_input': input_data.strip(),
+            'error': str(e) if str(e) else None
         }

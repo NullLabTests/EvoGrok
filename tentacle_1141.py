@@ -7,27 +7,27 @@ def tentacle(input_data):
         # Determine the type of HTML document and add relevant elements
         if 'data analysis' in input_data.lower():
             document_type = 'data analysis'
-            detected_elements.extend(['wikipedia page', 'statistics', 'data visualization'])
+            detected_elements.extend(['wikipedia page', 'statistics', 'data visualization', 'charts', 'tables'])
         elif 'mathematics' in input_data.lower():
             document_type = 'mathematics'
-            detected_elements.extend(['wikipedia page', 'equations', 'proofs'])
+            detected_elements.extend(['wikipedia page', 'equations', 'proofs', 'theorems', 'formulas'])
         elif 'text processing' in input_data.lower():
             document_type = 'text processing'
-            detected_elements.extend(['wikipedia page', 'natural language processing', 'algorithms'])
+            detected_elements.extend(['wikipedia page', 'natural language processing', 'algorithms', 'tokenization', 'stemming'])
         
         # Add the document type to detected elements
         detected_elements.append(document_type)
         
-        # Return a sorted, comma-separated list of detected elements
+        # Sort and return a comma-separated list of detected elements
         return ','.join(sorted(detected_elements))
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         
-        # If the result is a number, return it as a lowercase string
+        # If the result is a number, return it as a string with two decimal places
         if isinstance(result, (int, float)):
-            return str(result).lower()
+            return f"{result:.2f}".lower()
         
         # Otherwise, convert the result to a string, split it into words, sort them, and join with commas
         words = sorted(str(result).lower().split())
@@ -41,13 +41,13 @@ def tentacle(input_data):
         if len(words) == 1:
             return words[0]
         
-        # Check for special cases
-        if words[0] == 'data' and words[1] == 'analysis':
-            return 'data analysis,wikipedia page,statistics,data visualization'
-        elif words[0] == 'mathematics':
-            return 'mathematics,wikipedia page,equations,proofs'
-        elif words[0] == 'text' and words[1] == 'processing':
-            return 'text processing,wikipedia page,natural language processing,algorithms'
+        # For multiple words, check if any word is a number
+        numbers = [w for w in words if w.replace('.', '').isdigit()]
+        
+        if numbers:
+            # If numbers are present, return the highest number formatted to two decimal places
+            highest_number = max(float(n) for n in numbers)
+            return f"{highest_number:.2f}".lower()
         
         # Otherwise, return the sorted, comma-separated list of words
         return ','.join(words)

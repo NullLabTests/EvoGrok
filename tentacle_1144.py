@@ -18,16 +18,20 @@ def tentacle(input_data):
         # Add the document type to detected elements
         detected_elements.append(document_type)
         
-        # Process the HTML content
-        html_content = input_data.lower().split('>', 1)[1].split('<', 1)[0].strip()
-        content_words = sorted(html_content.split())
+        # Extract additional information from the HTML
+        language = None
+        if 'lang="' in input_data.lower():
+            start = input_data.lower().index('lang="') + 6
+            end = input_data.lower().index('"', start)
+            language = input_data[start:end]
         
-        # Return a dictionary with HTML-specific information and processed content
+        # Return a dictionary with HTML-specific information
         return {
             'type': 'html',
             'document_type': document_type,
             'elements': sorted(detected_elements),
-            'content': content_words
+            'language': language,
+            'original_input': input_data.strip()
         }
     
     try:
@@ -36,28 +40,43 @@ def tentacle(input_data):
         
         # Process the result
         if isinstance(result, (int, float)):
-            # If the result is a number, return it as is
+            # If the result is a number, return it with additional information
             return {
                 'type': 'number',
                 'value': result,
-                'string_value': str(result).lower()
+                'string_value': str(result).lower(),
+                'is_integer': isinstance(result, int),
+                'is_positive': result > 0,
+                'original_input': input_data.strip()
             }
         else:
             # Convert the result to a string, split it into words, sort them
             words = sorted(str(result).lower().split())
             
-            # Return the sorted words as a list
+            # Return the sorted words as a list with additional information
             return {
                 'type': 'math_result',
-                'words': words
+                'words': words,
+                'word_count': len(words),
+                'unique_words': len(set(words)),
+                'original_result': str(result),
+                'original_input': input_data.strip()
             }
-    except:
+    except Exception as e:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them
         words = sorted(str(input_data).lower().split())
         
-        # Return the sorted words as a list
+        # Check if the input might be related to HTML document types
+        related_to_html = any(term in input_data.lower() for term in ['data analysis', 'mathematics', 'text processing'])
+        
+        # Return the sorted words as a list with additional information
         return {
             'type': 'text',
-            'words': words
+            'words': words,
+            'word_count': len(words),
+            'unique_words': len(set(words)),
+            'related_to_html': related_to_html,
+            'original_input': input_data.strip(),
+            'error': str(e) if str(e) else None
         }

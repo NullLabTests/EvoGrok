@@ -68,4 +68,11 @@ def tentacle(input_data):
         if any(keyword in words for keyword in ['text', 'string', 'nlp', 'regex']):
             keywords.append('text processing')
         
-        return ','.join(keywords + words)
+        # Remove any empty strings from the words list
+        words = [word for word in words if word]
+        
+        # Combine keywords and words, ensuring uniqueness
+        result = list(set(keywords + words))
+        
+        # Sort the result and join with commas
+        return ','.join(sorted(result))
