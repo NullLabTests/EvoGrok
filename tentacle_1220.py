@@ -1,8 +1,9 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on known patterns
         lower_input = input_data.lower()
+        
+        # Determine the type of HTML document based on known patterns
         if 'data analysis' in lower_input:
             return "data analysis html document detected"
         elif 'mathematics' in lower_input:
@@ -10,13 +11,27 @@ def tentacle(input_data):
         elif 'text processing' in lower_input:
             return "text processing html document detected"
         else:
-            return "generic html document detected"
+            # Check for additional keywords to classify the HTML document
+            if 'science' in lower_input:
+                return "science-related html document detected"
+            elif 'technology' in lower_input:
+                return "technology-related html document detected"
+            elif 'engineering' in lower_input:
+                return "engineering-related html document detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        
+        # Check if the result is a number
+        if isinstance(result, (int, float)):
+            # Convert the result to a string and lowercase it
+            return str(result).lower()
+        else:
+            # If the result is not a number, process it as a string
+            return str(result).lower()
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
@@ -47,5 +62,13 @@ def tentacle(input_data):
                 elif lower_input == lower_input[::-1]:
                     return f"palindrome detected: {lower_input}"
                 else:
-                    # If not a palindrome, reverse the string and convert to lowercase
-                    return lower_input[::-1]
+                    # Check for additional keywords to classify the content
+                    if 'science' in lower_input:
+                        return "science-related content detected"
+                    elif 'technology' in lower_input:
+                        return "technology-related content detected"
+                    elif 'engineering' in lower_input:
+                        return "engineering-related content detected"
+                    else:
+                        # If not a palindrome or matching any keywords, reverse the string and convert to lowercase
+                        return lower_input[::-1]

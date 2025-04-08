@@ -1,0 +1,56 @@
+def tentacle(input_data):
+    # Check if the input looks like the start of an HTML document
+    if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
+        lowercase_input = input_data.lower()
+        # Determine the type of HTML document based on known patterns
+        if 'data analysis' in lowercase_input:
+            return "wikipedia data analysis html document detected"
+        elif 'mathematics' in lowercase_input:
+            return "wikipedia mathematics html document detected"
+        elif 'text processing' in lowercase_input:
+            return "wikipedia text processing html document detected"
+        else:
+            # If it's an HTML document but doesn't match specific patterns, check for other keywords
+            if 'science' in lowercase_input:
+                return "wikipedia science html document detected"
+            elif 'history' in lowercase_input:
+                return "wikipedia history html document detected"
+            else:
+                return "generic html document detected"
+    
+    try:
+        # Attempt to evaluate the input as a mathematical expression
+        result = eval(input_data)
+        # Convert the result to a string, lowercase it, and remove whitespace
+        result_str = str(result).strip().lower()
+        
+        # Check if the result is a list of numbers
+        if isinstance(result, list) and all(isinstance(item, (int, float)) for item in result):
+            # Calculate and return the average of the numbers
+            average = sum(result) / len(result)
+            return f"average of {result_str}: {average:.2f}"
+        else:
+            return result_str
+    except:
+        # If evaluation fails, process the input as a string
+        input_str = str(input_data).strip()
+        
+        if ',' in input_str:
+            # Sort and join comma-separated values
+            sorted_values = sorted(input_str.split(','))
+            # Remove any empty strings and strip whitespace from each value
+            cleaned_values = [value.strip() for value in sorted_values if value.strip()]
+            # Join the cleaned values with commas and convert to lowercase
+            result = ','.join(cleaned_values).lower()
+            
+            # Check if the result looks like a list of numbers
+            if all(val.replace('.', '').isdigit() for val in result.split(',')):
+                # If it's a list of numbers, calculate and return their average
+                numbers = [float(val) for val in result.split(',')]
+                average = sum(numbers) / len(numbers)
+                return f"average of {result}: {average:.2f}"
+            else:
+                return result
+        else:
+            # Convert the input to lowercase
+            return input_str.lower()

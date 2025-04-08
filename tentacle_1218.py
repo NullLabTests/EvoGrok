@@ -19,13 +19,17 @@ def tentacle(input_data):
         return str(result).strip().lower()
     except:
         # If evaluation fails, process the input as a string
-        if ',' in str(input_data):
-            # Sort and join comma-separated values
-            sorted_values = sorted(str(input_data).split(','))
-            # Remove any empty strings, strip whitespace from each value, and lowercase
-            cleaned_values = [value.strip().lower() for value in sorted_values if value.strip()]
-            return ','.join(cleaned_values)
+        if isinstance(input_data, str):
+            if ',' in input_data:
+                # Sort and join comma-separated values
+                sorted_values = sorted(input_data.split(','))
+                # Remove any empty strings, strip whitespace from each value, and lowercase
+                cleaned_values = [value.strip().lower() for value in sorted_values if value.strip()]
+                return ','.join(cleaned_values)
+            else:
+                # Convert the input to lowercase, remove any leading/trailing whitespace
+                # and replace multiple spaces with a single space
+                return ' '.join(input_data.strip().lower().split())
         else:
-            # Convert the input to lowercase, remove any leading/trailing whitespace
-            # and replace multiple spaces with a single space
-            return ' '.join(str(input_data).strip().lower().split())
+            # For non-string inputs, convert to string and lowercase
+            return str(input_data).lower()

@@ -39,13 +39,22 @@ def tentacle(input_data):
         if '<' in result and '>' in result:
             return f"string with html tags detected: {result}"
         
-        # New feature: Check if the result is a palindrome
+        # Check if the result is a palindrome
         if result == result[::-1] and len(result) > 1:
             return f"palindrome detected: {result}"
         
-        # New feature: Check if the result contains any digits
+        # Check if the result contains any digits
         if any(char.isdigit() for char in result):
             return f"string with digits detected: {result}"
+        
+        # New feature: Check if the result is a valid date (YYYY-MM-DD format)
+        import re
+        if re.match(r'^\d{4}-\d{2}-\d{2}$', result):
+            return f"valid date detected: {result}"
+        
+        # New feature: Check if the result is a valid email address
+        if re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', result):
+            return f"valid email address detected: {result}"
         
         # If no special conditions are met, return the processed result
         return result

@@ -9,10 +9,12 @@ def tentacle(input_data):
             return "mathematics html document detected"
         elif 'text processing' in lowercase_input:
             return "text processing html document detected"
-        elif 'wikipedia' in lowercase_input:
-            return "wikipedia html document detected"
         else:
-            return "generic html document detected"
+            # If no specific type is detected, check for general Wikipedia pattern
+            if 'wikipedia' in lowercase_input:
+                return "generic wikipedia html document detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression

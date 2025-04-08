@@ -16,13 +16,26 @@ def tentacle(input_data):
             elif 'history' in lowercase_input:
                 return "wikipedia history html document detected"
             else:
-                return "generic html document detected"
-    
+                # Count the number of HTML tags in the document
+                tag_count = len(re.findall(r'<[^>]+>', input_data))
+                return f"generic html document detected with {tag_count} tags"
+
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string, lowercase it, and remove whitespace
-        return str(result).strip().lower()
+        
+        # Check if the result is a list or tuple
+        if isinstance(result, (list, tuple)):
+            # Calculate the average of numeric values in the list/tuple
+            numeric_values = [x for x in result if isinstance(x, (int, float))]
+            if numeric_values:
+                average = sum(numeric_values) / len(numeric_values)
+                return f"average of {','.join(map(str, numeric_values))}: {average:.2f}"
+            else:
+                return str(result).strip().lower()
+        else:
+            # Convert the result to a string, lowercase it, and remove whitespace
+            return str(result).strip().lower()
     except:
         # If evaluation fails, process the input as a string
         if ',' in str(input_data):
@@ -40,7 +53,14 @@ def tentacle(input_data):
                 average = sum(numbers) / len(numbers)
                 return f"average of {result}: {average:.2f}"
             else:
-                return result
+                # Count the number of words in the result
+                word_count = len(result.split())
+                return f"{result} (word count: {word_count})"
         else:
             # Convert the input to lowercase and remove any leading/trailing whitespace
-            return str(input_data).strip().lower()
+            # Check if it's a palindrome
+            cleaned_input = str(input_data).strip().lower()
+            if cleaned_input == cleaned_input[::-1]:
+                return f"{cleaned_input} (palindrome)"
+            else:
+                return cleaned_input

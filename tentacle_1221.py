@@ -34,7 +34,8 @@ def tentacle(input_data):
                 if cleaned_input:
                     # Split the input into words, sort them, remove duplicates, and join them back
                     words = sorted(set(cleaned_input.lower().split()))
-                    return ' '.join(words)
+                    # Join words with commas for a different output format
+                    return ','.join(words)
                 else:
                     # Return an empty string for empty input
                     return ''

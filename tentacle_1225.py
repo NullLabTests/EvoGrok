@@ -4,11 +4,11 @@ def tentacle(input_data):
         # Determine the type of HTML document based on known patterns
         lowercase_input = input_data.lower()
         if 'data analysis' in lowercase_input:
-            return "data analysis html document detected"
+            return "wikipedia data analysis html document detected"
         elif 'mathematics' in lowercase_input:
-            return "mathematics html document detected"
+            return "wikipedia mathematics html document detected"
         elif 'text processing' in lowercase_input:
-            return "text processing html document detected"
+            return "wikipedia text processing html document detected"
         else:
             return "generic html document detected"
     

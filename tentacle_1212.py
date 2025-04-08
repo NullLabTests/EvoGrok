@@ -20,7 +20,7 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (inspired by Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
             # Remove any empty strings and strip whitespace
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
@@ -32,15 +32,34 @@ def tentacle(input_data):
                 float(input_data)
                 result = input_data
             except ValueError:
-                # If not a number, return the input as a lowercase string (from Parent1)
+                # If not a number, return the input as a lowercase string
                 result = input_data.lower()
         
-        # New feature: Check if the result contains any HTML tags
+        # Check if the result contains any HTML tags
         if '<' in result and '>' in result:
             return f"string with html tags detected: {result}"
-        else:
-            # New feature: Check if the result contains any mathematical operations
-            if any(op in result for op in ['+', '-', '*', '/', '**', '%']):
-                return f"string with mathematical operations detected: {result}"
-            else:
-                return result
+        
+        # Check if the result is a palindrome
+        if result == result[::-1] and len(result) > 1:
+            return f"palindrome detected: {result}"
+        
+        # Check if the result contains any digits
+        if any(char.isdigit() for char in result):
+            return f"string with digits detected: {result}"
+        
+        # New feature: Check if the result is a valid JSON string
+        import json
+        try:
+            json.loads(result)
+            return f"valid json detected: {result}"
+        except json.JSONDecodeError:
+            pass
+        
+        # New feature: Check if the result contains any URLs
+        import re
+        url_pattern = r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+        if re.search(url_pattern, result):
+            return f"url detected: {result}"
+        
+        # If no special conditions are met, return the processed result
+        return result
