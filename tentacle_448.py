@@ -16,8 +16,11 @@ def tentacle(input_data):
         words.discard('<!doctype')
         words.discard('html')
         
-        # Return a sorted, comma-separated list of detected elements
-        return ','.join(sorted(['html document', document_type] + list(words)))
+        # Calculate the length of the processed HTML content
+        html_length = len(''.join(c.lower() if c.isalnum() else ' ' for c in input_data))
+        
+        # Return a sorted, comma-separated list of detected elements, document type, and length
+        return ','.join(sorted(['html document', document_type, f'html length: {html_length}'] + list(words)))
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -28,18 +31,24 @@ def tentacle(input_data):
         words = processed_result.split()
         
         # Calculate the sum of numeric values in the result
-        numeric_sum = sum(int(word) for word in words if word.isdigit())
+        numeric_sum = sum(float(word) for word in words if word.replace('.', '').isdigit())
         
-        # Return a sorted, comma-separated list of processed words and the numeric sum
-        return ','.join(sorted(words + [str(numeric_sum)]))
+        # Calculate the length of the processed result
+        result_length = len(processed_result)
+        
+        # Return a sorted, comma-separated list of processed words, numeric sum, and result length
+        return ','.join(sorted(words + [f'numeric sum: {numeric_sum:.2f}', f'result length: {result_length}']))
     except:
         # If evaluation fails, process the input as text
-        # Convert to lowercase, remove non-alphanumeric characters, split into words, sort them, and join with commas
+        # Convert to lowercase, remove non-alphanumeric characters, split into words, and sort
         processed_input = ''.join(c.lower() if c.isalnum() else ' ' for c in str(input_data))
         words = processed_input.split()
         
         # Calculate the length of the processed input
         input_length = len(processed_input)
         
-        # Return a sorted, comma-separated list of processed words and the input length
-        return ','.join(sorted(words + [str(input_length)]))
+        # Calculate the number of unique words
+        unique_word_count = len(set(words))
+        
+        # Return a sorted, comma-separated list of processed words, input length, and unique word count
+        return ','.join(sorted(words + [f'input length: {input_length}', f'unique words: {unique_word_count}']))

@@ -15,8 +15,12 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string, split it into words, sort them, and join with commas
-        return ','.join(sorted(str(result).lower().split()))
+        processed_result = ','.join(sorted(str(result).lower().split()))
+        # If the result is a single word, return it as is; otherwise, return the sorted, comma-separated list
+        return processed_result if ',' in processed_result else processed_result.replace(',', '')
     except:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them, and join with commas
-        return ','.join(sorted(str(input_data).lower().split()))
+        processed_input = ','.join(sorted(str(input_data).lower().split()))
+        # If the result is a single word, return it as is; otherwise, return the sorted, comma-separated list
+        return processed_input if ',' in processed_input else processed_input.replace(',', '')
