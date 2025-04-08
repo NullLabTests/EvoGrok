@@ -18,13 +18,13 @@ def tentacle(input_data):
             elif 'tutorial' in lowercase_input:
                 return "tutorial html document detected"
             else:
-                # Extract title from HTML if possible
+                # Extract and return the first 100 characters of the title if available
                 title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
-                if title_match:
-                    return f"generic html document detected: {title_match.group(1)}"
-                else:
-                    return "generic html document detected"
-
+                title = title_match.group(1) if title_match else "unknown"
+                # Add the count of unique words in the title
+                unique_words = len(set(word.strip().lower() for word in title.split()))
+                return f"generic html document detected, title: {title[:100]}, unique words in title: {unique_words}"
+    
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
@@ -38,11 +38,13 @@ def tentacle(input_data):
             # Reverse each item, capitalize it, join them, and calculate total length
             processed_items = ','.join(item[::-1].capitalize() for item in sorted_items)
             total_length = sum(len(item) for item in sorted_items)
-            # Calculate average length
-            average_length = total_length / len(sorted_items)
-            return f"processed list: {processed_items}, total length: {total_length}, average length: {average_length:.2f}"
+            # Add the count of unique words
+            unique_words = len(set(word.strip().lower() for item in sorted_items for word in item.split()))
+            # Add the sum of digits in all items
+            digit_sum = sum(int(digit) for item in sorted_items for digit in item if digit.isdigit())
+            return f"processed list: {processed_items}, total length: {total_length}, unique words: {unique_words}, digit sum: {digit_sum}"
         elif input_data.isdigit():
-            # If it's a single number, return its square, cube, factorial, prime factorization, and fibonacci number
+            # If it's a single number, return its square, cube, factorial, and prime factorization
             number = int(input_data)
             factorial = math.factorial(number)
             factors = []
@@ -54,29 +56,39 @@ def tentacle(input_data):
             if n > 1:
                 factors.append(n)
             
-            # Calculate Fibonacci number
-            a, b = 0, 1
-            for _ in range(number):
-                a, b = b, a + b
-            fibonacci = a
-
-            return f"square: {number ** 2}, cube: {number ** 3}, factorial: {factorial}, prime factors: {factors}, fibonacci: {fibonacci}"
+            # Add the sum of digits
+            digit_sum = sum(int(digit) for digit in str(number))
+            
+            # Add the number of digits
+            num_digits = len(str(number))
+            
+            return f"square: {number ** 2}, cube: {number ** 3}, factorial: {factorial}, prime factors: {factors}, digit sum: {digit_sum}, number of digits: {num_digits}"
         elif input_data.replace(' ', '').isalpha():
             # If it's a word (ignoring spaces), return its length, reverse, first three letters capitalized,
-            # count of vowels and consonants, and palindrome check
+            # and count of vowels and consonants
             lowercase_input = input_data.lower()
             vowels = sum(1 for char in lowercase_input if char in 'aeiou')
             consonants = sum(1 for char in lowercase_input if char.isalpha() and char not in 'aeiou')
-            is_palindrome = lowercase_input == lowercase_input[::-1]
             
-            return f"length: {len(input_data)}, reverse: {input_data[::-1]}, first three: {input_data[:3].upper()}, vowels: {vowels}, consonants: {consonants}, palindrome: {is_palindrome}"
+            # Add the count of unique letters
+            unique_letters = len(set(char.lower() for char in input_data if char.isalpha()))
+            
+            # Add the count of words
+            word_count = len(input_data.split())
+            
+            return f"length: {len(input_data)}, reverse: {input_data[::-1]}, first three: {input_data[:3].upper()}, vowels: {vowels}, consonants: {consonants}, unique letters: {unique_letters}, word count: {word_count}"
         else:
             # For other inputs, reverse the string, convert to lowercase, remove non-alphanumeric characters,
-            # add the count of vowels, consonants, digits, and unique characters
+            # add the count of vowels, consonants, and digits
             reversed_clean = ''.join(char.lower() for char in input_data[::-1] if char.isalnum())
             vowels = sum(1 for char in reversed_clean if char in 'aeiou')
             consonants = sum(1 for char in reversed_clean if char.isalpha() and char not in 'aeiou')
             digits = sum(1 for char in reversed_clean if char.isdigit())
+            
+            # Add the count of unique characters
             unique_chars = len(set(reversed_clean))
             
-            return f"processed: {reversed_clean}, vowel count: {vowels}, consonant count: {consonants}, digit count: {digits}, unique characters: {unique_chars}"
+            # Add the sum of digits
+            digit_sum = sum(int(digit) for digit in reversed_clean if digit.isdigit())
+            
+            return f"processed: {reversed_clean}, vowel count: {vowels}, consonant count: {consonants}, digit count: {digits}, unique characters: {unique_chars}, digit sum: {digit_sum}"

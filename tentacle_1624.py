@@ -34,11 +34,10 @@ def tentacle(input_data):
                 return f"other string: {input_data.lower()}"
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort it and return as a string
-            sorted_collection = sorted(input_data)
-            return f"collection: {str(sorted_collection)}"
+            return f"collection: {str(sorted(input_data))}"
         elif callable(input_data):
             # If it's a function, return its name and docstring
             return f"function: {input_data.__name__} - {input_data.__doc__ or 'No docstring available'}"
         else:
             # For any other input type, return its type and string representation
-            return f"other type: {type(input_data).__name__} - {str(input_data)}"
+            return f"other type: {type(input_data).__name__} - {str(input_data).lower()}"

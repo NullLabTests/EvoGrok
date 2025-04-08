@@ -2,6 +2,8 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lowercase_input = input_data.lower()
+        
+        # Check for specific types of HTML documents
         if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
         elif 'mathematics' in lowercase_input:
@@ -19,24 +21,24 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if isinstance(input_data, str):
-            input_str = input_data.strip()
+            input_str = input_data.strip().lower()
             
             # Check for special patterns
             if input_str.startswith('http://') or input_str.startswith('https://'):
-                return f"url detected: {input_str.lower()}"
+                return f"url detected: {input_str}"
             
             if '@' in input_str and '.' in input_str.split('@')[-1]:
-                return f"email detected: {input_str.lower()}"
+                return f"email detected: {input_str}"
             
             # Check for potential HTML fragments
             if '<' in input_str and '>' in input_str:
-                return f"html fragment detected: {input_str.lower()}"
+                return f"html fragment detected: {input_str}"
             
             # Check for JSON-like structures
             if input_str.startswith('{') and input_str.endswith('}'):
-                return f"json object detected: {input_str.lower()}"
+                return f"json object detected: {input_str}"
             elif input_str.startswith('[') and input_str.endswith(']'):
-                return f"json array detected: {input_str.lower()}"
+                return f"json array detected: {input_str}"
             
             # Process comma-separated values
             if ',' in input_str:
@@ -47,7 +49,7 @@ def tentacle(input_data):
                 result = input_str
             
             # Return the processed result
-            return result.lower()
+            return result
         else:
             # If input is not a string, convert it to a string and return
             return str(input_data).lower()

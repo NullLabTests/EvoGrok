@@ -1,13 +1,12 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on known patterns
         lowercase_input = input_data.lower()
-        if 'data analysis' in lowercase_input:
+        if 'data analysis' in lowercase_input and 'wikipedia' in lowercase_input:
             return "wikipedia data analysis html document detected"
-        elif 'mathematics' in lowercase_input:
+        elif 'mathematics' in lowercase_input and 'wikipedia' in lowercase_input:
             return "wikipedia mathematics html document detected"
-        elif 'text processing' in lowercase_input:
+        elif 'text processing' in lowercase_input and 'wikipedia' in lowercase_input:
             return "wikipedia text processing html document detected"
         else:
             return "generic html document detected"
@@ -51,6 +50,12 @@ def tentacle(input_data):
             elif 'text' in sorted_result and 'processing' in sorted_result:
                 return "text processing text detected"
             else:
-                return sorted_result
+                # Additional check for programming language mentions
+                programming_languages = ['python', 'java', 'javascript', 'c++', 'ruby']
+                detected_languages = [lang for lang in programming_languages if lang in sorted_result]
+                if detected_languages:
+                    return f"programming language(s) detected: {', '.join(detected_languages)}"
+                else:
+                    return sorted_result
         else:
             return result

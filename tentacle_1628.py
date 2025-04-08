@@ -21,13 +21,26 @@ def tentacle(input_data):
                 # Extract and return the first 100 characters of the title if available
                 title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
                 title = title_match.group(1) if title_match else "unknown"
-                return f"generic html document detected, title: {title[:100]}"
+                
+                # Extract meta description if available
+                desc_match = re.search(r'<meta name="description" content="(.*?)"', input_data, re.IGNORECASE)
+                description = desc_match.group(1) if desc_match else "no description available"
+                
+                return f"generic html document detected, title: {title[:100]}, description: {description[:100]}"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string, lowercase it, and add a prefix
-        return f"math result: {str(result).lower()}"
+        
+        # Calculate additional mathematical properties
+        if isinstance(result, (int, float)):
+            square_root = math.sqrt(abs(result))
+            absolute_value = abs(result)
+            rounded_value = round(result, 2)
+            
+            return f"math result: {str(result).lower()}, square root: {square_root:.2f}, absolute value: {absolute_value}, rounded: {rounded_value}"
+        else:
+            return f"math result: {str(result).lower()}"
     except:
         # If evaluation fails, process the input based on its content
         if ',' in input_data:
@@ -38,10 +51,13 @@ def tentacle(input_data):
             total_length = sum(len(item) for item in sorted_items)
             # Add the count of unique words
             unique_words = len(set(word.strip().lower() for item in sorted_items for word in item.split()))
-            return f"processed list: {processed_items}, total length: {total_length}, unique words: {unique_words}"
-        elif input_data.isdigit():
-            # If it's a single number, return its square, cube, factorial, and prime factorization
-            number = int(input_data)
+            # Calculate average word length
+            avg_word_length = sum(len(word) for item in sorted_items for word in item.split()) / sum(len(item.split()) for item in sorted_items)
+            
+            return f"processed list: {processed_items}, total length: {total_length}, unique words: {unique_words}, average word length: {avg_word_length:.2f}"
+        elif input_data.replace(' ', '').isdigit():
+            # If it's a single number (ignoring spaces), return its square, cube, factorial, and prime factorization
+            number = int(input_data.replace(' ', ''))
             factorial = math.factorial(number)
             factors = []
             n = number
@@ -55,7 +71,10 @@ def tentacle(input_data):
             # Add the sum of digits
             digit_sum = sum(int(digit) for digit in str(number))
             
-            return f"square: {number ** 2}, cube: {number ** 3}, factorial: {factorial}, prime factors: {factors}, digit sum: {digit_sum}"
+            # Calculate the number of digits
+            num_digits = len(str(number))
+            
+            return f"square: {number ** 2}, cube: {number ** 3}, factorial: {factorial}, prime factors: {factors}, digit sum: {digit_sum}, number of digits: {num_digits}"
         elif input_data.replace(' ', '').isalpha():
             # If it's a word (ignoring spaces), return its length, reverse, first three letters capitalized,
             # and count of vowels and consonants
@@ -66,7 +85,10 @@ def tentacle(input_data):
             # Add the count of unique letters
             unique_letters = len(set(char.lower() for char in input_data if char.isalpha()))
             
-            return f"length: {len(input_data)}, reverse: {input_data[::-1]}, first three: {input_data[:3].upper()}, vowels: {vowels}, consonants: {consonants}, unique letters: {unique_letters}"
+            # Calculate the number of words
+            num_words = len(input_data.split())
+            
+            return f"length: {len(input_data)}, reverse: {input_data[::-1]}, first three: {input_data[:3].upper()}, vowels: {vowels}, consonants: {consonants}, unique letters: {unique_letters}, number of words: {num_words}"
         else:
             # For other inputs, reverse the string, convert to lowercase, remove non-alphanumeric characters,
             # add the count of vowels, consonants, and digits
@@ -78,4 +100,7 @@ def tentacle(input_data):
             # Add the count of unique characters
             unique_chars = len(set(reversed_clean))
             
-            return f"processed: {reversed_clean}, vowel count: {vowels}, consonant count: {consonants}, digit count: {digits}, unique characters: {unique_chars}"
+            # Calculate the length of the processed string
+            processed_length = len(reversed_clean)
+            
+            return f"processed: {reversed_clean}, vowel count: {vowels}, consonant count: {consonants}, digit count: {digits}, unique characters: {unique_chars}, processed length: {processed_length}"
