@@ -14,13 +14,19 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string, split it into words, sort them, and join with commas
-        sorted_words = ','.join(sorted(str(result).lower().split()))
-        # If the result is a number, return it as is; otherwise, return the sorted words
-        return str(result).lower() if result == float(str(result)) else sorted_words
+        
+        # Process the result based on its type
+        if isinstance(result, (int, float)):
+            # For numbers, return the result as a string, lowercased
+            return str(result).lower()
+        else:
+            # For other types, convert to string, split into words, sort them, and join with commas
+            processed_result = ','.join(sorted(str(result).lower().split()))
+            # If the result is a single word, return it as is; otherwise, return the sorted, comma-separated list
+            return processed_result if ',' in processed_result else processed_result.replace(',', '')
     except:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them, and join with commas
-        sorted_words = ','.join(sorted(str(input_data).lower().split()))
-        # If the input is a single word, return it as is; otherwise, return the sorted words
-        return str(input_data).lower() if len(str(input_data).split()) == 1 else sorted_words
+        processed_input = ','.join(sorted(str(input_data).lower().split()))
+        # If the result is a single word, return it as is; otherwise, return the sorted, comma-separated list
+        return processed_input if ',' in processed_input else processed_input.replace(',', '')
