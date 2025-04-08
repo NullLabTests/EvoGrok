@@ -1,10 +1,9 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on the title and content
         lowercase_input = input_data.lower()
         
-        # Check for specific Wikipedia page types
+        # Determine the type of HTML document based on the title and content
         if 'wikipedia' in lowercase_input:
             if 'data analysis' in lowercase_input:
                 return "wikipedia data analysis html document detected"
@@ -49,7 +48,17 @@ def tentacle(input_data):
                         result = eval(item)
                         results.append(str(result).lower())
                     except:
-                        results.append(item)
+                        # If evaluation fails, check if the item looks like a number
+                        try:
+                            float(item)
+                            results.append(item)
+                        except:
+                            # If it's not a number, process it as text
+                            words = item.split()
+                            if len(words) > 1:
+                                results.append(' '.join(sorted(words)))
+                            else:
+                                results.append(item)
                 
                 # Return the sorted and processed items, joining with commas
                 return ','.join(results)

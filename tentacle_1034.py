@@ -2,15 +2,23 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lowercase_input = input_data.lower()
-        # Determine the type of HTML document based on the content
-        if 'data analysis' in lowercase_input or 'wikipedia' in lowercase_input and 'data analysis' in lowercase_input:
-            return "data analysis wikipedia html document detected"
-        elif 'mathematics' in lowercase_input or 'wikipedia' in lowercase_input and 'mathematics' in lowercase_input:
-            return "mathematics wikipedia html document detected"
-        elif 'text processing' in lowercase_input or 'wikipedia' in lowercase_input and 'text processing' in lowercase_input:
-            return "text processing wikipedia html document detected"
-        elif 'wikipedia' in lowercase_input:
-            return "generic wikipedia html document detected"
+        
+        # Determine the type of HTML document based on the title and class attributes
+        if 'data analysis' in lowercase_input:
+            if 'wikipedia' in lowercase_input:
+                return "wikipedia data analysis html document detected"
+            else:
+                return "data analysis html document detected"
+        elif 'mathematics' in lowercase_input:
+            if 'wikipedia' in lowercase_input:
+                return "wikipedia mathematics html document detected"
+            else:
+                return "mathematics html document detected"
+        elif 'text processing' in lowercase_input:
+            if 'wikipedia' in lowercase_input:
+                return "wikipedia text processing html document detected"
+            else:
+                return "text processing html document detected"
         else:
             return "generic html document detected"
     
@@ -29,13 +37,14 @@ def tentacle(input_data):
             # Check if the processed items contain specific keywords
             if 'data' in processed_items and 'analysis' in processed_items:
                 return f"{processed_items}, data analysis detected"
-            elif any(keyword in processed_items for keyword in ['math', 'equation', 'mathematics']):
+            elif 'math' in processed_items or 'equation' in processed_items:
                 return f"{processed_items}, mathematics detected"
             elif 'text' in processed_items and 'processing' in processed_items:
                 return f"{processed_items}, text processing detected"
-            elif 'wikipedia' in processed_items:
-                return f"{processed_items}, wikipedia content detected"
+            elif 'html' in processed_items or 'doctype' in processed_items:
+                return f"{processed_items}, possible html fragment detected"
             else:
+                # If no specific keywords are found, return the processed items
                 return processed_items
         else:
             # If it's not a string, return a lowercase string representation

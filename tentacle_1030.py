@@ -29,15 +29,16 @@ def tentacle(input_data):
         
         # Process the result based on its type
         if isinstance(result, (int, float)):
-            # For numbers, return the sorted digits/characters
-            return ''.join(sorted(str(result).lower()))
+            # For numbers, return the sorted digits/characters and their sum
+            sorted_digits = ''.join(sorted(str(result).lower()))
+            return f"{sorted_digits}, sum: {sum(int(digit) for digit in str(abs(result)) if digit.isdigit())}"
         elif isinstance(result, str):
             # For strings, split, sort, remove duplicates, and join
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
             return ','.join(sorted_items)
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements and join
-            sorted_items = sorted(str(item).lower() for item in result)
+            # For collections, sort elements, remove duplicates, and join
+            sorted_items = sorted(set(str(item).lower() for item in result))
             return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation
@@ -45,12 +46,16 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
+            # Check if the input contains any HTML-like tags
+            if '<' in input_data and '>' in input_data:
+                return "potential html fragment detected"
+            
             # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
             return ','.join(sorted_items)
         elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements and join them
-            sorted_items = sorted(str(item).lower() for item in input_data)
+            # If it's a collection, sort its elements, remove duplicates, and join them
+            sorted_items = sorted(set(str(item).lower() for item in input_data))
             return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation

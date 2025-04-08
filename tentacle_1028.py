@@ -30,7 +30,13 @@ def tentacle(input_data):
         # Calculate the sum of digits if any are present
         digit_sum = sum(int(char) for char in sorted_result if char.isdigit())
         
-        return f"{sorted_result} (unique characters: {unique_chars}, digit sum: {digit_sum})"
+        # Calculate the product of digits if any are present
+        digit_product = 1
+        for char in sorted_result:
+            if char.isdigit():
+                digit_product *= int(char)
+        
+        return f"{sorted_result} (unique characters: {unique_chars}, digit sum: {digit_sum}, digit product: {digit_product})"
     except:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -44,7 +50,10 @@ def tentacle(input_data):
             # Calculate the average length of items
             avg_length = sum(len(item) for item in sorted_items) / item_count if item_count > 0 else 0
             
-            return f"{result} (item count: {item_count}, average length: {avg_length:.2f})"
+            # Calculate the total length of all items
+            total_length = sum(len(item) for item in sorted_items)
+            
+            return f"{result} (item count: {item_count}, average length: {avg_length:.2f}, total length: {total_length})"
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements and join them
             sorted_items = sorted(str(item).lower() for item in input_data)
@@ -56,9 +65,13 @@ def tentacle(input_data):
             # Calculate the average length of items
             avg_length = sum(len(str(item)) for item in input_data) / item_count if item_count > 0 else 0
             
-            return f"{result} (item count: {item_count}, average length: {avg_length:.2f})"
+            # Calculate the total length of all items
+            total_length = sum(len(str(item)) for item in input_data)
+            
+            return f"{result} (item count: {item_count}, average length: {avg_length:.2f}, total length: {total_length})"
         else:
             # For other types, return a lowercase string representation
-            # and include the type of the input and its length
+            # and include the type of the input, its length, and its hash value
             str_repr = str(input_data).lower()
-            return f"{str_repr} (type: {type(input_data).__name__}, length: {len(str_repr)})"
+            input_hash = hash(input_data)
+            return f"{str_repr} (type: {type(input_data).__name__}, length: {len(str_repr)}, hash: {input_hash})"
