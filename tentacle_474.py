@@ -19,10 +19,11 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join the comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove any empty strings that might result from leading/trailing commas
+            # Remove any empty strings from the sorted list
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
+            # Join the cleaned and sorted values
             return ','.join(cleaned_values)
         else:
             # Check if the input is a valid number
@@ -30,5 +31,13 @@ def tentacle(input_data):
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, return the input as a lowercase string (from Parent1)
-                return str(input_data).lower()
+                # If not a number, check for specific patterns
+                if input_data.strip().lower().startswith('http'):
+                    return f"url detected: {input_data}"
+                elif '@' in input_data and '.' in input_data:
+                    return f"email address detected: {input_data}"
+                elif len(input_data) > 1 and input_data.isupper():
+                    return f"all uppercase text detected: {input_data.lower()}"
+                else:
+                    # If no specific pattern is detected, return the input as a lowercase string
+                    return str(input_data).lower()

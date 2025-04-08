@@ -14,16 +14,23 @@ def tentacle(input_data):
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
-        # Convert the result to a string and lowercase it
-        return str(result).lower()
+        # Convert the result to a string, lowercase it, and sort the characters
+        sorted_result = ''.join(sorted(str(result).lower()))
+        # If the sorted result is a palindrome, return it with a special message
+        if sorted_result == sorted_result[::-1]:
+            return f"palindromic result: {sorted_result}"
+        else:
+            return sorted_result
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
-            # Remove any empty strings that might result from leading/trailing commas
+            # Remove any empty strings and strip whitespace
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
-            return ','.join(cleaned_values)
+            # Sort the characters within each value
+            sorted_cleaned_values = [''.join(sorted(value.lower())) for value in cleaned_values]
+            return ','.join(sorted_cleaned_values)
         else:
-            # Convert the input to lowercase and remove any leading/trailing whitespace
-            return input_data.strip().lower()
+            # Return the input as a lowercase string with sorted characters
+            return ''.join(sorted(str(input_data).lower()))

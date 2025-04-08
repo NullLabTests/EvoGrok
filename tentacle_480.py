@@ -30,5 +30,11 @@ def tentacle(input_data):
                 float(input_data)
                 return str(input_data).lower()
             except ValueError:
-                # If not a number, return the input as a lowercase string (from Parent1)
-                return str(input_data).lower()
+                # If not a number, check for specific patterns
+                if input_data.strip().lower().startswith('http'):
+                    return "url detected"
+                elif '@' in input_data and '.' in input_data:
+                    return "email address detected"
+                else:
+                    # If no specific pattern is detected, return the input as a lowercase string (from Parent1)
+                    return str(input_data).lower()

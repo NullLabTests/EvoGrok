@@ -1,3 +1,5 @@
+import json
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -25,5 +27,16 @@ def tentacle(input_data):
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
             return ','.join(cleaned_values)
         else:
-            # Convert the input to lowercase and remove leading/trailing whitespace
-            return input_data.strip().lower()
+            # Check if the input is a valid number (integer or float)
+            try:
+                float(input_data)
+                return str(input_data).lower()
+            except ValueError:
+                # If not a number, check if it's JSON-like
+                try:
+                    json_data = json.loads(input_data)
+                    # If it's valid JSON, return a string representation
+                    return str(json_data).lower()
+                except json.JSONDecodeError:
+                    # If not JSON, return the input as a lowercase string (from Parent1)
+                    return str(input_data).lower()
