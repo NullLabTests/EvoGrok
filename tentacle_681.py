@@ -6,11 +6,11 @@ def tentacle(input_data):
     if input_str.startswith('<!doctype'):
         # Check for specific topics in the HTML document
         if 'data analysis' in input_str:
-            return "data analysis html document detected"
+            return "wikipedia data analysis html document detected"
         elif 'mathematics' in input_str:
-            return "mathematics html document detected"
+            return "wikipedia mathematics html document detected"
         elif 'text processing' in input_str:
-            return "text processing html document detected"
+            return "wikipedia text processing html document detected"
         else:
             return "generic html document detected"
     
@@ -18,7 +18,7 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return str(result).lower()
+        return f"mathematical result: {str(result).lower()}"
     except:
         # If evaluation fails, process as a comma-separated list or check for keywords
         if ',' in input_str:
@@ -26,7 +26,7 @@ def tentacle(input_data):
             sorted_list = sorted(input_str.split(','))
             # Remove any empty strings from the list
             cleaned_list = [item for item in sorted_list if item]
-            return ','.join(cleaned_list)
+            return f"sorted list: {','.join(cleaned_list)}"
         else:
             # Check for specific keywords
             if 'data' in input_str and 'analysis' in input_str:
@@ -41,4 +41,4 @@ def tentacle(input_data):
                     return "numeric content detected"
                 else:
                     # If no numeric content, return the input as a lowercase string
-                    return input_str
+                    return f"processed text: {input_str}"

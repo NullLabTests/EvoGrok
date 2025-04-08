@@ -2,8 +2,8 @@ def tentacle(input_data):
     """
     Process input data and return a transformed result based on its content and type.
 
-    This function can handle HTML detection, mathematical expression evaluation,
-    list processing, and string transformation.
+    This function can handle HTML detection with specific categories, mathematical
+    expression evaluation, list processing, and string transformation.
 
     Args:
         input_data: The input to be processed. Can be any type.
