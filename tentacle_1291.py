@@ -1,7 +1,6 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on the title
         lowercase_input = input_data.lower()
         if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
@@ -41,4 +40,4 @@ def tentacle(input_data):
             return f"function: {input_data.__name__} - {input_data.__doc__ or 'No docstring available'}"
         else:
             # For any other input type, return its type and string representation
-            return f"other type: {type(input_data).__name__} - {str(input_data)}"
+            return f"other type: {type(input_data).__name__} - {str(input_data).lower()}"

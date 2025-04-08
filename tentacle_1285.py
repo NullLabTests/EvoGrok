@@ -1,18 +1,19 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
+        lowercase_input = input_data.lower()
+        
         # Determine the type of HTML document based on known patterns
-        if 'data analysis' in input_data.lower():
+        if 'data analysis' in lowercase_input:
             return "wikipedia page on data analysis detected"
-        elif 'mathematics' in input_data.lower():
+        elif 'mathematics' in lowercase_input:
             return "wikipedia page on mathematics detected"
-        elif 'text processing' in input_data.lower():
+        elif 'text processing' in lowercase_input:
             return "wikipedia page on text processing detected"
         else:
-            # For unknown HTML documents, extract the title if possible
-            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
-            if title_match:
-                return f"html document titled '{title_match.group(1)}' detected"
+            # If no specific Wikipedia page is detected, check for other HTML content
+            if 'class=' in lowercase_input or 'id=' in lowercase_input:
+                return "generic html document with styling detected"
             else:
                 return "generic html document detected"
     
@@ -24,7 +25,7 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
             # Remove any leading/trailing whitespace from each value
             cleaned_values = [value.strip() for value in sorted_values]
@@ -37,14 +38,18 @@ def tentacle(input_data):
                 return str(input_data).lower()
             except ValueError:
                 # If not a number, check for specific patterns
-                if input_data.strip().lower().startswith('wiki:'):
+                lowercase_input = input_data.strip().lower()
+                if lowercase_input.startswith('wiki:'):
                     # Extract the topic from the wiki pattern
-                    topic = input_data.strip().lower().split('wiki:')[1].strip()
+                    topic = lowercase_input.split('wiki:')[1].strip()
                     return f"wikipedia page on {topic} detected"
-                elif input_data.strip().lower().startswith('html:'):
-                    # Extract the title from the html pattern
-                    title = input_data.strip().lower().split('html:')[1].strip()
-                    return f"html document titled '{title}' detected"
+                elif lowercase_input.startswith('html:'):
+                    # Extract the content from the html pattern
+                    content = lowercase_input.split('html:')[1].strip()
+                    if 'class=' in content or 'id=' in content:
+                        return f"html document with styling: {content}"
+                    else:
+                        return f"html document: {content}"
                 else:
-                    # If no specific pattern matches, return the input as a lowercase string (from Parent1)
-                    return str(input_data).lower()
+                    # If no specific pattern matches, return the input as a lowercase string
+                    return lowercase_input

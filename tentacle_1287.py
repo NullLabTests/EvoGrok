@@ -11,7 +11,15 @@ def tentacle(input_data):
         elif 'text processing' in lowercase_input:
             return "text processing html document detected: wikipedia page"
         else:
-            return "generic html document detected"
+            # Check for other relevant topics
+            if 'statistics' in lowercase_input:
+                return "statistics html document detected: wikipedia page"
+            elif 'machine learning' in lowercase_input:
+                return "machine learning html document detected: wikipedia page"
+            elif 'natural language processing' in lowercase_input:
+                return "natural language processing html document detected: wikipedia page"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -30,20 +38,19 @@ def tentacle(input_data):
             # Convert the input to lowercase and remove any leading/trailing whitespace
             lowercase_input = input_data.strip().lower()
             
-            # Check for specific keywords related to the known HTML document types
+            # Check for specific keywords related to the known HTML document types and other relevant topics
             if 'data analysis' in lowercase_input:
                 return f"data analysis related: {lowercase_input}"
             elif 'mathematics' in lowercase_input:
                 return f"mathematics related: {lowercase_input}"
             elif 'text processing' in lowercase_input:
                 return f"text processing related: {lowercase_input}"
+            elif 'statistics' in lowercase_input:
+                return f"statistics related: {lowercase_input}"
+            elif 'machine learning' in lowercase_input:
+                return f"machine learning related: {lowercase_input}"
+            elif 'natural language processing' in lowercase_input:
+                return f"natural language processing related: {lowercase_input}"
             else:
-                # Check for other keywords that might be relevant
-                if 'statistics' in lowercase_input:
-                    return f"statistics related: {lowercase_input}"
-                elif 'machine learning' in lowercase_input:
-                    return f"machine learning related: {lowercase_input}"
-                elif 'natural language processing' in lowercase_input:
-                    return f"natural language processing related: {lowercase_input}"
-                else:
-                    return lowercase_input
+                # If no specific keywords are found, return the lowercase input
+                return lowercase_input

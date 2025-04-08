@@ -1,13 +1,13 @@
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
-        # Determine the type of HTML document based on the title
-        if 'data analysis' in input_data.lower():
-            return "data analysis html document detected (Wikipedia page)"
-        elif 'mathematics' in input_data.lower():
-            return "mathematics html document detected (Wikipedia page)"
-        elif 'text processing' in input_data.lower():
-            return "text processing html document detected (Wikipedia page)"
+        lowercase_input = input_data.lower()
+        if 'data analysis' in lowercase_input:
+            return "data analysis html document detected"
+        elif 'mathematics' in lowercase_input:
+            return "mathematics html document detected"
+        elif 'text processing' in lowercase_input:
+            return "text processing html document detected"
         else:
             return "generic html document detected"
     
@@ -15,7 +15,7 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return f"mathematical result: {str(result).lower()} (evaluated from: {input_data})"
+        return f"mathematical result: {str(result).lower()}"
     except:
         # If evaluation fails, process the input based on its content
         if isinstance(input_data, str):
@@ -30,14 +30,15 @@ def tentacle(input_data):
                 # If it's a word (ignoring spaces), return it capitalized
                 return f"word: {input_data.title()}"
             else:
-                # For any other string input, return it as a lowercase string
+                # For any other string input, return it as a lowercase string with a prefix
                 return f"other string: {input_data.lower()}"
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort it and return as a string
-            return f"collection: {str(sorted(input_data))}"
+            sorted_collection = sorted(input_data)
+            return f"collection: {str(sorted_collection)}"
         elif callable(input_data):
             # If it's a function, return its name and docstring
             return f"function: {input_data.__name__} - {input_data.__doc__ or 'No docstring available'}"
         else:
-            # For any other input, return it as a lowercase string with a prefix
-            return f"other: {str(input_data).lower()}"
+            # For any other input type, return its type and string representation
+            return f"other type: {type(input_data).__name__} - {str(input_data)}"
