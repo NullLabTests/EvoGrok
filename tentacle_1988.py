@@ -18,10 +18,6 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
-                elif 'machine learning' in lower_input:
-                    return "wikipedia machine learning html document detected"
-                elif 'artificial intelligence' in lower_input:
-                    return "wikipedia artificial intelligence html document detected"
                 else:
                     return "wikipedia generic html document detected"
             else:
@@ -36,7 +32,7 @@ def tentacle(input_data):
             # For numbers, return the sorted digits/characters, their sum, and the original result
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}".lower()
         elif isinstance(result, str):
             # For strings, split, sort, remove duplicates, and join
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
@@ -45,12 +41,9 @@ def tentacle(input_data):
             # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
             return ','.join(sorted_items)
-        elif callable(result):
-            # For functions, return its name, docstring, and a sample call
-            return f"function: {result.__name__}, doc: {result.__doc__ or 'No docstring'}, sample: {result() if result.__code__.co_argcount == 0 else 'Requires arguments'}"
         else:
             # For other types, return a lowercase string representation, its length, and the original result
-            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
+            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}".lower()
     except Exception as e:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -69,9 +62,6 @@ def tentacle(input_data):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
             return ','.join(sorted_items)
-        elif callable(input_data):
-            # For functions, return its name, docstring, and a sample call
-            return f"function: {input_data.__name__}, doc: {input_data.__doc__ or 'No docstring'}, sample: {input_data() if input_data.__code__.co_argcount == 0 else 'Requires arguments'}"
         else:
             # For other types, return a lowercase string representation, its length, and the original input
-            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}".lower()

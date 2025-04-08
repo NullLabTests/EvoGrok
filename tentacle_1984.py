@@ -18,10 +18,10 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
-                elif 'history' in lower_input:
-                    return "wikipedia history html document detected"
-                elif 'technology' in lower_input:
-                    return "wikipedia technology html document detected"
+                elif 'machine learning' in lower_input:
+                    return "wikipedia machine learning html document detected"
+                elif 'programming' in lower_input:
+                    return "wikipedia programming html document detected"
                 else:
                     return "wikipedia generic html document detected"
             else:
@@ -34,10 +34,10 @@ def tentacle(input_data):
         # Process the result based on its type
         if isinstance(result, (int, float)):
             # For numbers, return the sorted digits/characters, their sum, 
-            # the original result, and whether it's positive or negative
-            sorted_digits = ''.join(sorted(str(abs(result)).lower()))
+            # the original result, and whether it's positive, negative, or zero
+            sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            sign = "positive" if result >= 0 else "negative"
+            sign = "positive" if result > 0 else "negative" if result < 0 else "zero"
             return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}, sign: {sign}"
         elif isinstance(result, str):
             # For strings, split, sort, remove duplicates, join, and count words
@@ -50,10 +50,10 @@ def tentacle(input_data):
             item_count = len(sorted_items)
             return f"{','.join(sorted_items)}, item count: {item_count}"
         elif isinstance(result, dict):
-            # For dictionaries, sort keys, join key-value pairs, and count entries
-            sorted_items = sorted(f"{k}:{v}".lower() for k, v in result.items())
-            entry_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, entry count: {entry_count}"
+            # For dictionaries, sort keys, remove duplicates, join, and count key-value pairs
+            sorted_keys = sorted(set(str(key).lower() for key in result.keys()))
+            pair_count = len(result)
+            return f"{','.join(sorted_keys)}, pair count: {pair_count}"
         else:
             # For other types, return a lowercase string representation, its length, 
             # the original result, and its type
@@ -66,7 +66,7 @@ def tentacle(input_data):
                 return "potential html fragment detected"
             
             # Check if the input looks like a mathematical expression
-            if any(char in input_data for char in '+-*/()^'):
+            if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
             # Split the input, sort it, remove duplicates, join it back together, and count words
@@ -79,10 +79,10 @@ def tentacle(input_data):
             item_count = len(sorted_items)
             return f"{','.join(sorted_items)}, item count: {item_count}"
         elif isinstance(input_data, dict):
-            # For dictionaries, sort keys, join key-value pairs, and count entries
-            sorted_items = sorted(f"{k}:{v}".lower() for k, v in input_data.items())
-            entry_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, entry count: {entry_count}"
+            # For dictionaries, sort keys, remove duplicates, join, and count key-value pairs
+            sorted_keys = sorted(set(str(key).lower() for key in input_data.keys()))
+            pair_count = len(input_data)
+            return f"{','.join(sorted_keys)}, pair count: {pair_count}"
         else:
             # For other types, return a lowercase string representation, its length, 
             # the original input, and its type
