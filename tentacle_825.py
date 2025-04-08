@@ -9,7 +9,13 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "text processing html document detected"
         else:
-            return "generic html document detected"
+            # Check for potential HTML document types based on keywords
+            keywords = ['data', 'analysis', 'mathematics', 'text', 'processing']
+            detected_keywords = [kw for kw in keywords if kw in input_data.lower()]
+            if detected_keywords:
+                return f"potential {' '.join(detected_keywords)} html document detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -36,7 +42,7 @@ def tentacle(input_data):
                     return f"wikipedia link: {input_data[5:].strip().lower()}"
                 elif any(keyword in input_data.lower() for keyword in ['data', 'analysis', 'mathematics', 'text', 'processing']):
                     # Detect keywords related to HTML document types
-                    return f"potential {input_data.lower()} html document"
+                    return f"potential {' '.join([kw for kw in ['data', 'analysis', 'mathematics', 'text', 'processing'] if kw in input_data.lower()])} html document"
                 else:
                     # If no specific pattern is detected, return the input as a lowercase string
                     return str(input_data).lower()

@@ -24,7 +24,11 @@ def tentacle(input_data):
         
         # Check if the result contains any numbers
         if any(char.isdigit() for char in sorted_result):
-            return f"mathematical result: {sorted_result}".lower()
+            # If numbers are present, check if the result is a single number
+            if sorted_result.replace(',', '').isdigit():
+                return f"single number result: {sorted_result}".lower()
+            else:
+                return f"mathematical result: {sorted_result}".lower()
         else:
             return f"non-numeric result: {sorted_result}".lower()
     except:
@@ -34,6 +38,14 @@ def tentacle(input_data):
         
         # Check if the processed input contains any numbers
         if any(char.isdigit() for char in processed_input):
-            return f"text with numbers: {processed_input}".lower()
+            # If numbers are present, check if the input is a single word
+            if len(processed_input.split(',')) == 1:
+                return f"single word with numbers: {processed_input}".lower()
+            else:
+                return f"text with numbers: {processed_input}".lower()
         else:
-            return f"text without numbers: {processed_input}".lower()
+            # If no numbers are present, check if the input is a single word
+            if len(processed_input.split(',')) == 1:
+                return f"single word without numbers: {processed_input}".lower()
+            else:
+                return f"text without numbers: {processed_input}".lower()

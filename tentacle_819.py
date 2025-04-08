@@ -1,3 +1,5 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -9,7 +11,12 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "wikipedia text processing html document detected"
         else:
-            return "generic html document detected"
+            # Extract the title from the HTML if possible
+            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
+            if title_match:
+                return f"wikipedia {title_match.group(1).lower()} html document detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression

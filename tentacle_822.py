@@ -25,15 +25,22 @@ def tentacle(input_data):
             cleaned_values = [value.strip() for value in sorted_values if value.strip()]
             return ','.join(cleaned_values)
         else:
-            # Convert the input to lowercase and remove leading/trailing whitespace
-            processed_input = input_data.strip().lower()
-            
-            # Check for specific patterns in the processed input
-            if processed_input.startswith('http') or processed_input.startswith('www'):
-                return f"url detected: {processed_input}"
-            elif any(char.isdigit() for char in processed_input):
-                return f"contains numbers: {processed_input}"
-            elif len(processed_input.split()) > 5:
-                return f"long text: {processed_input}"
-            else:
-                return processed_input
+            # Check if the input is a valid number (integer or float)
+            try:
+                float(input_data)
+                return str(input_data).lower()
+            except ValueError:
+                # If not a number, check for specific patterns
+                if input_data.strip().lower().startswith('http'):
+                    return f"url detected: {input_data}"
+                elif '@' in input_data and '.' in input_data:
+                    return f"email address detected: {input_data}"
+                elif len(input_data) > 100:
+                    return f"long text detected: {len(input_data)} characters"
+                elif input_data.strip().isalpha():
+                    return f"alphabetic text detected: {input_data.lower()}"
+                elif input_data.strip().isdigit():
+                    return f"numeric string detected: {input_data}"
+                else:
+                    # If no specific pattern is detected, return the input as a lowercase string
+                    return str(input_data).lower()

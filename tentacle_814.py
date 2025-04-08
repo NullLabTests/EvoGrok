@@ -15,7 +15,12 @@ def tentacle(input_data):
             if content:
                 # Split the content into words, remove empty strings, sort, and join
                 words = [word for word in content.split() if word]
-                return ','.join(sorted(words))
+                # Count the occurrences of each word
+                word_counts = {word: words.count(word) for word in set(words)}
+                # Sort the words by count (descending) and then alphabetically
+                sorted_words = sorted(word_counts.items(), key=lambda x: (-x[1], x[0]))
+                # Return the top 5 words with their counts
+                return ','.join(f"{word}:{count}" for word, count in sorted_words[:5])
             else:
                 return "generic html document detected"
     
@@ -24,9 +29,19 @@ def tentacle(input_data):
         result = eval(input_data)
         # Convert the result to a string, split it into words, remove empty strings, sort, and join
         words = [word for word in str(result).split() if word]
-        return ','.join(sorted(words))
+        # Count the occurrences of each word
+        word_counts = {word: words.count(word) for word in set(words)}
+        # Sort the words by count (descending) and then alphabetically
+        sorted_words = sorted(word_counts.items(), key=lambda x: (-x[1], x[0]))
+        # Return the top 5 words with their counts
+        return ','.join(f"{word}:{count}" for word, count in sorted_words[:5])
     except:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, remove empty strings, sort, and join
         words = [word for word in str(input_data).lower().split() if word]
-        return ','.join(sorted(words))
+        # Count the occurrences of each word
+        word_counts = {word: words.count(word) for word in set(words)}
+        # Sort the words by count (descending) and then alphabetically
+        sorted_words = sorted(word_counts.items(), key=lambda x: (-x[1], x[0]))
+        # Return the top 5 words with their counts
+        return ','.join(f"{word}:{count}" for word, count in sorted_words[:5])
