@@ -1,4 +1,11 @@
+import re
+
 def tentacle(input_data):
+    # Check if the input is a URL
+    url_pattern = re.compile(r'^(https?://)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$', re.IGNORECASE)
+    if isinstance(input_data, str) and url_pattern.match(input_data):
+        return "url detected"
+    
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         # Determine the type of HTML document based on known patterns
@@ -15,21 +22,18 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         
-        # Convert the result to a string, split it into words, sort them, and join with commas
-        processed_result = ','.join(sorted(str(result).lower().split()))
-        
-        # If the result is a single word, return it as is; otherwise, return the sorted, comma-separated list
-        if ',' in processed_result:
-            return f"evaluated result: {processed_result}"
+        # Process the result based on its type
+        if isinstance(result, (int, float)):
+            # For numbers, return the result as a string, lowercase
+            return str(result).lower()
         else:
-            return f"evaluated result: {processed_result.replace(',', '')}"
+            # For other types, convert to string, split into words, sort them, and join with commas
+            processed_result = ','.join(sorted(str(result).lower().split()))
+            # If the result is a single word, return it as is; otherwise, return the sorted, comma-separated list
+            return processed_result if ',' in processed_result else processed_result.replace(',', '')
     except:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them, and join with commas
         processed_input = ','.join(sorted(str(input_data).lower().split()))
-        
         # If the result is a single word, return it as is; otherwise, return the sorted, comma-separated list
-        if ',' in processed_input:
-            return f"processed input: {processed_input}"
-        else:
-            return f"processed input: {processed_input.replace(',', '')}"
+        return processed_input if ',' in processed_input else processed_input.replace(',', '')

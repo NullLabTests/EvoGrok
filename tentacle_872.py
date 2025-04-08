@@ -1,3 +1,5 @@
+import json
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -12,6 +14,17 @@ def tentacle(input_data):
         else:
             return 'generic html document detected'
     
+    # Check if the input looks like JSON
+    elif isinstance(input_data, str) and input_data.strip().startswith(('{', '[')):
+        try:
+            parsed_json = json.loads(input_data)
+            if isinstance(parsed_json, dict):
+                return f"json object detected: {', '.join(sorted(parsed_json.keys()))}"
+            elif isinstance(parsed_json, list):
+                return f"json array detected: length {len(parsed_json)}"
+        except json.JSONDecodeError:
+            pass  # If JSON parsing fails, continue to the next check
+
     try:
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
@@ -23,7 +36,7 @@ def tentacle(input_data):
             # Convert the result to a string, split it into words, sort them, and join with commas
             sorted_words = ','.join(sorted(str(result).lower().split()))
             return sorted_words
-    except:
+    except Exception as e:
         # If evaluation fails, process the input as text
         # Convert to lowercase, split into words, sort them, and join with commas
         sorted_words = ','.join(sorted(str(input_data).lower().split()))
@@ -36,4 +49,5 @@ def tentacle(input_data):
         elif 'text' in sorted_words and 'processing' in sorted_words:
             return f'{sorted_words} - related to text processing'
         else:
-            return sorted_words
+            # If no specific keywords are found, return the sorted words with error information
+            return f'{sorted_words} - error in processing: {str(e)}'

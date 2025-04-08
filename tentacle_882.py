@@ -7,13 +7,13 @@ def tentacle(input_data):
         # Determine the type of HTML document and add relevant elements
         if 'data analysis' in input_data.lower():
             document_type = 'data analysis'
-            detected_elements.extend(['wikipedia page', 'html5', 'statistics', 'data visualization'])
+            detected_elements.extend(['wikipedia page', 'html5', 'statistics', 'data visualization', 'data science'])
         elif 'mathematics' in input_data.lower():
             document_type = 'mathematics'
-            detected_elements.extend(['wikipedia page', 'html5', 'algebra', 'geometry'])
+            detected_elements.extend(['wikipedia page', 'html5', 'algebra', 'geometry', 'calculus'])
         elif 'text processing' in input_data.lower():
             document_type = 'text processing'
-            detected_elements.extend(['wikipedia page', 'html5', 'nlp', 'regex'])
+            detected_elements.extend(['wikipedia page', 'html5', 'nlp', 'regex', 'string manipulation'])
         
         # Add the document type to detected elements
         detected_elements.append(document_type)
@@ -36,19 +36,27 @@ def tentacle(input_data):
         
         # Check if the result is a single number
         if result_str.replace('.', '').replace('-', '').isdigit():
-            return result_str
+            return f"numeric result: {result_str}"
         
         # If not a single number, split into words, sort, and join with commas
         words = sorted(result_str.split())
         
         # Check for specific keywords and add them to the beginning of the result
         keywords = []
-        if 'data' in words:
+        if 'data' in words or 'analysis' in words:
             keywords.append('data analysis')
-        if 'math' in words or 'equation' in words:
+        if 'math' in words or 'equation' in words or 'number' in words:
             keywords.append('mathematics')
-        if 'text' in words or 'string' in words:
+        if 'text' in words or 'string' in words or 'word' in words:
             keywords.append('text processing')
+        
+        # Add more specific categories based on the content
+        if 'statistic' in words or 'visualization' in words:
+            keywords.append('data science')
+        if 'algebra' in words or 'geometry' in words or 'calculus' in words:
+            keywords.append('advanced mathematics')
+        if 'nlp' in words or 'regex' in words:
+            keywords.append('advanced text processing')
         
         return ','.join(keywords + words)
     except:
@@ -60,9 +68,17 @@ def tentacle(input_data):
         keywords = []
         if 'data' in words or 'analysis' in words:
             keywords.append('data analysis')
-        if 'math' in words or 'equation' in words:
+        if 'math' in words or 'equation' in words or 'number' in words:
             keywords.append('mathematics')
-        if 'text' in words or 'string' in words:
+        if 'text' in words or 'string' in words or 'word' in words:
             keywords.append('text processing')
+        
+        # Add more specific categories based on the content
+        if 'statistic' in words or 'visualization' in words:
+            keywords.append('data science')
+        if 'algebra' in words or 'geometry' in words or 'calculus' in words:
+            keywords.append('advanced mathematics')
+        if 'nlp' in words or 'regex' in words:
+            keywords.append('advanced text processing')
         
         return ','.join(keywords + words)

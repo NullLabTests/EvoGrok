@@ -9,7 +9,12 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return 'text processing html document detected'
         else:
-            return 'generic html document detected'
+            # For generic HTML documents, extract and return the title if present
+            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
+            if title_match:
+                return f"generic html document detected: {title_match.group(1).strip().lower()}"
+            else:
+                return 'generic html document detected'
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -19,6 +24,10 @@ def tentacle(input_data):
         if isinstance(result, (int, float)):
             # For numbers, return the result as a string, lowercased
             return str(result).lower()
+        elif isinstance(result, (list, tuple, set)):
+            # For collections, sort and join elements
+            sorted_items = sorted(str(item).lower() for item in result)
+            return ','.join(sorted_items)
         else:
             # For other types, convert to string, split into words, sort them, and join with commas
             processed_result = ','.join(sorted(str(result).lower().split()))

@@ -25,8 +25,12 @@ def tentacle(input_data):
         meta_match = re.search(r'<meta name="description" content="(.*?)"', input_data, re.IGNORECASE)
         meta_description = meta_match.group(1).strip() if meta_match else 'unknown'
         
-        # Return a sorted, comma-separated list of detected elements, content words, title, and meta description
-        return ','.join(sorted(['html document', document_type, title, meta_description] + content_words))
+        # Extract language if present
+        lang_match = re.search(r'<html.*?lang="(.*?)"', input_data, re.IGNORECASE)
+        language = lang_match.group(1).strip() if lang_match else 'unknown'
+        
+        # Return a sorted, comma-separated list of detected elements, content words, title, meta description, and language
+        return ','.join(sorted(['html document', document_type, title, meta_description, language] + content_words))
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -76,5 +80,13 @@ def tentacle(input_data):
     # Check if the input looks like JSON
     if input_data.strip().startswith('{') and input_data.strip().endswith('}'):
         words.append('possible json data')
+    
+    # Check if the input looks like the start of an HTML document (but not a full one)
+    if input_data.strip().lower().startswith('<html'):
+        words.append('possible html fragment')
+    
+    # If the input is empty or whitespace-only, add a special marker
+    if not input_data.strip():
+        words.append('empty input')
     
     return ','.join(words)
