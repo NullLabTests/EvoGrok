@@ -1,3 +1,6 @@
+import re
+from statistics import mean, stdev
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -9,7 +12,12 @@ def tentacle(input_data):
         elif 'text processing' in input_data.lower():
             return "wikipedia text processing html document detected"
         else:
-            return "generic html document detected"
+            # Extract the title from the HTML if possible
+            title_match = re.search(r'<title>(.*?)</title>', input_data, re.IGNORECASE)
+            if title_match:
+                return f"wikipedia {title_match.group(1).lower()} html document detected"
+            else:
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -23,20 +31,27 @@ def tentacle(input_data):
             sorted_values = sorted(input_data.split(','))
             # Check if all values are numeric
             if all(value.strip().replace('.', '').isdigit() for value in sorted_values):
-                # If numeric, calculate the sum, average, and median
+                # If numeric, calculate the sum, average, and standard deviation
                 numeric_values = [float(value.strip()) for value in sorted_values]
                 total = sum(numeric_values)
-                average = total / len(numeric_values)
-                median = sorted(numeric_values)[len(numeric_values) // 2] if len(numeric_values) % 2 else (sorted(numeric_values)[len(numeric_values) // 2 - 1] + sorted(numeric_values)[len(numeric_values) // 2]) / 2
-                return f"numeric input: sum={total:.2f}, average={average:.2f}, median={median:.2f}"
+                average = mean(numeric_values)
+                std_dev = stdev(numeric_values) if len(numeric_values) > 1 else 0
+                return f"numeric input: sum={total:.2f}, average={average:.2f}, std_dev={std_dev:.2f}"
             else:
-                # If not numeric, return sorted values and count unique values
-                unique_count = len(set(sorted_values))
-                return f"string input: {','.join(sorted_values).lower()}, unique values: {unique_count}"
+                # If not numeric, return sorted values and count unique words
+                unique_words = len(set(word.lower() for word in ' '.join(sorted_values).split()))
+                # Calculate the average word length
+                words = ' '.join(sorted_values).split()
+                avg_word_length = sum(len(word) for word in words) / len(words) if words else 0
+                return f"string input: {','.join(sorted_values).lower()}, unique_words={unique_words}, avg_word_length={avg_word_length:.2f}"
         else:
             # Check if the input is a palindrome
             cleaned_input = ''.join(char.lower() for char in input_data if char.isalnum())
             is_palindrome = cleaned_input == cleaned_input[::-1]
             
-            # Return the input as a lowercase string with a prefix and palindrome information
-            return f"string input: {str(input_data).lower()}, palindrome: {is_palindrome}"
+            # Count the number of vowels
+            vowels = 'aeiou'
+            vowel_count = sum(1 for char in cleaned_input if char in vowels)
+            
+            # Return the input as a lowercase string with a prefix, palindrome status, and vowel count
+            return f"string input: {str(input_data).lower()}, palindrome={is_palindrome}, vowels={vowel_count}"
