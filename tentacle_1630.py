@@ -1,11 +1,12 @@
 import re
+import math
 
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lowercase_input = input_data.lower()
         
-        # Determine the type of HTML document based on the title
+        # Determine the type of HTML document based on the title or content
         if 'data analysis' in lowercase_input:
             return "data analysis html document detected"
         elif 'mathematics' in lowercase_input:
@@ -27,7 +28,15 @@ def tentacle(input_data):
                 else:
                     return f"html document detected: {title}"
             else:
-                return "generic html document detected"
+                # If no title is found, check for keywords in the document
+                if 'data' in lowercase_input:
+                    return "data-related html document detected"
+                elif 'math' in lowercase_input or 'equation' in lowercase_input:
+                    return "math-related html document detected"
+                elif 'text' in lowercase_input or 'language' in lowercase_input:
+                    return "text-related html document detected"
+                else:
+                    return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -45,10 +54,10 @@ def tentacle(input_data):
                 # Capitalize the first letter of each item
                 capitalized_items = [item.capitalize() for item in cleaned_items]
                 return ','.join(capitalized_items)
-            elif input_data.replace('.', '').isdigit():
-                # If it's a single number (including decimals), return its square, cube, and square root
+            elif input_data.replace('.', '').replace('-', '').isdigit():
+                # If it's a single number (including decimals and negatives), return its square, cube, square root, and logarithm
                 number = float(input_data)
-                return f"square: {number ** 2:.2f}, cube: {number ** 3:.2f}, square root: {number ** 0.5:.2f}"
+                return f"square: {number ** 2:.2f}, cube: {number ** 3:.2f}, square root: {number ** 0.5:.2f}, logarithm: {math.log(abs(number)):.2f}"
             else:
                 # For other string inputs, perform multiple transformations
                 lowercase = input_data.lower()
@@ -58,7 +67,13 @@ def tentacle(input_data):
                 capitalized_string = ' '.join(capitalized_words)
                 # Count the number of vowels in the original string
                 vowels = sum(1 for char in lowercase if char in 'aeiou')
-                return f"original: {lowercase}, reversed: {reversed_string}, capitalized: {capitalized_string}, vowel count: {vowels}"
+                # Check if the input contains any numbers
+                numbers = [float(part) for part in re.findall(r'-?\d+\.?\d*', input_data)]
+                if numbers:
+                    avg = sum(numbers) / len(numbers)
+                    return f"original: {lowercase}, reversed: {reversed_string}, capitalized: {capitalized_string}, vowel count: {vowels}, average of numbers: {avg:.2f}"
+                else:
+                    return f"original: {lowercase}, reversed: {reversed_string}, capitalized: {capitalized_string}, vowel count: {vowels}"
         else:
             # For non-string inputs, return a string representation and its type
             return f"unknown type: {str(input_data)}, type: {type(input_data).__name__}"

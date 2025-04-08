@@ -29,7 +29,7 @@ def tentacle(input_data):
         
         # Process the result based on its type
         if isinstance(result, (int, float)):
-            # For numbers, return the sorted digits/characters, their sum, and the original value
+            # For numbers, return the sorted digits/characters, their sum, and the original result
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
             return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
@@ -42,8 +42,8 @@ def tentacle(input_data):
             sorted_items = sorted(set(str(item).lower() for item in result))
             return ','.join(sorted_items)
         else:
-            # For other types, return a lowercase string representation and its type
-            return f"{str(result).lower()}, type: {type(result).__name__}"
+            # For other types, return a lowercase string representation, its length, and the original result
+            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
     except Exception as e:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -51,7 +51,11 @@ def tentacle(input_data):
             if '<' in input_data and '>' in input_data:
                 return "potential html fragment detected"
             
-            # Split the input, sort it, remove duplicates, and join it back together
+            # Check if the input looks like a mathematical expression
+            if any(char in input_data for char in '+-*/()'):
+                return f"unevaluated math expression: {input_data.lower()}"
+            
+            # Process the input string
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
             return ','.join(sorted_items)
         elif isinstance(input_data, (list, tuple, set)):
@@ -59,5 +63,5 @@ def tentacle(input_data):
             sorted_items = sorted(set(str(item).lower() for item in input_data))
             return ','.join(sorted_items)
         else:
-            # For other types, return a lowercase string representation and its type
-            return f"{str(input_data).lower()}, type: {type(input_data).__name__}"
+            # For other types, return a lowercase string representation, its length, and the original input
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
