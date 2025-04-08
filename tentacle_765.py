@@ -11,7 +11,7 @@ def tentacle(input_data):
             return "wikipedia text processing html document detected"
         else:
             # If no specific type is detected, return the lowercase input
-            return lowercase_input
+            return f"unknown html document type: {lowercase_input}"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -32,5 +32,10 @@ def tentacle(input_data):
                 # If all items were empty, return an empty list
                 return "empty list"
         else:
-            # Return the input as a lowercase string
-            return f"processed string: {str(input_data).lower()}"
+            # Attempt to convert the input to a float
+            try:
+                float_value = float(input_data)
+                return f"numeric value detected: {float_value}"
+            except ValueError:
+                # If conversion to float fails, return the input as a lowercase string
+                return f"processed string: {str(input_data).lower()}"

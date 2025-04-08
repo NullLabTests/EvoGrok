@@ -22,8 +22,29 @@ def tentacle(input_data):
             # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
             # Remove any empty strings and strip whitespace
-            cleaned_values = [value.strip().lower() for value in sorted_values if value.strip()]
-            return ','.join(cleaned_values)
+            cleaned_values = [value.strip() for value in sorted_values if value.strip()]
+            # Join the cleaned values with commas
+            result = ','.join(cleaned_values)
         else:
             # Convert the input to lowercase and remove any leading/trailing whitespace
-            return input_data.strip().lower()
+            result = input_data.strip().lower()
+        
+        # Check for special patterns
+        if result.startswith('http://') or result.startswith('https://'):
+            return f"url detected: {result}"
+        
+        if '@' in result and '.' in result.split('@')[-1]:
+            return f"email detected: {result}"
+        
+        # Check for potential HTML fragments
+        if '<' in result and '>' in result:
+            return f"html fragment detected: {result}"
+        
+        # Check for JSON-like structures
+        if result.startswith('{') and result.endswith('}'):
+            return f"json object detected: {result}"
+        elif result.startswith('[') and result.endswith(']'):
+            return f"json array detected: {result}"
+        
+        # If no special patterns detected, return the processed result
+        return result

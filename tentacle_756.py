@@ -9,9 +9,10 @@ def tentacle(input_data):
             return "mathematics html document detected"
         elif 'text processing' in lowercase_input:
             return "text processing html document detected"
+        elif 'wikipedia' in lowercase_input:
+            return "wikipedia html document detected"
         else:
-            # If no specific type is detected, return the lowercase input
-            return lowercase_input
+            return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -23,22 +24,14 @@ def tentacle(input_data):
         if isinstance(input_data, str):
             if ',' in input_data:
                 # Sort and join comma-separated values
-                sorted_items = sorted(input_data.split(','))
-                # Remove any empty strings from the sorted list
-                cleaned_items = [item.strip() for item in sorted_items if item.strip()]
-                return ','.join(cleaned_items)
+                sorted_values = sorted(input_data.split(','))
+                # Remove any empty strings that might result from leading/trailing commas
+                cleaned_values = [value.strip() for value in sorted_values if value.strip()]
+                # Join the cleaned values with commas and convert to lowercase
+                return ','.join(cleaned_values).lower()
             else:
-                # Check for specific keywords and return appropriate messages
-                lowercase_input = input_data.lower()
-                if 'data' in lowercase_input and 'analysis' in lowercase_input:
-                    return "data analysis related text detected"
-                elif 'mathematics' in lowercase_input:
-                    return "mathematics related text detected"
-                elif 'text' in lowercase_input and 'processing' in lowercase_input:
-                    return "text processing related text detected"
-                else:
-                    # Return the input as a lowercase string
-                    return lowercase_input
+                # Convert the input to lowercase and remove any leading/trailing whitespace
+                return input_data.strip().lower()
         else:
-            # For non-string inputs, convert to string and return lowercase
+            # If the input is not a string, convert it to a string and lowercase it
             return str(input_data).lower()
