@@ -32,18 +32,28 @@ def tentacle(input_data):
             # For numbers, return the sorted digits/characters, their sum, and the original result
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
+            # New: Calculate the product of digits
+            product_of_digits = 1
+            for digit in str(abs(result)):
+                if digit.isdigit():
+                    product_of_digits *= int(digit)
+            return f"{sorted_digits}, sum: {sum_of_digits}, product: {product_of_digits}, original: {result}"
         elif isinstance(result, str):
             # For strings, split, sort, remove duplicates, and join
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
-            return ','.join(sorted_items)
+            # New: Count the number of unique items
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique count: {unique_count}"
         elif isinstance(result, (list, tuple, set)):
             # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
-            return ','.join(sorted_items)
+            # New: Calculate the average length of items
+            avg_length = sum(len(str(item)) for item in sorted_items) / len(sorted_items) if sorted_items else 0
+            return f"{','.join(sorted_items)}, average length: {avg_length:.2f}"
         else:
             # For other types, return a lowercase string representation, its length, and the original result
-            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
+            # New: Add a type check
+            return f"{str(result).lower()}, length: {len(str(result))}, type: {type(result).__name__}, original: {result}"
     except Exception as e:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -57,11 +67,16 @@ def tentacle(input_data):
             
             # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            return ','.join(sorted_items)
+            # New: Count the number of unique items
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique count: {unique_count}"
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
-            return ','.join(sorted_items)
+            # New: Calculate the average length of items
+            avg_length = sum(len(str(item)) for item in sorted_items) / len(sorted_items) if sorted_items else 0
+            return f"{','.join(sorted_items)}, average length: {avg_length:.2f}"
         else:
             # For other types, return a lowercase string representation, its length, and the original input
-            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
+            # New: Add a type check
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, type: {type(input_data).__name__}, original: {input_data}"

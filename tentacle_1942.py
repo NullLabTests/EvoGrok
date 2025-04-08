@@ -10,24 +10,28 @@ def tentacle(input_data):
             return "wikipedia mathematics html document detected"
         elif 'text processing' in lower_input:
             return "wikipedia text processing html document detected"
+        elif 'statistics' in lower_input:
+            return "wikipedia statistics html document detected"
+        elif 'science' in lower_input:
+            return "wikipedia science html document detected"
         else:
             # Check for specific classes or attributes
             if 'class="mw-page-title-main"' in lower_input:
                 # Further classify based on content
-                if 'statistics' in lower_input:
-                    return "wikipedia statistics html document detected"
-                elif 'science' in lower_input:
-                    return "wikipedia science html document detected"
+                if 'programming' in lower_input:
+                    return "wikipedia programming html document detected"
                 elif 'history' in lower_input:
                     return "wikipedia history html document detected"
-                elif 'technology' in lower_input:
-                    return "wikipedia technology html document detected"
                 else:
                     return "wikipedia generic html document detected"
-            elif 'class="infobox"' in lower_input:
-                return "wikipedia infobox html document detected"
             else:
-                return "generic html document detected"
+                # Check for other common HTML document types
+                if 'xmlns="http://www.w3.org/1999/xhtml"' in lower_input:
+                    return "xhtml document detected"
+                elif 'lang="en"' in lower_input:
+                    return "english language html document detected"
+                else:
+                    return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -47,6 +51,9 @@ def tentacle(input_data):
             # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
             return ','.join(sorted_items)
+        elif callable(result):
+            # For functions, return its name and docstring
+            return f"function: {result.__name__}, doc: {result.__doc__ or 'No docstring'}"
         else:
             # For other types, return a lowercase string representation, its length, and the original result
             return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
@@ -61,6 +68,10 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
+            # Check if the input looks like a URL
+            if input_data.startswith(('http://', 'https://')):
+                return f"url detected: {input_data.lower()}"
+            
             # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
             return ','.join(sorted_items)
@@ -68,6 +79,9 @@ def tentacle(input_data):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
             return ','.join(sorted_items)
+        elif callable(input_data):
+            # For functions, return its name and docstring
+            return f"function: {input_data.__name__}, doc: {input_data.__doc__ or 'No docstring'}"
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
