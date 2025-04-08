@@ -6,11 +6,11 @@ def tentacle(input_data):
     if input_str.startswith('<!doctype'):
         # Check for specific topics in the HTML document
         if 'data analysis' in input_str:
-            return "data analysis html document detected"
+            return "data analysis wikipedia page detected"
         elif 'mathematics' in input_str:
-            return "mathematics html document detected"
+            return "mathematics wikipedia page detected"
         elif 'text processing' in input_str:
-            return "text processing html document detected"
+            return "text processing wikipedia page detected"
         else:
             # Check for other potential topics
             if 'machine learning' in input_str:
@@ -26,7 +26,7 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return str(result).lower()
+        return f"mathematical expression evaluated: {str(result).lower()}"
     except:
         # If evaluation fails, process as a comma-separated list or return as is
         if ',' in input_str:
@@ -38,11 +38,25 @@ def tentacle(input_data):
         else:
             # If no commas, check for specific patterns
             if input_str.isdigit():
-                return f"number detected: {input_str}"
+                return f"integer detected: {input_str}"
             elif input_str.replace('.', '').isdigit():
                 return f"decimal number detected: {input_str}"
             elif input_str.startswith('http://') or input_str.startswith('https://'):
                 return f"url detected: {input_str}"
             else:
-                # If no specific patterns, return the input as a lowercase string
-                return input_str
+                # If no specific patterns, check for keywords related to known topics
+                if 'data analysis' in input_str:
+                    return "data analysis related content detected"
+                elif 'mathematics' in input_str:
+                    return "mathematics related content detected"
+                elif 'text processing' in input_str:
+                    return "text processing related content detected"
+                elif 'machine learning' in input_str:
+                    return "machine learning related content detected"
+                elif 'statistics' in input_str:
+                    return "statistics related content detected"
+                elif 'programming' in input_str:
+                    return "programming related content detected"
+                else:
+                    # If no specific patterns or keywords, return the input as a lowercase string
+                    return input_str

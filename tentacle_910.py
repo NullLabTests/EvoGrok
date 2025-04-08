@@ -24,7 +24,7 @@ def tentacle(input_data):
         # Attempt to evaluate the input as a mathematical expression
         result = eval(input_data)
         # Convert the result to a string and lowercase it
-        return str(result).lower()
+        return f"mathematical result: {str(result).lower()}"
     except:
         # If evaluation fails, process as a comma-separated list or return as is
         if ',' in input_str:
@@ -32,7 +32,15 @@ def tentacle(input_data):
             sorted_list = sorted(input_str.split(','))
             # Remove any empty strings from the list
             cleaned_list = [item for item in sorted_list if item]
-            return ','.join(cleaned_list)
+            return f"sorted list: {','.join(cleaned_list)}"
         else:
-            # If no commas, return the input as a lowercase string
-            return input_str
+            # If no commas, check for specific keywords related to the knowledge
+            if 'data analysis' in input_str:
+                return "data analysis topic detected"
+            elif 'mathematics' in input_str:
+                return "mathematics topic detected"
+            elif 'text processing' in input_str:
+                return "text processing topic detected"
+            else:
+                # If no specific keywords, return the input as a lowercase string
+                return input_str

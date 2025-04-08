@@ -24,17 +24,17 @@ def tentacle(input_data):
         if ',' in input_str:
             # Split, sort, and join the list
             sorted_list = sorted(input_str.split(','))
-            # Remove any empty strings that might result from multiple commas
+            # Remove any empty strings that might result from leading/trailing commas
             cleaned_list = [item.strip() for item in sorted_list if item.strip()]
             return ','.join(cleaned_list)
         else:
-            # If no commas, check for specific keywords
-            if 'data analysis' in input_str:
+            # Check for specific keywords in non-HTML text
+            if 'data' in input_str and 'analysis' in input_str:
                 return "data analysis text detected"
             elif 'mathematics' in input_str:
                 return "mathematics text detected"
-            elif 'text processing' in input_str:
+            elif 'text' in input_str and 'processing' in input_str:
                 return "text processing text detected"
             else:
-                # If no specific keywords, return the input as a lowercase string
+                # If no keywords match, return the input as a lowercase string
                 return input_str

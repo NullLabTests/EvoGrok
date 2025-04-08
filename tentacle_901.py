@@ -4,19 +4,20 @@ def tentacle(input_data):
     
     # Check if the input looks like the start of an HTML document
     if input_str.startswith('<!doctype'):
-        # Check for specific topics in the HTML document
+        # Check for specific Wikipedia page topics in the HTML document
         if 'data analysis' in input_str:
-            return "wikipedia data analysis html document detected"
+            return "wikipedia page on data analysis detected"
         elif 'mathematics' in input_str:
-            return "wikipedia mathematics html document detected"
+            return "wikipedia page on mathematics detected"
         elif 'text processing' in input_str:
-            return "wikipedia text processing html document detected"
+            return "wikipedia page on text processing detected"
         else:
+            # If it's an HTML document but not a known Wikipedia page
             return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
-        result = eval(input_data)
+        result = eval(input_str)
         # Convert the result to a string and lowercase it
         return str(result).lower()
     except:
@@ -25,20 +26,23 @@ def tentacle(input_data):
             # Split, sort, and join the list
             sorted_list = sorted(input_str.split(','))
             # Remove any empty strings from the list
-            cleaned_list = [item for item in sorted_list if item]
+            cleaned_list = [item.strip() for item in sorted_list if item.strip()]
             return ','.join(cleaned_list)
         else:
             # If no commas, check for specific keywords
             if 'data' in input_str and 'analysis' in input_str:
-                return "data analysis text detected"
+                return "data analysis mentioned"
             elif 'mathematics' in input_str:
-                return "mathematics text detected"
+                return "mathematics mentioned"
             elif 'text' in input_str and 'processing' in input_str:
-                return "text processing text detected"
+                return "text processing mentioned"
             else:
-                # If no specific keywords, check for potential HTML fragments
-                if '<' in input_str and '>' in input_str:
-                    return "potential html fragment detected"
-                else:
-                    # If no HTML fragments, return the input as a lowercase string
+                # If no keywords match, attempt to process as a mathematical expression
+                try:
+                    # Attempt to evaluate the input as a mathematical expression
+                    result = eval(input_str)
+                    # Convert the result to a string and lowercase it
+                    return str(result).lower()
+                except:
+                    # If all else fails, return the input as a lowercase string
                     return input_str
