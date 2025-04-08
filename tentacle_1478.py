@@ -4,7 +4,7 @@ def tentacle(input_data):
     
     # Check if the input looks like the start of an HTML document
     if input_str.startswith('<!doctype'):
-        # Check for specific topics in the HTML document
+        # Check for specific topics in the HTML document based on knowledge
         if 'data analysis' in input_str:
             return "data analysis wikipedia page detected"
         elif 'mathematics' in input_str:
@@ -45,5 +45,9 @@ def tentacle(input_data):
                     # If no other patterns match, check for Wikipedia-related content
                     if 'wikipedia' in input_str:
                         return f"wikipedia content detected: {input_str}"
-                    # If still no match, return the input as a lowercase string
-                    return input_str
+                    # If still no match, check for specific keywords from the knowledge
+                    elif any(keyword in input_str for keyword in ['data analysis', 'mathematics', 'text processing', 'science', 'technology', 'engineering', 'stem']):
+                        return f"topic-related content detected: {input_str}"
+                    # If no match at all, return the input as a lowercase string
+                    else:
+                        return input_str

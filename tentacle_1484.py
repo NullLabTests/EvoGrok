@@ -39,16 +39,16 @@ def tentacle(input_data):
                 elif len(input_data) > 1 and input_data.isupper():
                     return f"all uppercase text detected: {input_data.lower()}"
                 else:
-                    # New feature: Check for palindromes
+                    # Check for palindromes
                     if input_data.lower() == input_data.lower()[::-1]:
                         return f"palindrome detected: {input_data.lower()}"
-                    # New feature: Check for common file extensions
+                    # Check for common file extensions
                     elif any(input_data.lower().endswith(ext) for ext in ['.txt', '.pdf', '.jpg', '.png', '.docx']):
                         return f"file with extension detected: {input_data.lower()}"
-                    # New feature: Check for JSON-like structure
+                    # Check for JSON-like structure
                     elif input_data.strip().startswith('{') and input_data.strip().endswith('}'):
                         return f"json-like structure detected: {input_data.lower()}"
-                    # New feature: Check for XML-like structure
+                    # Check for XML-like structure
                     elif input_data.strip().startswith('<') and input_data.strip().endswith('>'):
                         return f"xml-like structure detected: {input_data.lower()}"
                     else:

@@ -39,5 +39,21 @@ def tentacle(input_data):
                 elif len(input_data) > 1 and input_data.isupper():
                     return f"all uppercase text detected: {input_data.lower()}"
                 else:
-                    # If no specific pattern is detected, return the input as a lowercase string
-                    return str(input_data).lower()
+                    # Check for palindromes
+                    if input_data.lower() == input_data.lower()[::-1]:
+                        return f"palindrome detected: {input_data.lower()}"
+                    # Check for common file extensions
+                    elif any(input_data.lower().endswith(ext) for ext in ['.txt', '.pdf', '.jpg', '.png', '.docx']):
+                        return f"file with extension detected: {input_data.lower()}"
+                    # Check for JSON-like structure
+                    elif input_data.strip().startswith('{') and input_data.strip().endswith('}'):
+                        return f"json-like structure detected: {input_data.lower()}"
+                    # Check for XML-like structure
+                    elif input_data.strip().startswith('<') and input_data.strip().endswith('>'):
+                        return f"xml-like structure detected: {input_data.lower()}"
+                    # New feature: Check for Wikipedia page patterns
+                    elif input_data.strip().lower().startswith('wikipedia'):
+                        return f"wikipedia page detected: {input_data.lower()}"
+                    else:
+                        # If no specific pattern is detected, return the input as a lowercase string
+                        return str(input_data).lower()

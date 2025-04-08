@@ -5,6 +5,23 @@ def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if input_str.startswith('<!doctype'):
         # Check for specific topics in the HTML document
+        if 'wikipedia' in input_str:
+            if 'data analysis' in input_str:
+                return "wikipedia data analysis page detected"
+            elif 'mathematics' in input_str:
+                return "wikipedia mathematics page detected"
+            elif 'text processing' in input_str:
+                return "wikipedia text processing page detected"
+            else:
+                return "wikipedia html document detected"
+        
+        # Check for other specific HTML patterns
+        if 'class attributes' in input_str:
+            return "html with class attributes detected"
+        if 'doctype declaration' in input_str:
+            return "html with doctype declaration detected"
+        
+        # Check for other topics in the HTML document
         if 'data analysis' in input_str:
             return "data analysis html document detected"
         elif 'mathematics' in input_str:
@@ -13,8 +30,6 @@ def tentacle(input_data):
             return "text processing html document detected"
         elif any(topic in input_str for topic in ['science', 'technology', 'engineering', 'stem']):
             return "stem-related html document detected"
-        elif 'wikipedia' in input_str:
-            return "wikipedia html document detected"
         else:
             return "generic html document detected"
     

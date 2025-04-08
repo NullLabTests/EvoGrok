@@ -4,17 +4,15 @@ def tentacle(input_data):
     
     # Check if the input looks like the start of an HTML document
     if input_str.startswith('<!doctype'):
-        # Check for specific topics in the HTML document
+        # Check for specific Wikipedia topics in the HTML document
         if 'data analysis' in input_str:
-            return "data analysis html document detected"
+            return "wikipedia data analysis html document detected"
         elif 'mathematics' in input_str:
-            return "mathematics html document detected"
+            return "wikipedia mathematics html document detected"
         elif 'text processing' in input_str:
-            return "text processing html document detected"
+            return "wikipedia text processing html document detected"
         elif any(topic in input_str for topic in ['science', 'technology', 'engineering', 'stem']):
-            return "stem-related html document detected"
-        elif 'wikipedia' in input_str:
-            return "wikipedia html document detected"
+            return "wikipedia stem-related html document detected"
         else:
             return "generic html document detected"
     
@@ -50,22 +48,3 @@ def tentacle(input_data):
             else:
                 # If no specific pattern matches, return the input as a lowercase string
                 return f"text input: {input_str}"
-
-    # New functionality based on the provided knowledge
-    if 'wikipedia' in input_str:
-        if 'data analysis' in input_str:
-            return "wikipedia data analysis page detected"
-        elif 'mathematics' in input_str:
-            return "wikipedia mathematics page detected"
-        elif 'text processing' in input_str:
-            return "wikipedia text processing page detected"
-    
-    # Additional pattern matching based on the knowledge
-    if 'class attributes' in input_str:
-        return "html with class attributes detected"
-    
-    if 'doctype declaration' in input_str:
-        return "html with doctype declaration detected"
-    
-    # If none of the above conditions are met, return the default text input
-    return f"text input: {input_str}"
