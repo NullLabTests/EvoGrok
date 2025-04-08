@@ -19,16 +19,23 @@ def tentacle(input_data):
     except:
         # If evaluation fails, process the input as a string
         if ',' in input_data:
-            # Sort and join comma-separated values (from Parent2)
+            # Sort and join comma-separated values
             sorted_values = sorted(input_data.split(','))
             # Remove any leading/trailing whitespace from each value
             cleaned_values = [value.strip() for value in sorted_values]
-            return ','.join(cleaned_values)
+            # Join the cleaned and sorted values
+            result = ','.join(cleaned_values)
         else:
             # Check if the input is a valid number
             try:
                 float(input_data)
-                return str(input_data).lower()
+                result = str(input_data).lower()
             except ValueError:
-                # If not a number, return the input as a lowercase string (from Parent1)
-                return str(input_data).lower()
+                # If not a number, reverse the string
+                result = input_data[::-1].lower()
+        
+        # New functionality: Check if the result is a palindrome
+        if result == result[::-1]:
+            return f"{result} (palindrome)"
+        else:
+            return result
