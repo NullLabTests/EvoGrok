@@ -41425,3 +41425,41 @@
 2025-04-08 22:08:28,576 - INFO - Selected challenge 2 for domain: mathematics
 2025-04-08 22:08:28,594 - INFO - Tested tentacle 8 on challenge 2: Reward 5.0
 2025-04-08 22:08:28,631 - INFO - Iteration 9064: Action=test_tentacles, Reward=5.0, State=[305.0, 2.4295082092285156, 5.0, 3.0999999046325684, 76.4000015258789]
+2025-04-08 22:08:49,658 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/mathematics (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051c36690>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-08 22:08:49,694 - INFO - Iteration 9065: Action=fetch_knowledge, Reward=-1.0, State=[305.0, 2.4327869415283203, 5.0, 3.799999952316284, 76.4000015258789]
+2025-04-08 22:08:50,697 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 22:08:50,698 - INFO - Selected challenge 40 for domain: mathematics
+2025-04-08 22:08:50,698 - INFO - Tested tentacle 8 on challenge 40: Reward 0.0
+2025-04-08 22:08:50,735 - INFO - Iteration 9066: Action=test_tentacles, Reward=0.0, State=[305.0, 2.4327869415283203, 5.0, 2.9000000953674316, 76.30000305175781]
+2025-04-08 22:08:51,738 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 22:08:51,738 - INFO - Selected challenge 35 for domain: mathematics
+2025-04-08 22:08:51,784 - INFO - Tested tentacle 8 on challenge 35: Reward 5.0
+2025-04-08 22:08:51,818 - INFO - Iteration 9067: Action=test_tentacles, Reward=5.0, State=[305.0, 2.4327869415283203, 5.0, 3.0999999046325684, 76.30000305175781]
+2025-04-08 22:09:12,846 - INFO - Retrying request to /chat/completions in 0.489531 seconds
+2025-04-08 22:09:33,360 - INFO - Retrying request to /chat/completions in 0.784206 seconds
+2025-04-08 22:09:54,171 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-08 22:09:54,213 - INFO - Iteration 9068: Action=evolve_tentacle, Reward=-1.0, State=[305.0, 2.436065673828125, 5.0, 3.0, 76.30000305175781]
+2025-04-08 22:09:55,216 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 22:09:55,217 - INFO - Selected challenge 21 for domain: mathematics
+2025-04-08 22:09:55,217 - INFO - Tested tentacle 8 on challenge 21: Reward 0.0
+2025-04-08 22:09:55,252 - INFO - Iteration 9069: Action=test_tentacles, Reward=0.0, State=[305.0, 2.436065673828125, 5.0, 3.0, 76.5]
+2025-04-08 22:10:16,279 - INFO - Retrying request to /chat/completions in 0.465507 seconds
+2025-04-08 22:10:36,769 - INFO - Retrying request to /chat/completions in 0.855437 seconds
+2025-04-08 22:10:57,649 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-08 22:10:57,715 - INFO - Iteration 9070: Action=evolve_tentacle, Reward=-1.0, State=[305.0, 2.436065673828125, 5.0, 4.599999904632568, 76.4000015258789]
+2025-04-08 22:10:58,718 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 22:10:58,719 - INFO - Selected challenge 5 for domain: text processing
+2025-04-08 22:10:58,719 - INFO - Tested tentacle 8 on challenge 5: Reward 0.0
+2025-04-08 22:10:58,755 - INFO - Iteration 9071: Action=test_tentacles, Reward=0.0, State=[305.0, 2.436065673828125, 5.0, 4.400000095367432, 76.4000015258789]
+2025-04-08 22:10:59,758 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 22:10:59,758 - INFO - Selected challenge 29 for domain: mathematics
+2025-04-08 22:10:59,759 - INFO - Tested tentacle 8 on challenge 29: Reward 0.0
+2025-04-08 22:10:59,794 - INFO - Iteration 9072: Action=test_tentacles, Reward=0.0, State=[305.0, 2.436065673828125, 5.0, 3.0999999046325684, 76.30000305175781]
+2025-04-08 22:11:20,824 - INFO - Retrying request to /chat/completions in 0.392978 seconds
+2025-04-08 22:11:41,242 - INFO - Retrying request to /chat/completions in 0.957584 seconds
+2025-04-08 22:12:02,217 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-08 22:12:02,254 - INFO - Iteration 9073: Action=evolve_tentacle, Reward=-1.0, State=[305.0, 2.436065673828125, 5.0, 3.299999952316284, 76.30000305175781]
+2025-04-08 22:12:23,284 - INFO - Retrying request to /chat/completions in 0.387008 seconds
+2025-04-08 22:12:43,695 - INFO - Retrying request to /chat/completions in 0.767224 seconds
+2025-04-08 22:13:04,486 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-08 22:13:04,524 - INFO - Iteration 9074: Action=evolve_tentacle, Reward=-1.0, State=[305.0, 2.436065673828125, 5.0, 3.0, 76.5]
