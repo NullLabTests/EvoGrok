@@ -46363,3 +46363,24 @@
 2025-04-09 04:46:46,236 - INFO - Iteration 10541: Action=evolve_tentacle, Reward=-1.0, State=[43.0, 21.13953399658203, 5.0, 3.0, 81.30000305175781]
 2025-04-09 04:47:07,265 - INFO - Retrying request to /chat/completions in 0.423813 seconds
 2025-04-09 04:47:27,714 - INFO - Retrying request to /chat/completions in 0.767930 seconds
+2025-04-09 04:47:48,506 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-09 04:47:48,547 - INFO - Iteration 10542: Action=evolve_tentacle, Reward=-1.0, State=[43.0, 21.13953399658203, 5.0, 3.0999999046325684, 81.30000305175781]
+2025-04-09 04:48:09,570 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/text_processing (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d053e77690>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 04:48:09,606 - INFO - Iteration 10543: Action=fetch_knowledge, Reward=-1.0, State=[43.0, 21.13953399658203, 5.0, 5.099999904632568, 81.4000015258789]
+2025-04-09 04:48:30,630 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/data_analysis (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051a36f50>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 04:48:30,667 - INFO - Iteration 10544: Action=fetch_knowledge, Reward=-1.0, State=[43.0, 21.13953399658203, 5.0, 3.5999999046325684, 81.30000305175781]
+2025-04-09 04:48:51,697 - INFO - Retrying request to /chat/completions in 0.393608 seconds
+2025-04-09 04:49:12,115 - INFO - Retrying request to /chat/completions in 0.794214 seconds
+2025-04-09 04:49:32,932 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-09 04:49:32,969 - INFO - Iteration 10545: Action=evolve_tentacle, Reward=-1.0, State=[43.0, 21.13953399658203, 5.0, 3.0999999046325684, 81.5999984741211]
+2025-04-09 04:49:53,993 - INFO - Retrying request to /chat/completions in 0.399100 seconds
+2025-04-09 04:50:14,415 - INFO - Retrying request to /chat/completions in 0.930100 seconds
+2025-04-09 04:50:35,370 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-09 04:50:35,407 - INFO - Iteration 10546: Action=evolve_tentacle, Reward=-1.0, State=[43.0, 21.13953399658203, 5.0, 3.799999952316284, 81.5]
+2025-04-09 04:50:56,436 - INFO - Retrying request to /chat/completions in 0.465148 seconds
+2025-04-09 04:51:16,926 - INFO - Retrying request to /chat/completions in 0.928188 seconds
+2025-04-09 04:51:37,878 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-09 04:51:37,916 - INFO - Iteration 10547: Action=evolve_tentacle, Reward=-1.0, State=[43.0, 21.13953399658203, 5.0, 3.0999999046325684, 81.30000305175781]
+2025-04-09 04:51:38,965 - INFO - Deleted tentacle 2361 (domains: ['mathematics', 'text processing', 'data analysis']) due to high resource usage
+2025-04-09 04:51:39,000 - INFO - Iteration 10548: Action=optimize_resources, Reward=1.0, State=[43.0, 21.13953399658203, 5.0, 3.5999999046325684, 81.5]
+2025-04-09 04:52:00,025 - INFO - Retrying request to /chat/completions in 0.496766 seconds
