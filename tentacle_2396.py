@@ -18,14 +18,8 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
-                elif 'machine learning' in lower_input:
-                    return "wikipedia machine learning html document detected"
-                elif 'artificial intelligence' in lower_input:
-                    return "wikipedia artificial intelligence html document detected"
                 else:
                     return "wikipedia generic html document detected"
-            elif 'class="toctext"' in lower_input:
-                return "wikipedia table of contents html document detected"
             else:
                 return "generic html document detected"
     
@@ -47,10 +41,6 @@ def tentacle(input_data):
             # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
             return ','.join(sorted_items)
-        elif isinstance(result, dict):
-            # For dictionaries, sort keys and values, remove duplicates, and join
-            sorted_items = sorted(set(f"{k}:{v}".lower() for k, v in result.items()))
-            return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation, its length, and the original result
             return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
@@ -65,17 +55,8 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Split the input, sort it, remove duplicates, and join it back together
-            sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            return ','.join(sorted_items)
-        elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements, remove duplicates, and join them
-            sorted_items = sorted(set(str(item).lower() for item in input_data))
-            return ','.join(sorted_items)
-        elif isinstance(input_data, dict):
-            # For dictionaries, sort keys and values, remove duplicates, and join
-            sorted_items = sorted(set(f"{k}:{v}".lower() for k, v in input_data.items()))
-            return ','.join(sorted_items)
+            # Process the input as a string
+            return input_data.lower()
         else:
-            # For other types, return a lowercase string representation, its length, and the original input
-            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
+            # For non-string inputs, return a lowercase string representation
+            return str(input_data).lower()
