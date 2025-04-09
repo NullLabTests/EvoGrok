@@ -29,25 +29,21 @@ def tentacle(input_data):
         
         # Process the result based on its type
         if isinstance(result, (int, float)):
-            # For numbers, return sorted digits/characters, their sum, the original result, and its sign
-            sorted_digits = ''.join(sorted(str(abs(result)).lower()))
+            # For numbers, return the sorted digits/characters, their sum, and the original result
+            sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            sign = 'positive' if result > 0 else 'negative' if result < 0 else 'zero'
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}, sign: {sign}"
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
         elif isinstance(result, str):
-            # For strings, split, sort, remove duplicates, join, and include original length
+            # For strings, split, sort, remove duplicates, and join
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
-            return f"{','.join(sorted_items)}, original length: {len(result)}"
+            return ','.join(sorted_items)
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements, remove duplicates, join, and include original length
+            # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
-            return f"{','.join(sorted_items)}, original length: {len(result)}"
-        elif callable(result):
-            # For functions, return its name and docstring
-            return f"function: {result.__name__}, docstring: {result.__doc__ or 'None'}"
+            return ','.join(sorted_items)
         else:
-            # For other types, return a lowercase string representation, its length, type, and the original result
-            return f"{str(result).lower()}, length: {len(str(result))}, type: {type(result).__name__}, original: {result}"
+            # For other types, return a lowercase string representation, its length, and the original result
+            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
     except Exception as e:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -59,16 +55,26 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Split the input, sort it, remove duplicates, join it back together, and include original length
+            # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            return f"{','.join(sorted_items)}, original length: {len(input_data)}"
+            return ','.join(sorted_items)
         elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements, remove duplicates, join them, and include original length
+            # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
-            return f"{','.join(sorted_items)}, original length: {len(input_data)}"
-        elif callable(input_data):
-            # For functions, return its name and docstring
-            return f"function: {input_data.__name__}, docstring: {input_data.__doc__ or 'None'}"
+            return ','.join(sorted_items)
         else:
-            # For other types, return a lowercase string representation, its length, type, and the original input
-            return f"{str(input_data).lower()}, length: {len(str(input_data))}, type: {type(input_data).__name__}, original: {input_data}"
+            # For other types, return a lowercase string representation, its length, and the original input
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
+
+    # New feature: Check for specific keywords related to the provided knowledge
+    if isinstance(input_data, str):
+        lower_input = input_data.lower()
+        if 'data analysis' in lower_input:
+            return "data analysis related content detected"
+        elif 'mathematics' in lower_input:
+            return "mathematics related content detected"
+        elif 'text processing' in lower_input:
+            return "text processing related content detected"
+    
+    # If none of the above conditions are met, return the input as a lowercase string
+    return str(input_data).lower()

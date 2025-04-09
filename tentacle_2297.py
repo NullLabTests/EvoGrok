@@ -1,3 +1,5 @@
+import re
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -18,12 +20,11 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
-                elif 'history' in lower_input:
-                    return "wikipedia history html document detected"
-                elif 'technology' in lower_input:
-                    return "wikipedia technology html document detected"
                 else:
-                    return "wikipedia generic html document detected"
+                    # Extract the title from the HTML
+                    title_match = re.search(r'<title>(.*?)</title>', lower_input)
+                    title = title_match.group(1) if title_match else "unknown"
+                    return f"wikipedia {title} html document detected"
             else:
                 return "generic html document detected"
     
@@ -33,36 +34,21 @@ def tentacle(input_data):
         
         # Process the result based on its type
         if isinstance(result, (int, float)):
-            # For numbers, return the sorted digits/characters, their sum, 
-            # the original result, and its factorial if possible
+            # For numbers, return the sorted digits/characters, their sum, and the original result
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            try:
-                factorial = 1
-                for i in range(1, abs(int(result)) + 1):
-                    factorial *= i
-            except OverflowError:
-                factorial = "too large to compute"
-            
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}, factorial: {factorial}"
-        
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
         elif isinstance(result, str):
-            # For strings, split, sort, remove duplicates, join, and count words
-            sorted_items = sorted(set(item.strip().lower() for item in result.split()))
-            word_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, word count: {word_count}"
-        
+            # For strings, split, sort, remove duplicates, and join
+            sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
+            return ','.join(sorted_items)
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements, remove duplicates, join, and count items
+            # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
-            item_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, item count: {item_count}"
-        
+            return ','.join(sorted_items)
         else:
-            # For other types, return a lowercase string representation, its length, 
-            # the original result, and its type
-            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}, type: {type(result).__name__}"
-    
+            # For other types, return a lowercase string representation, its length, and the original result
+            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
     except Exception as e:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -74,18 +60,22 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Split the input, sort it, remove duplicates, join it, and count words
-            sorted_items = sorted(set(item.strip().lower() for item in input_data.split()))
-            word_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, word count: {word_count}"
-        
+            # Check for specific keywords from the knowledge
+            lower_input = input_data.lower()
+            if 'data analysis' in lower_input:
+                return "data analysis text detected"
+            elif 'mathematics' in lower_input:
+                return "mathematics text detected"
+            elif 'text processing' in lower_input:
+                return "text processing text detected"
+            
+            # Split the input, sort it, remove duplicates, and join it back together
+            sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
+            return ','.join(sorted_items)
         elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements, remove duplicates, join them, and count items
+            # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
-            item_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, item count: {item_count}"
-        
+            return ','.join(sorted_items)
         else:
-            # For other types, return a lowercase string representation, its length, 
-            # the original input, and its type
-            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}, type: {type(input_data).__name__}"
+            # For other types, return a lowercase string representation, its length, and the original input
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
