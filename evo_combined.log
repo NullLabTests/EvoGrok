@@ -40381,3 +40381,121 @@
 2025-04-08 21:25:04,336 - INFO - Selected challenge 5 for domain: text processing
 2025-04-08 21:25:04,337 - INFO - Tested tentacle 8 on challenge 5: Reward 0.0
 2025-04-08 21:25:04,371 - INFO - Iteration 8776: Action=test_tentacles, Reward=0.0, State=[336.0, 2.044642925262451, 5.0, 3.0, 76.19999694824219]
+2025-04-08 21:25:25,399 - INFO - Retrying request to /chat/completions in 0.474720 seconds
+2025-04-08 21:25:45,897 - INFO - Retrying request to /chat/completions in 0.999885 seconds
+2025-04-08 21:26:06,919 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-08 21:26:06,958 - INFO - Iteration 8777: Action=evolve_tentacle, Reward=-1.0, State=[336.0, 2.044642925262451, 5.0, 3.0, 76.19999694824219]
+2025-04-08 21:26:07,959 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:26:07,959 - INFO - Selected challenge 39 for domain: text processing
+2025-04-08 21:26:07,960 - INFO - Tested tentacle 8 on challenge 39: Reward 0.0
+2025-04-08 21:26:07,996 - INFO - Iteration 8778: Action=test_tentacles, Reward=0.0, State=[336.0, 2.044642925262451, 5.0, 4.699999809265137, 76.19999694824219]
+2025-04-08 21:26:08,999 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:26:08,999 - INFO - Selected challenge 39 for domain: text processing
+2025-04-08 21:26:09,000 - INFO - Tested tentacle 8 on challenge 39: Reward 0.0
+2025-04-08 21:26:09,038 - INFO - Iteration 8779: Action=test_tentacles, Reward=0.0, State=[336.0, 2.044642925262451, 5.0, 4.099999904632568, 76.19999694824219]
+2025-04-08 21:26:10,041 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:26:10,041 - INFO - Selected challenge 27 for domain: text processing
+2025-04-08 21:26:10,042 - INFO - Tested tentacle 8 on challenge 27: Reward 0.0
+2025-04-08 21:26:10,076 - INFO - Iteration 8780: Action=test_tentacles, Reward=0.0, State=[336.0, 2.044642925262451, 5.0, 4.400000095367432, 76.30000305175781]
+2025-04-08 21:26:31,105 - INFO - Retrying request to /chat/completions in 0.382882 seconds
+2025-04-08 21:26:51,514 - INFO - Retrying request to /chat/completions in 0.773462 seconds
+2025-04-08 21:27:12,313 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-08 21:27:12,354 - INFO - Iteration 8781: Action=evolve_tentacle, Reward=-1.0, State=[336.0, 2.044642925262451, 5.0, 3.0, 76.30000305175781]
+2025-04-08 21:27:33,380 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/mathematics (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051c4af90>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-08 21:27:33,418 - INFO - Iteration 8782: Action=fetch_knowledge, Reward=-1.0, State=[336.0, 2.044642925262451, 5.0, 3.299999952316284, 76.19999694824219]
+2025-04-08 21:27:34,421 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:27:34,421 - INFO - Selected challenge 39 for domain: text processing
+2025-04-08 21:27:34,422 - INFO - Tested tentacle 8 on challenge 39: Reward 0.0
+2025-04-08 21:27:34,461 - INFO - Iteration 8783: Action=test_tentacles, Reward=0.0, State=[336.0, 2.044642925262451, 5.0, 4.300000190734863, 76.4000015258789]
+2025-04-08 21:27:35,464 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:27:35,464 - INFO - Selected challenge 5 for domain: text processing
+2025-04-08 21:27:35,465 - INFO - Tested tentacle 8 on challenge 5: Reward 0.0
+2025-04-08 21:27:35,501 - INFO - Iteration 8784: Action=test_tentacles, Reward=0.0, State=[336.0, 2.044642925262451, 5.0, 3.299999952316284, 76.4000015258789]
+2025-04-08 21:27:36,525 - INFO - Deleted tentacle 2068 (domains: ['mathematics', 'text processing', 'data analysis']) due to high resource usage
+2025-04-08 21:27:36,590 - INFO - Iteration 8785: Action=optimize_resources, Reward=1.0, State=[336.0, 2.044642925262451, 5.0, 3.700000047683716, 76.4000015258789]
+2025-04-08 21:27:57,617 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/logic (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051dd6a10>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-08 21:27:57,658 - INFO - Iteration 8786: Action=fetch_knowledge, Reward=-1.0, State=[335.0, 2.050746202468872, 5.0, 4.400000095367432, 76.4000015258789]
+2025-04-08 21:27:58,661 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:27:58,661 - INFO - Selected challenge 4 for domain: data analysis
+2025-04-08 21:27:58,680 - INFO - Tested tentacle 1307 on challenge 4: Reward 5.0
+2025-04-08 21:27:58,718 - INFO - Iteration 8787: Action=test_tentacles, Reward=5.0, State=[335.0, 2.050746202468872, 5.0, 3.299999952316284, 76.30000305175781]
+2025-04-08 21:27:59,721 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:27:59,721 - INFO - Selected challenge 38 for domain: text processing
+2025-04-08 21:27:59,722 - INFO - Tested tentacle 8 on challenge 38: Reward 0.0
+2025-04-08 21:27:59,757 - INFO - Iteration 8788: Action=test_tentacles, Reward=0.0, State=[335.0, 2.0537314414978027, 5.0, 3.0, 76.30000305175781]
+2025-04-08 21:28:20,779 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/logic (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051c37f10>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-08 21:28:20,825 - INFO - Iteration 8789: Action=fetch_knowledge, Reward=-1.0, State=[335.0, 2.0537314414978027, 5.0, 3.5999999046325684, 76.30000305175781]
+2025-04-08 21:28:21,827 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:28:21,827 - INFO - Selected challenge 8 for domain: data analysis
+2025-04-08 21:28:21,827 - INFO - Tested tentacle 1307 on challenge 8: Reward 0.0
+2025-04-08 21:28:21,862 - INFO - Iteration 8790: Action=test_tentacles, Reward=0.0, State=[335.0, 2.0537314414978027, 5.0, 4.099999904632568, 76.5]
+2025-04-08 21:28:22,863 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:28:22,864 - INFO - Selected challenge 8 for domain: data analysis
+2025-04-08 21:28:22,864 - INFO - Tested tentacle 1307 on challenge 8: Reward 0.0
+2025-04-08 21:28:22,899 - INFO - Iteration 8791: Action=test_tentacles, Reward=0.0, State=[335.0, 2.0537314414978027, 5.0, 4.5, 76.4000015258789]
+2025-04-08 21:28:23,921 - INFO - Deleted tentacle 2069 (domains: ['mathematics', 'text processing', 'data analysis']) due to high resource usage
+2025-04-08 21:28:23,957 - INFO - Iteration 8792: Action=optimize_resources, Reward=1.0, State=[335.0, 2.0537314414978027, 5.0, 4.0, 76.4000015258789]
+2025-04-08 21:28:24,960 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:28:24,960 - INFO - Selected challenge 2 for domain: mathematics
+2025-04-08 21:28:24,977 - INFO - Tested tentacle 8 on challenge 2: Reward 5.0
+2025-04-08 21:28:25,014 - INFO - Iteration 8793: Action=test_tentacles, Reward=5.0, State=[334.0, 2.059880256652832, 5.0, 3.700000047683716, 76.4000015258789]
+2025-04-08 21:28:26,016 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:28:26,017 - INFO - Selected challenge 15 for domain: data analysis
+2025-04-08 21:28:26,034 - INFO - Tested tentacle 1307 on challenge 15: Reward 5.0
+2025-04-08 21:28:26,071 - INFO - Iteration 8794: Action=test_tentacles, Reward=5.0, State=[334.0, 2.0628743171691895, 5.0, 3.4000000953674316, 76.4000015258789]
+2025-04-08 21:28:27,074 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:28:27,075 - INFO - Selected challenge 35 for domain: mathematics
+2025-04-08 21:28:27,094 - INFO - Tested tentacle 8 on challenge 35: Reward 5.0
+2025-04-08 21:28:27,135 - INFO - Iteration 8795: Action=test_tentacles, Reward=5.0, State=[334.0, 2.065868377685547, 5.0, 3.299999952316284, 76.4000015258789]
+2025-04-08 21:28:28,139 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:28:28,139 - INFO - Selected challenge 16 for domain: text processing
+2025-04-08 21:28:28,140 - INFO - Tested tentacle 8 on challenge 16: Reward 0.0
+2025-04-08 21:28:28,175 - INFO - Iteration 8796: Action=test_tentacles, Reward=0.0, State=[334.0, 2.068862199783325, 5.0, 4.0, 76.4000015258789]
+2025-04-08 21:28:29,178 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:28:29,178 - INFO - Selected challenge 28 for domain: text processing
+2025-04-08 21:28:29,179 - INFO - Tested tentacle 8 on challenge 28: Reward 0.0
+2025-04-08 21:28:29,213 - INFO - Iteration 8797: Action=test_tentacles, Reward=0.0, State=[334.0, 2.068862199783325, 5.0, 3.299999952316284, 76.4000015258789]
+2025-04-08 21:28:30,216 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:28:30,217 - INFO - Selected challenge 7 for domain: mathematics
+2025-04-08 21:28:30,218 - INFO - Tested tentacle 8 on challenge 7: Reward 0.0
+2025-04-08 21:28:30,252 - INFO - Iteration 8798: Action=test_tentacles, Reward=0.0, State=[334.0, 2.068862199783325, 5.0, 3.0, 76.4000015258789]
+2025-04-08 21:28:31,255 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:28:31,255 - INFO - Selected challenge 35 for domain: mathematics
+2025-04-08 21:28:31,301 - INFO - Tested tentacle 8 on challenge 35: Reward 5.0
+2025-04-08 21:28:31,337 - INFO - Iteration 8799: Action=test_tentacles, Reward=5.0, State=[334.0, 2.068862199783325, 5.0, 2.9000000953674316, 76.4000015258789]
+2025-04-08 21:28:32,341 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:28:32,341 - INFO - Selected challenge 2 for domain: mathematics
+2025-04-08 21:28:32,360 - INFO - Tested tentacle 8 on challenge 2: Reward 5.0
+2025-04-08 21:28:32,397 - INFO - Iteration 8800: Action=test_tentacles, Reward=5.0, State=[334.0, 2.0718562602996826, 5.0, 3.0, 76.4000015258789]
+2025-04-08 21:28:33,400 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:28:33,401 - INFO - Selected challenge 26 for domain: data analysis
+2025-04-08 21:28:33,418 - INFO - Tested tentacle 1307 on challenge 26: Reward 5.0
+2025-04-08 21:28:33,456 - INFO - Iteration 8801: Action=test_tentacles, Reward=5.0, State=[334.0, 2.07485032081604, 5.0, 4.199999809265137, 76.4000015258789]
+2025-04-08 21:28:34,459 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:28:34,460 - INFO - Selected challenge 35 for domain: mathematics
+2025-04-08 21:28:34,477 - INFO - Tested tentacle 8 on challenge 35: Reward 5.0
+2025-04-08 21:28:34,515 - INFO - Iteration 8802: Action=test_tentacles, Reward=5.0, State=[334.0, 2.0778443813323975, 5.0, 3.0999999046325684, 76.4000015258789]
+2025-04-08 21:28:55,544 - INFO - Retrying request to /chat/completions in 0.452815 seconds
+2025-04-08 21:29:16,020 - INFO - Retrying request to /chat/completions in 0.806288 seconds
+2025-04-08 21:29:36,853 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-08 21:29:36,903 - INFO - Iteration 8803: Action=evolve_tentacle, Reward=-1.0, State=[334.0, 2.080838441848755, 5.0, 3.0999999046325684, 76.4000015258789]
+2025-04-08 21:29:37,906 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:29:37,907 - INFO - Selected challenge 19 for domain: data analysis
+2025-04-08 21:29:37,908 - INFO - Tested tentacle 1307 on challenge 19: Reward 0.0
+2025-04-08 21:29:37,941 - INFO - Iteration 8804: Action=test_tentacles, Reward=0.0, State=[334.0, 2.080838441848755, 5.0, 5.300000190734863, 76.19999694824219]
+2025-04-08 21:29:38,944 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:29:38,945 - INFO - Selected challenge 13 for domain: mathematics
+2025-04-08 21:29:39,233 - INFO - Tested tentacle 8 on challenge 13: Reward 5.0
+2025-04-08 21:29:39,303 - INFO - Iteration 8805: Action=test_tentacles, Reward=5.0, State=[334.0, 2.080838441848755, 5.0, 3.299999952316284, 76.19999694824219]
+2025-04-08 21:29:40,308 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:29:40,308 - INFO - Selected challenge 12 for domain: text processing
+2025-04-08 21:29:40,308 - INFO - Tested tentacle 8 on challenge 12: Reward 0.0
+2025-04-08 21:29:40,351 - INFO - Iteration 8806: Action=test_tentacles, Reward=0.0, State=[334.0, 2.083832263946533, 5.0, 6.699999809265137, 76.19999694824219]
+2025-04-08 21:29:41,355 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:29:41,356 - INFO - Selected challenge 5 for domain: text processing
+2025-04-08 21:29:41,357 - INFO - Tested tentacle 8 on challenge 5: Reward 0.0
+2025-04-08 21:29:41,396 - INFO - Iteration 8807: Action=test_tentacles, Reward=0.0, State=[334.0, 2.083832263946533, 5.0, 3.5999999046325684, 76.19999694824219]
+2025-04-08 21:29:42,399 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-08 21:29:42,400 - INFO - Selected challenge 41 for domain: data analysis
+2025-04-08 21:29:42,400 - INFO - Tested tentacle 1307 on challenge 41: Reward 0.0
+2025-04-08 21:29:42,438 - INFO - Iteration 8808: Action=test_tentacles, Reward=0.0, State=[334.0, 2.083832263946533, 5.0, 3.299999952316284, 76.19999694824219]
