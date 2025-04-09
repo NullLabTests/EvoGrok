@@ -32,27 +32,15 @@ def tentacle(input_data):
             # For numbers, return the sorted digits/characters, their sum, and the original result
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            
-            # New feature: Calculate the average of digits
-            avg_of_digits = sum_of_digits / len(str(abs(result)).replace('.', '')) if result != 0 else 0
-            
-            return f"{sorted_digits}, sum: {sum_of_digits}, average: {avg_of_digits:.2f}, original: {result}"
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
         elif isinstance(result, str):
             # For strings, split, sort, remove duplicates, and join
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
-            
-            # New feature: Count the number of unique items
-            unique_count = len(sorted_items)
-            
-            return f"{','.join(sorted_items)}, unique items: {unique_count}"
+            return ','.join(sorted_items)
         elif isinstance(result, (list, tuple, set)):
             # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
-            
-            # New feature: Count the number of unique items
-            unique_count = len(sorted_items)
-            
-            return f"{','.join(sorted_items)}, unique items: {unique_count}"
+            return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation, its length, and the original result
             return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
@@ -67,21 +55,18 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Split the input, sort it, remove duplicates, and join it back together
-            sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            
-            # New feature: Count the number of unique items
-            unique_count = len(sorted_items)
-            
-            return f"{','.join(sorted_items)}, unique items: {unique_count}"
+            # Process the string input
+            if ',' in input_data:
+                # Split the input, sort it, remove duplicates, and join it back together
+                sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
+                return ','.join(sorted_items)
+            else:
+                # Return the lowercase string, its length, and the original input
+                return f"{input_data.lower()}, length: {len(input_data)}, original: {input_data}"
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
-            
-            # New feature: Count the number of unique items
-            unique_count = len(sorted_items)
-            
-            return f"{','.join(sorted_items)}, unique items: {unique_count}"
+            return ','.join(sorted_items)
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
