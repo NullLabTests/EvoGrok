@@ -30,24 +30,26 @@ def tentacle(input_data):
         # Process the result based on its type
         if isinstance(result, (int, float)):
             # For numbers, return the sorted digits/characters, their sum, 
-            # the original result, and a classification based on the value
+            # the original result, and whether it's positive or negative
             sorted_digits = ''.join(sorted(str(result).lower()))
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
-            classification = classify_number(result)
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}, classification: {classification}"
+            sign = "positive" if result >= 0 else "negative"
+            return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}, sign: {sign}"
         elif isinstance(result, str):
             # For strings, split, sort, remove duplicates, join, and count words
             sorted_items = sorted(set(item.strip().lower() for item in result.split()))
             word_count = len(sorted_items)
             return f"{','.join(sorted_items)}, word count: {word_count}"
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements, remove duplicates, join, and count items
+            # For collections, sort elements, remove duplicates, join, 
+            # and provide statistics about the collection
             sorted_items = sorted(set(str(item).lower() for item in result))
             item_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, item count: {item_count}"
+            unique_count = len(set(sorted_items))
+            return f"{','.join(sorted_items)}, total items: {item_count}, unique items: {unique_count}"
         else:
-            # For other types, return a lowercase string representation, its length, 
-            # the original result, and a type classification
+            # For other types, return a lowercase string representation, 
+            # its length, the original result, and its type
             return f"{str(result).lower()}, length: {len(str(result))}, original: {result}, type: {type(result).__name__}"
     except Exception as e:
         # If evaluation fails, process the input based on its type
@@ -65,36 +67,13 @@ def tentacle(input_data):
             word_count = len(sorted_items)
             return f"{','.join(sorted_items)}, word count: {word_count}"
         elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements, remove duplicates, join them, and count items
+            # If it's a collection, sort its elements, remove duplicates, join them,
+            # and provide statistics about the collection
             sorted_items = sorted(set(str(item).lower() for item in input_data))
             item_count = len(sorted_items)
-            return f"{','.join(sorted_items)}, item count: {item_count}"
+            unique_count = len(set(sorted_items))
+            return f"{','.join(sorted_items)}, total items: {item_count}, unique items: {unique_count}"
         else:
-            # For other types, return a lowercase string representation, its length, 
-            # the original input, and a type classification
+            # For other types, return a lowercase string representation, 
+            # its length, the original input, and its type
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}, type: {type(input_data).__name__}"
-
-def classify_number(num):
-    """
-    Classify a number based on its value.
-    """
-    if num == 0:
-        return "zero"
-    elif num > 0:
-        if num < 1:
-            return "positive fraction"
-        elif num < 1000:
-            return "small positive number"
-        elif num < 1000000:
-            return "medium positive number"
-        else:
-            return "large positive number"
-    else:
-        if num > -1:
-            return "negative fraction"
-        elif num > -1000:
-            return "small negative number"
-        elif num > -1000000:
-            return "medium negative number"
-        else:
-            return "large negative number"

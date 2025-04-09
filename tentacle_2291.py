@@ -3,7 +3,7 @@ def tentacle(input_data):
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lower_input = input_data.lower()
         
-        # Determine the type of Wikipedia HTML document based on the title and content
+        # Determine the type of HTML document based on the title and content
         if 'data analysis' in lower_input:
             return "wikipedia data analysis html document detected"
         elif 'mathematics' in lower_input:
@@ -54,6 +54,15 @@ def tentacle(input_data):
             # Check if the input looks like a mathematical expression
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
+            
+            # Check for specific keywords related to the knowledge
+            lower_input = input_data.lower()
+            if 'data analysis' in lower_input:
+                return "data analysis text detected"
+            elif 'mathematics' in lower_input:
+                return "mathematics text detected"
+            elif 'text processing' in lower_input:
+                return "text processing text detected"
             
             # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
