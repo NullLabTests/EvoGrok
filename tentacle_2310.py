@@ -1,3 +1,6 @@
+import re
+from collections import Counter
+
 def tentacle(input_data):
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
@@ -21,13 +24,7 @@ def tentacle(input_data):
                 else:
                     return "wikipedia generic html document detected"
             else:
-                # Check for additional content types
-                if 'programming' in lower_input:
-                    return "wikipedia programming html document detected"
-                elif 'machine learning' in lower_input:
-                    return "wikipedia machine learning html document detected"
-                else:
-                    return "generic html document detected"
+                return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -47,10 +44,6 @@ def tentacle(input_data):
             # For collections, sort elements, remove duplicates, and join
             sorted_items = sorted(set(str(item).lower() for item in result))
             return ','.join(sorted_items)
-        elif isinstance(result, dict):
-            # For dictionaries, sort keys, remove duplicates, and join
-            sorted_keys = sorted(set(str(key).lower() for key in result.keys()))
-            return ','.join(sorted_keys)
         else:
             # For other types, return a lowercase string representation, its length, and the original result
             return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
@@ -65,17 +58,21 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
+            # Perform advanced text analysis
+            words = re.findall(r'\b\w+\b', input_data.lower())
+            word_count = len(words)
+            unique_words = len(set(words))
+            most_common = Counter(words).most_common(3)
+            
             # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            return ','.join(sorted_items)
+            sorted_result = ','.join(sorted_items)
+            
+            return f"text analysis: {sorted_result}, word count: {word_count}, unique words: {unique_words}, most common: {most_common}"
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
             return ','.join(sorted_items)
-        elif isinstance(input_data, dict):
-            # For dictionaries, sort keys, remove duplicates, and join
-            sorted_keys = sorted(set(str(key).lower() for key in input_data.keys()))
-            return ','.join(sorted_keys)
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
