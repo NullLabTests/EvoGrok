@@ -66,11 +66,6 @@ def tentacle(input_data):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
             return ','.join(sorted_items)
-        elif isinstance(input_data, (int, float)):
-            # For numbers, return the sorted digits/characters, their sum, and the original input
-            sorted_digits = ''.join(sorted(str(input_data).lower()))
-            sum_of_digits = sum(int(digit) for digit in str(abs(input_data)) if digit.isdigit())
-            return f"{sorted_digits}, sum: {sum_of_digits}, original: {input_data}"
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
