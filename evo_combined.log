@@ -65149,3 +65149,428 @@
 2025-04-09 09:36:21,396 - INFO - Iteration 16060: Action=test_tentacles, Reward=5.0, State=[1.0, 856.0, 5.0, 16.200000762939453, 88.4000015258789]
 2025-04-09 09:36:22,400 - INFO - No tentacles deleted; preserving domain coverage
 2025-04-09 09:36:22,451 - INFO - Iteration 16061: Action=optimize_resources, Reward=0.0, State=[1.0, 857.0, 5.0, 13.899999618530273, 88.30000305175781]
+2025-04-09 09:36:27,144 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:36:27,160 - INFO - Fetched knowledge for domain: text processing
+2025-04-09 09:36:27,198 - INFO - Iteration 16062: Action=fetch_knowledge, Reward=1.0, State=[1.0, 857.0, 5.0, 6.699999809265137, 88.4000015258789]
+2025-04-09 09:36:28,200 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:36:28,201 - INFO - Selected challenge 28 for domain: text processing
+2025-04-09 09:36:28,201 - INFO - Tested tentacle 1307 on challenge 28: Reward 0.0
+2025-04-09 09:36:28,274 - INFO - Iteration 16063: Action=test_tentacles, Reward=0.0, State=[1.0, 857.0, 5.0, 17.299999237060547, 88.30000305175781]
+2025-04-09 09:36:29,275 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:36:29,275 - INFO - Selected challenge 1 for domain: text processing
+2025-04-09 09:36:29,275 - INFO - Tested tentacle 1307 on challenge 1: Reward 0.0
+2025-04-09 09:36:29,345 - INFO - Iteration 16064: Action=test_tentacles, Reward=0.0, State=[1.0, 857.0, 5.0, 22.799999237060547, 88.0]
+2025-04-09 09:36:30,346 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:36:30,346 - INFO - Selected challenge 21 for domain: mathematics
+2025-04-09 09:36:30,346 - INFO - Tested tentacle 1307 on challenge 21: Reward 0.0
+2025-04-09 09:36:30,396 - INFO - Iteration 16065: Action=test_tentacles, Reward=0.0, State=[1.0, 857.0, 5.0, 16.100000381469727, 88.19999694824219]
+2025-04-09 09:36:33,755 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:36:33,770 - INFO - Fetched knowledge for domain: natural language processing
+2025-04-09 09:36:33,815 - INFO - Iteration 16066: Action=fetch_knowledge, Reward=1.0, State=[1.0, 857.0, 5.0, 10.699999809265137, 87.80000305175781]
+2025-04-09 09:36:34,818 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:36:34,890 - INFO - Iteration 16067: Action=optimize_resources, Reward=0.0, State=[1.0, 857.0, 5.0, 18.899999618530273, 88.4000015258789]
+2025-04-09 09:36:35,893 - WARNING - Not enough tentacles to evolve
+2025-04-09 09:36:35,962 - INFO - Iteration 16068: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 857.0, 5.0, 23.0, 88.4000015258789]
+2025-04-09 09:36:38,893 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:36:38,936 - INFO - Fetched knowledge for domain: text processing
+2025-04-09 09:36:38,999 - INFO - Iteration 16069: Action=fetch_knowledge, Reward=1.0, State=[1.0, 857.0, 5.0, 24.399999618530273, 88.4000015258789]
+2025-04-09 09:36:40,001 - WARNING - Not enough tentacles to evolve
+2025-04-09 09:36:40,052 - INFO - Iteration 16070: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 857.0, 5.0, 22.899999618530273, 88.30000305175781]
+2025-04-09 09:36:41,054 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:36:41,110 - INFO - Iteration 16071: Action=optimize_resources, Reward=0.0, State=[1.0, 857.0, 5.0, 21.5, 88.19999694824219]
+2025-04-09 09:36:42,111 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:36:42,111 - INFO - Selected challenge 15 for domain: data analysis
+2025-04-09 09:36:42,126 - INFO - Tested tentacle 1307 on challenge 15: Reward 5.0
+2025-04-09 09:36:42,182 - INFO - Iteration 16072: Action=test_tentacles, Reward=5.0, State=[1.0, 857.0, 5.0, 20.299999237060547, 88.0999984741211]
+2025-04-09 09:36:43,183 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:36:43,184 - INFO - Selected challenge 29 for domain: mathematics
+2025-04-09 09:36:43,184 - INFO - Tested tentacle 1307 on challenge 29: Reward 0.0
+2025-04-09 09:36:43,276 - INFO - Iteration 16073: Action=test_tentacles, Reward=0.0, State=[1.0, 858.0, 5.0, 25.0, 89.0999984741211]
+2025-04-09 09:36:46,314 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:36:46,336 - INFO - Fetched knowledge for domain: natural language processing
+2025-04-09 09:36:46,400 - INFO - Iteration 16074: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 33.5, 89.30000305175781]
+2025-04-09 09:36:47,403 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:36:47,403 - INFO - Selected challenge 5 for domain: text processing
+2025-04-09 09:36:47,404 - INFO - Tested tentacle 1307 on challenge 5: Reward 0.0
+2025-04-09 09:36:47,465 - INFO - Iteration 16075: Action=test_tentacles, Reward=0.0, State=[1.0, 858.0, 5.0, 16.299999237060547, 88.9000015258789]
+2025-04-09 09:36:48,467 - WARNING - Not enough tentacles to evolve
+2025-04-09 09:36:48,531 - INFO - Iteration 16076: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 858.0, 5.0, 14.300000190734863, 89.0]
+2025-04-09 09:36:49,534 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:36:49,534 - INFO - Selected challenge 35 for domain: mathematics
+2025-04-09 09:36:49,535 - INFO - Tested tentacle 1307 on challenge 35: Reward 0.0
+2025-04-09 09:36:49,598 - INFO - Iteration 16077: Action=test_tentacles, Reward=0.0, State=[1.0, 858.0, 5.0, 12.100000381469727, 88.69999694824219]
+2025-04-09 09:36:50,601 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:36:50,668 - INFO - Iteration 16078: Action=optimize_resources, Reward=0.0, State=[1.0, 858.0, 5.0, 12.300000190734863, 88.69999694824219]
+2025-04-09 09:36:53,856 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:36:53,876 - INFO - Fetched knowledge for domain: text processing
+2025-04-09 09:36:53,941 - INFO - Iteration 16079: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 14.199999809265137, 88.4000015258789]
+2025-04-09 09:36:56,430 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:36:56,478 - INFO - Fetched knowledge for domain: mathematics
+2025-04-09 09:36:56,543 - INFO - Iteration 16080: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 11.800000190734863, 87.5999984741211]
+2025-04-09 09:36:57,546 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:36:57,609 - INFO - Iteration 16081: Action=optimize_resources, Reward=0.0, State=[1.0, 858.0, 5.0, 13.800000190734863, 87.69999694824219]
+2025-04-09 09:37:00,809 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:37:00,858 - INFO - Fetched knowledge for domain: data analysis
+2025-04-09 09:37:00,927 - INFO - Iteration 16082: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 11.899999618530273, 87.69999694824219]
+2025-04-09 09:37:04,013 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:37:04,029 - INFO - Fetched knowledge for domain: data analysis
+2025-04-09 09:37:04,071 - INFO - Iteration 16083: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 12.5, 87.5]
+2025-04-09 09:37:05,074 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:37:05,136 - INFO - Iteration 16084: Action=optimize_resources, Reward=0.0, State=[1.0, 858.0, 5.0, 12.600000381469727, 87.5999984741211]
+2025-04-09 09:37:06,137 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:37:06,220 - INFO - Iteration 16085: Action=optimize_resources, Reward=0.0, State=[1.0, 858.0, 5.0, 26.700000762939453, 87.69999694824219]
+2025-04-09 09:37:10,211 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:37:10,260 - INFO - Fetched knowledge for domain: text processing
+2025-04-09 09:37:10,320 - INFO - Iteration 16086: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 26.299999237060547, 87.69999694824219]
+2025-04-09 09:37:11,322 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:37:11,378 - INFO - Iteration 16087: Action=optimize_resources, Reward=0.0, State=[1.0, 858.0, 5.0, 13.100000381469727, 87.69999694824219]
+2025-04-09 09:37:17,602 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:37:17,624 - INFO - Fetched knowledge for domain: mathematics
+2025-04-09 09:37:17,690 - INFO - Iteration 16088: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 14.0, 87.69999694824219]
+2025-04-09 09:37:21,801 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:37:21,850 - INFO - Fetched knowledge for domain: logic
+2025-04-09 09:37:21,922 - INFO - Iteration 16089: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 13.899999618530273, 87.5999984741211]
+2025-04-09 09:37:27,031 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:37:27,037 - INFO - Fetched knowledge for domain: mathematics
+2025-04-09 09:37:27,076 - INFO - Iteration 16090: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 20.899999618530273, 87.69999694824219]
+2025-04-09 09:37:29,991 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:37:30,007 - INFO - Fetched knowledge for domain: text processing
+2025-04-09 09:37:30,064 - INFO - Iteration 16091: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 13.699999809265137, 87.69999694824219]
+2025-04-09 09:37:31,066 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:37:31,066 - INFO - Selected challenge 2 for domain: mathematics
+2025-04-09 09:37:31,066 - INFO - Tested tentacle 1307 on challenge 2: Reward 0.0
+2025-04-09 09:37:31,123 - INFO - Iteration 16092: Action=test_tentacles, Reward=0.0, State=[1.0, 858.0, 5.0, 17.899999618530273, 87.80000305175781]
+2025-04-09 09:37:33,686 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:37:33,703 - INFO - Fetched knowledge for domain: text processing
+2025-04-09 09:37:33,782 - INFO - Iteration 16093: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 13.0, 87.69999694824219]
+2025-04-09 09:37:38,889 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:37:38,909 - INFO - Fetched knowledge for domain: mathematics
+2025-04-09 09:37:38,983 - INFO - Iteration 16094: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 22.100000381469727, 87.80000305175781]
+2025-04-09 09:37:44,636 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:37:44,659 - INFO - Fetched knowledge for domain: mathematics
+2025-04-09 09:37:44,727 - INFO - Iteration 16095: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 15.100000381469727, 87.80000305175781]
+2025-04-09 09:37:47,236 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:37:47,284 - INFO - Fetched knowledge for domain: data analysis
+2025-04-09 09:37:47,341 - INFO - Iteration 16096: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 12.199999809265137, 87.80000305175781]
+2025-04-09 09:37:48,343 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:37:48,344 - INFO - Selected challenge 5 for domain: text processing
+2025-04-09 09:37:48,344 - INFO - Tested tentacle 1307 on challenge 5: Reward 0.0
+2025-04-09 09:37:48,410 - INFO - Iteration 16097: Action=test_tentacles, Reward=0.0, State=[1.0, 858.0, 5.0, 10.300000190734863, 87.9000015258789]
+2025-04-09 09:37:49,412 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:37:49,413 - INFO - Selected challenge 30 for domain: data analysis
+2025-04-09 09:37:49,413 - INFO - Tested tentacle 1307 on challenge 30: Reward 0.0
+2025-04-09 09:37:49,456 - INFO - Iteration 16098: Action=test_tentacles, Reward=0.0, State=[1.0, 858.0, 5.0, 7.099999904632568, 87.9000015258789]
+2025-04-09 09:37:50,458 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:37:50,459 - INFO - Selected challenge 28 for domain: text processing
+2025-04-09 09:37:50,460 - INFO - Tested tentacle 1307 on challenge 28: Reward 0.0
+2025-04-09 09:37:50,503 - INFO - Iteration 16099: Action=test_tentacles, Reward=0.0, State=[1.0, 858.0, 5.0, 4.800000190734863, 87.80000305175781]
+2025-04-09 09:37:54,891 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:37:54,912 - INFO - Fetched knowledge for domain: mathematics
+2025-04-09 09:37:54,983 - INFO - Iteration 16100: Action=fetch_knowledge, Reward=1.0, State=[1.0, 858.0, 5.0, 6.800000190734863, 87.80000305175781]
+2025-04-09 09:37:55,985 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:37:55,985 - INFO - Selected challenge 26 for domain: data analysis
+2025-04-09 09:37:56,001 - INFO - Tested tentacle 1307 on challenge 26: Reward 5.0
+2025-04-09 09:37:56,089 - INFO - Iteration 16101: Action=test_tentacles, Reward=5.0, State=[1.0, 858.0, 5.0, 33.400001525878906, 88.0999984741211]
+2025-04-09 09:37:57,091 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:37:57,091 - INFO - Selected challenge 32 for domain: mathematics
+2025-04-09 09:37:57,091 - INFO - Tested tentacle 1307 on challenge 32: Reward 0.0
+2025-04-09 09:37:57,151 - INFO - Iteration 16102: Action=test_tentacles, Reward=0.0, State=[1.0, 859.0, 5.0, 37.5, 89.30000305175781]
+2025-04-09 09:37:58,153 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:37:58,210 - INFO - Iteration 16103: Action=optimize_resources, Reward=0.0, State=[1.0, 859.0, 5.0, 18.899999618530273, 89.0999984741211]
+2025-04-09 09:37:59,211 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:37:59,212 - INFO - Selected challenge 43 for domain: mathematics
+2025-04-09 09:37:59,212 - INFO - Tested tentacle 1307 on challenge 43: Reward 0.0
+2025-04-09 09:37:59,272 - INFO - Iteration 16104: Action=test_tentacles, Reward=0.0, State=[1.0, 859.0, 5.0, 20.0, 89.0999984741211]
+2025-04-09 09:38:00,273 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:00,273 - INFO - Selected challenge 29 for domain: mathematics
+2025-04-09 09:38:00,273 - INFO - Tested tentacle 1307 on challenge 29: Reward 0.0
+2025-04-09 09:38:00,324 - INFO - Iteration 16105: Action=test_tentacles, Reward=0.0, State=[1.0, 859.0, 5.0, 16.700000762939453, 89.0]
+2025-04-09 09:38:01,325 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:01,326 - INFO - Selected challenge 30 for domain: data analysis
+2025-04-09 09:38:01,326 - INFO - Tested tentacle 1307 on challenge 30: Reward 0.0
+2025-04-09 09:38:01,375 - INFO - Iteration 16106: Action=test_tentacles, Reward=0.0, State=[1.0, 859.0, 5.0, 17.200000762939453, 89.0999984741211]
+2025-04-09 09:38:02,376 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:02,377 - INFO - Selected challenge 12 for domain: text processing
+2025-04-09 09:38:02,377 - INFO - Tested tentacle 1307 on challenge 12: Reward 0.0
+2025-04-09 09:38:02,433 - INFO - Iteration 16107: Action=test_tentacles, Reward=0.0, State=[1.0, 859.0, 5.0, 17.700000762939453, 89.0999984741211]
+2025-04-09 09:38:03,435 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:03,435 - INFO - Selected challenge 12 for domain: text processing
+2025-04-09 09:38:03,435 - INFO - Tested tentacle 1307 on challenge 12: Reward 0.0
+2025-04-09 09:38:03,509 - INFO - Iteration 16108: Action=test_tentacles, Reward=0.0, State=[1.0, 859.0, 5.0, 27.700000762939453, 89.0]
+2025-04-09 09:38:04,512 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:38:04,623 - INFO - Iteration 16109: Action=optimize_resources, Reward=0.0, State=[1.0, 859.0, 5.0, 30.799999237060547, 89.0]
+2025-04-09 09:38:05,624 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:05,625 - INFO - Selected challenge 23 for domain: text processing
+2025-04-09 09:38:05,625 - INFO - Tested tentacle 1307 on challenge 23: Reward 0.0
+2025-04-09 09:38:05,695 - INFO - Iteration 16110: Action=test_tentacles, Reward=0.0, State=[1.0, 859.0, 5.0, 29.299999237060547, 88.9000015258789]
+2025-04-09 09:38:06,697 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:38:06,755 - INFO - Iteration 16111: Action=optimize_resources, Reward=0.0, State=[1.0, 859.0, 5.0, 19.899999618530273, 88.9000015258789]
+2025-04-09 09:38:07,756 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:38:07,824 - INFO - Iteration 16112: Action=optimize_resources, Reward=0.0, State=[1.0, 859.0, 5.0, 31.0, 88.9000015258789]
+2025-04-09 09:38:12,078 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:38:12,086 - INFO - Fetched knowledge for domain: logic
+2025-04-09 09:38:12,177 - INFO - Iteration 16113: Action=fetch_knowledge, Reward=1.0, State=[1.0, 859.0, 5.0, 41.599998474121094, 89.0]
+2025-04-09 09:38:16,792 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:38:16,837 - INFO - Fetched knowledge for domain: natural language processing
+2025-04-09 09:38:16,891 - INFO - Iteration 16114: Action=fetch_knowledge, Reward=1.0, State=[1.0, 859.0, 5.0, 36.20000076293945, 90.19999694824219]
+2025-04-09 09:38:17,892 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:17,893 - INFO - Selected challenge 32 for domain: mathematics
+2025-04-09 09:38:17,893 - INFO - Tested tentacle 1307 on challenge 32: Reward 0.0
+2025-04-09 09:38:17,948 - INFO - Iteration 16115: Action=test_tentacles, Reward=0.0, State=[1.0, 859.0, 5.0, 24.700000762939453, 89.19999694824219]
+2025-04-09 09:38:18,949 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:18,949 - INFO - Selected challenge 35 for domain: mathematics
+2025-04-09 09:38:18,950 - INFO - Tested tentacle 1307 on challenge 35: Reward 0.0
+2025-04-09 09:38:18,996 - INFO - Iteration 16116: Action=test_tentacles, Reward=0.0, State=[1.0, 859.0, 5.0, 17.600000381469727, 89.0]
+2025-04-09 09:38:19,997 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:19,998 - INFO - Selected challenge 4 for domain: data analysis
+2025-04-09 09:38:20,013 - INFO - Tested tentacle 1307 on challenge 4: Reward 5.0
+2025-04-09 09:38:20,062 - INFO - Iteration 16117: Action=test_tentacles, Reward=5.0, State=[1.0, 859.0, 5.0, 17.0, 89.0]
+2025-04-09 09:38:21,063 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:38:21,104 - INFO - Iteration 16118: Action=optimize_resources, Reward=0.0, State=[1.0, 860.0, 5.0, 23.600000381469727, 88.4000015258789]
+2025-04-09 09:38:24,450 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:38:24,473 - INFO - Fetched knowledge for domain: natural language processing
+2025-04-09 09:38:24,524 - INFO - Iteration 16119: Action=fetch_knowledge, Reward=1.0, State=[1.0, 860.0, 5.0, 22.0, 88.30000305175781]
+2025-04-09 09:38:25,526 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:25,526 - INFO - Selected challenge 23 for domain: text processing
+2025-04-09 09:38:25,526 - INFO - Tested tentacle 1307 on challenge 23: Reward 0.0
+2025-04-09 09:38:25,568 - INFO - Iteration 16120: Action=test_tentacles, Reward=0.0, State=[1.0, 860.0, 5.0, 15.899999618530273, 88.30000305175781]
+2025-04-09 09:38:26,570 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:26,570 - INFO - Selected challenge 12 for domain: text processing
+2025-04-09 09:38:26,571 - INFO - Tested tentacle 1307 on challenge 12: Reward 0.0
+2025-04-09 09:38:26,617 - INFO - Iteration 16121: Action=test_tentacles, Reward=0.0, State=[1.0, 860.0, 5.0, 16.600000381469727, 88.4000015258789]
+2025-04-09 09:38:27,618 - WARNING - Not enough tentacles to evolve
+2025-04-09 09:38:27,656 - INFO - Iteration 16122: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 860.0, 5.0, 15.300000190734863, 88.4000015258789]
+2025-04-09 09:38:28,657 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:38:28,714 - INFO - Iteration 16123: Action=optimize_resources, Reward=0.0, State=[1.0, 860.0, 5.0, 13.899999618530273, 88.4000015258789]
+2025-04-09 09:38:29,717 - WARNING - Not enough tentacles to evolve
+2025-04-09 09:38:29,781 - INFO - Iteration 16124: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 860.0, 5.0, 16.600000381469727, 88.30000305175781]
+2025-04-09 09:38:30,784 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:30,784 - INFO - Selected challenge 13 for domain: mathematics
+2025-04-09 09:38:30,785 - INFO - Tested tentacle 1307 on challenge 13: Reward 0.0
+2025-04-09 09:38:30,862 - INFO - Iteration 16125: Action=test_tentacles, Reward=0.0, State=[1.0, 860.0, 5.0, 16.299999237060547, 88.30000305175781]
+2025-04-09 09:38:31,864 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:38:31,926 - INFO - Iteration 16126: Action=optimize_resources, Reward=0.0, State=[1.0, 860.0, 5.0, 16.200000762939453, 88.30000305175781]
+2025-04-09 09:38:32,930 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:32,930 - INFO - Selected challenge 27 for domain: text processing
+2025-04-09 09:38:32,931 - INFO - Tested tentacle 1307 on challenge 27: Reward 0.0
+2025-04-09 09:38:33,015 - INFO - Iteration 16127: Action=test_tentacles, Reward=0.0, State=[1.0, 860.0, 5.0, 19.100000381469727, 88.4000015258789]
+2025-04-09 09:38:34,016 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:38:34,063 - INFO - Iteration 16128: Action=optimize_resources, Reward=0.0, State=[1.0, 860.0, 5.0, 19.5, 88.4000015258789]
+2025-04-09 09:38:37,782 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:38:37,830 - INFO - Fetched knowledge for domain: data analysis
+2025-04-09 09:38:37,878 - INFO - Iteration 16129: Action=fetch_knowledge, Reward=1.0, State=[1.0, 860.0, 5.0, 16.600000381469727, 88.30000305175781]
+2025-04-09 09:38:41,122 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:38:41,137 - INFO - Fetched knowledge for domain: natural language processing
+2025-04-09 09:38:41,175 - INFO - Iteration 16130: Action=fetch_knowledge, Reward=1.0, State=[1.0, 860.0, 5.0, 15.5, 88.19999694824219]
+2025-04-09 09:38:43,720 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:38:43,766 - INFO - Fetched knowledge for domain: text processing
+2025-04-09 09:38:43,843 - INFO - Iteration 16131: Action=fetch_knowledge, Reward=1.0, State=[1.0, 860.0, 5.0, 13.899999618530273, 88.30000305175781]
+2025-04-09 09:38:44,845 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:44,845 - INFO - Selected challenge 30 for domain: data analysis
+2025-04-09 09:38:44,846 - INFO - Tested tentacle 1307 on challenge 30: Reward 0.0
+2025-04-09 09:38:44,909 - INFO - Iteration 16132: Action=test_tentacles, Reward=0.0, State=[1.0, 860.0, 5.0, 16.600000381469727, 88.30000305175781]
+2025-04-09 09:38:45,911 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:45,912 - INFO - Selected challenge 35 for domain: mathematics
+2025-04-09 09:38:45,912 - INFO - Tested tentacle 1307 on challenge 35: Reward 0.0
+2025-04-09 09:38:45,982 - INFO - Iteration 16133: Action=test_tentacles, Reward=0.0, State=[1.0, 860.0, 5.0, 18.899999618530273, 88.4000015258789]
+2025-04-09 09:38:46,983 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:46,983 - INFO - Selected challenge 39 for domain: text processing
+2025-04-09 09:38:46,984 - INFO - Tested tentacle 1307 on challenge 39: Reward 0.0
+2025-04-09 09:38:47,056 - INFO - Iteration 16134: Action=test_tentacles, Reward=0.0, State=[1.0, 860.0, 5.0, 28.299999237060547, 88.4000015258789]
+2025-04-09 09:38:48,056 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:48,057 - INFO - Selected challenge 2 for domain: mathematics
+2025-04-09 09:38:48,057 - INFO - Tested tentacle 1307 on challenge 2: Reward 0.0
+2025-04-09 09:38:48,093 - INFO - Iteration 16135: Action=test_tentacles, Reward=0.0, State=[1.0, 860.0, 5.0, 21.5, 88.4000015258789]
+2025-04-09 09:38:49,094 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:49,095 - INFO - Selected challenge 21 for domain: mathematics
+2025-04-09 09:38:49,095 - INFO - Tested tentacle 1307 on challenge 21: Reward 0.0
+2025-04-09 09:38:49,165 - INFO - Iteration 16136: Action=test_tentacles, Reward=0.0, State=[1.0, 860.0, 5.0, 20.799999237060547, 88.4000015258789]
+2025-04-09 09:38:52,797 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:38:52,844 - INFO - Fetched knowledge for domain: logic
+2025-04-09 09:38:52,906 - INFO - Iteration 16137: Action=fetch_knowledge, Reward=1.0, State=[1.0, 860.0, 5.0, 26.399999618530273, 88.4000015258789]
+2025-04-09 09:38:53,907 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:53,908 - INFO - Selected challenge 15 for domain: data analysis
+2025-04-09 09:38:53,924 - INFO - Tested tentacle 1307 on challenge 15: Reward 5.0
+2025-04-09 09:38:53,983 - INFO - Iteration 16138: Action=test_tentacles, Reward=5.0, State=[1.0, 860.0, 5.0, 16.700000762939453, 88.30000305175781]
+2025-04-09 09:38:54,984 - WARNING - Not enough tentacles to evolve
+2025-04-09 09:38:55,029 - INFO - Iteration 16139: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 861.0, 5.0, 17.799999237060547, 88.30000305175781]
+2025-04-09 09:38:56,031 - WARNING - Not enough tentacles to evolve
+2025-04-09 09:38:56,097 - INFO - Iteration 16140: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 861.0, 5.0, 16.799999237060547, 88.4000015258789]
+2025-04-09 09:38:57,099 - WARNING - Not enough tentacles to evolve
+2025-04-09 09:38:57,149 - INFO - Iteration 16141: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 861.0, 5.0, 26.100000381469727, 88.30000305175781]
+2025-04-09 09:38:58,152 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:58,152 - INFO - Selected challenge 15 for domain: data analysis
+2025-04-09 09:38:58,201 - INFO - Tested tentacle 1307 on challenge 15: Reward 5.0
+2025-04-09 09:38:58,306 - INFO - Iteration 16142: Action=test_tentacles, Reward=5.0, State=[1.0, 861.0, 5.0, 24.399999618530273, 88.80000305175781]
+2025-04-09 09:38:59,307 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:38:59,307 - INFO - Selected challenge 15 for domain: data analysis
+2025-04-09 09:38:59,323 - INFO - Tested tentacle 1307 on challenge 15: Reward 5.0
+2025-04-09 09:38:59,388 - INFO - Iteration 16143: Action=test_tentacles, Reward=5.0, State=[1.0, 862.0, 5.0, 34.599998474121094, 89.19999694824219]
+2025-04-09 09:39:00,389 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:00,390 - INFO - Selected challenge 41 for domain: data analysis
+2025-04-09 09:39:00,390 - INFO - Tested tentacle 1307 on challenge 41: Reward 0.0
+2025-04-09 09:39:00,457 - INFO - Iteration 16144: Action=test_tentacles, Reward=0.0, State=[1.0, 863.0, 5.0, 25.600000381469727, 88.69999694824219]
+2025-04-09 09:39:01,459 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:01,460 - INFO - Selected challenge 7 for domain: mathematics
+2025-04-09 09:39:01,461 - INFO - Tested tentacle 1307 on challenge 7: Reward 0.0
+2025-04-09 09:39:01,531 - INFO - Iteration 16145: Action=test_tentacles, Reward=0.0, State=[1.0, 863.0, 5.0, 12.0, 88.69999694824219]
+2025-04-09 09:39:02,534 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:39:02,606 - INFO - Iteration 16146: Action=optimize_resources, Reward=0.0, State=[1.0, 863.0, 5.0, 8.600000381469727, 88.5999984741211]
+2025-04-09 09:39:06,182 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:39:06,199 - INFO - Fetched knowledge for domain: data analysis
+2025-04-09 09:39:06,258 - INFO - Iteration 16147: Action=fetch_knowledge, Reward=1.0, State=[1.0, 863.0, 5.0, 10.0, 88.5]
+2025-04-09 09:39:07,261 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:39:07,334 - INFO - Iteration 16148: Action=optimize_resources, Reward=0.0, State=[1.0, 863.0, 5.0, 30.0, 88.9000015258789]
+2025-04-09 09:39:08,334 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:08,335 - INFO - Selected challenge 21 for domain: mathematics
+2025-04-09 09:39:08,335 - INFO - Tested tentacle 1307 on challenge 21: Reward 0.0
+2025-04-09 09:39:08,404 - INFO - Iteration 16149: Action=test_tentacles, Reward=0.0, State=[1.0, 863.0, 5.0, 22.799999237060547, 89.0]
+2025-04-09 09:39:11,115 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:39:11,133 - INFO - Fetched knowledge for domain: data analysis
+2025-04-09 09:39:11,208 - INFO - Iteration 16150: Action=fetch_knowledge, Reward=1.0, State=[1.0, 863.0, 5.0, 42.20000076293945, 89.9000015258789]
+2025-04-09 09:39:14,249 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:39:14,267 - INFO - Fetched knowledge for domain: mathematics
+2025-04-09 09:39:14,326 - INFO - Iteration 16151: Action=fetch_knowledge, Reward=1.0, State=[1.0, 863.0, 5.0, 34.900001525878906, 90.30000305175781]
+2025-04-09 09:39:15,327 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:15,327 - INFO - Selected challenge 12 for domain: text processing
+2025-04-09 09:39:15,327 - INFO - Tested tentacle 1307 on challenge 12: Reward 0.0
+2025-04-09 09:39:15,403 - INFO - Iteration 16152: Action=test_tentacles, Reward=0.0, State=[1.0, 863.0, 5.0, 22.0, 90.19999694824219]
+2025-04-09 09:39:16,404 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:16,404 - INFO - Selected challenge 39 for domain: text processing
+2025-04-09 09:39:16,404 - INFO - Tested tentacle 1307 on challenge 39: Reward 0.0
+2025-04-09 09:39:16,474 - INFO - Iteration 16153: Action=test_tentacles, Reward=0.0, State=[1.0, 863.0, 5.0, 25.700000762939453, 90.30000305175781]
+2025-04-09 09:39:17,475 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:17,475 - INFO - Selected challenge 15 for domain: data analysis
+2025-04-09 09:39:17,519 - INFO - Tested tentacle 1307 on challenge 15: Reward 5.0
+2025-04-09 09:39:17,587 - INFO - Iteration 16154: Action=test_tentacles, Reward=5.0, State=[1.0, 863.0, 5.0, 26.200000762939453, 90.19999694824219]
+2025-04-09 09:39:18,588 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:18,588 - INFO - Selected challenge 8 for domain: data analysis
+2025-04-09 09:39:18,589 - INFO - Tested tentacle 1307 on challenge 8: Reward 0.0
+2025-04-09 09:39:18,655 - INFO - Iteration 16155: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 26.5, 90.19999694824219]
+2025-04-09 09:39:21,815 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:39:21,835 - INFO - Fetched knowledge for domain: mathematics
+2025-04-09 09:39:21,904 - INFO - Iteration 16156: Action=fetch_knowledge, Reward=1.0, State=[1.0, 864.0, 5.0, 33.099998474121094, 90.0999984741211]
+2025-04-09 09:39:22,906 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:22,906 - INFO - Selected challenge 35 for domain: mathematics
+2025-04-09 09:39:22,906 - INFO - Tested tentacle 1307 on challenge 35: Reward 0.0
+2025-04-09 09:39:22,986 - INFO - Iteration 16157: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 33.099998474121094, 90.19999694824219]
+2025-04-09 09:39:23,989 - WARNING - Not enough tentacles to evolve
+2025-04-09 09:39:24,107 - INFO - Iteration 16158: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 864.0, 5.0, 41.29999923706055, 90.0999984741211]
+2025-04-09 09:39:25,109 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:39:25,179 - INFO - Iteration 16159: Action=optimize_resources, Reward=0.0, State=[1.0, 864.0, 5.0, 39.400001525878906, 90.19999694824219]
+2025-04-09 09:39:26,181 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:39:26,240 - INFO - Iteration 16160: Action=optimize_resources, Reward=0.0, State=[1.0, 864.0, 5.0, 28.600000381469727, 89.9000015258789]
+2025-04-09 09:39:29,190 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:39:29,205 - INFO - Fetched knowledge for domain: text processing
+2025-04-09 09:39:29,272 - INFO - Iteration 16161: Action=fetch_knowledge, Reward=1.0, State=[1.0, 864.0, 5.0, 21.799999237060547, 89.80000305175781]
+2025-04-09 09:39:30,273 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:30,273 - INFO - Selected challenge 43 for domain: mathematics
+2025-04-09 09:39:30,274 - INFO - Tested tentacle 1307 on challenge 43: Reward 0.0
+2025-04-09 09:39:30,339 - INFO - Iteration 16162: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 22.399999618530273, 89.5]
+2025-04-09 09:39:31,341 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:31,341 - INFO - Selected challenge 40 for domain: mathematics
+2025-04-09 09:39:31,342 - INFO - Tested tentacle 1307 on challenge 40: Reward 0.0
+2025-04-09 09:39:31,452 - INFO - Iteration 16163: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 34.0, 88.80000305175781]
+2025-04-09 09:39:32,454 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:32,454 - INFO - Selected challenge 43 for domain: mathematics
+2025-04-09 09:39:32,454 - INFO - Tested tentacle 1307 on challenge 43: Reward 0.0
+2025-04-09 09:39:32,572 - INFO - Iteration 16164: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 43.900001525878906, 88.69999694824219]
+2025-04-09 09:39:39,264 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:39:39,311 - INFO - Fetched knowledge for domain: mathematics
+2025-04-09 09:39:39,385 - INFO - Iteration 16165: Action=fetch_knowledge, Reward=1.0, State=[1.0, 864.0, 5.0, 37.5, 88.69999694824219]
+2025-04-09 09:39:40,386 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:40,386 - INFO - Selected challenge 21 for domain: mathematics
+2025-04-09 09:39:40,386 - INFO - Tested tentacle 1307 on challenge 21: Reward 0.0
+2025-04-09 09:39:40,456 - INFO - Iteration 16166: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 25.200000762939453, 88.69999694824219]
+2025-04-09 09:39:41,460 - WARNING - Not enough tentacles to evolve
+2025-04-09 09:39:41,568 - INFO - Iteration 16167: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 864.0, 5.0, 38.900001525878906, 88.69999694824219]
+2025-04-09 09:39:42,569 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:42,569 - INFO - Selected challenge 13 for domain: mathematics
+2025-04-09 09:39:42,570 - INFO - Tested tentacle 1307 on challenge 13: Reward 0.0
+2025-04-09 09:39:42,685 - INFO - Iteration 16168: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 35.599998474121094, 88.5]
+2025-04-09 09:39:46,642 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:39:46,663 - INFO - Fetched knowledge for domain: logic
+2025-04-09 09:39:46,726 - INFO - Iteration 16169: Action=fetch_knowledge, Reward=1.0, State=[1.0, 864.0, 5.0, 31.700000762939453, 88.5999984741211]
+2025-04-09 09:39:47,728 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:47,728 - INFO - Selected challenge 34 for domain: text processing
+2025-04-09 09:39:47,728 - INFO - Tested tentacle 1307 on challenge 34: Reward 0.0
+2025-04-09 09:39:47,779 - INFO - Iteration 16170: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 42.70000076293945, 88.9000015258789]
+2025-04-09 09:39:48,782 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:39:48,847 - INFO - Iteration 16171: Action=optimize_resources, Reward=0.0, State=[1.0, 864.0, 5.0, 19.200000762939453, 88.9000015258789]
+2025-04-09 09:39:49,850 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:49,851 - INFO - Selected challenge 29 for domain: mathematics
+2025-04-09 09:39:49,852 - INFO - Tested tentacle 1307 on challenge 29: Reward 0.0
+2025-04-09 09:39:49,911 - INFO - Iteration 16172: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 18.299999237060547, 88.80000305175781]
+2025-04-09 09:39:50,912 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:50,912 - INFO - Selected challenge 18 for domain: mathematics
+2025-04-09 09:39:50,912 - INFO - Tested tentacle 1307 on challenge 18: Reward 0.0
+2025-04-09 09:39:50,976 - INFO - Iteration 16173: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 39.29999923706055, 89.5]
+2025-04-09 09:39:51,979 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:39:52,040 - INFO - Iteration 16174: Action=optimize_resources, Reward=0.0, State=[1.0, 864.0, 5.0, 32.20000076293945, 89.5999984741211]
+2025-04-09 09:39:53,043 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:39:53,044 - INFO - Selected challenge 38 for domain: text processing
+2025-04-09 09:39:53,044 - INFO - Tested tentacle 1307 on challenge 38: Reward 0.0
+2025-04-09 09:39:53,114 - INFO - Iteration 16175: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 16.100000381469727, 89.5999984741211]
+2025-04-09 09:39:56,937 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:39:56,954 - INFO - Fetched knowledge for domain: text processing
+2025-04-09 09:39:57,008 - INFO - Iteration 16176: Action=fetch_knowledge, Reward=1.0, State=[1.0, 864.0, 5.0, 17.700000762939453, 89.5999984741211]
+2025-04-09 09:40:00,112 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:40:00,157 - INFO - Fetched knowledge for domain: data analysis
+2025-04-09 09:40:00,233 - INFO - Iteration 16177: Action=fetch_knowledge, Reward=1.0, State=[1.0, 864.0, 5.0, 22.200000762939453, 89.4000015258789]
+2025-04-09 09:40:01,236 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:40:01,237 - INFO - Selected challenge 43 for domain: mathematics
+2025-04-09 09:40:01,238 - INFO - Tested tentacle 1307 on challenge 43: Reward 0.0
+2025-04-09 09:40:01,330 - INFO - Iteration 16178: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 27.899999618530273, 89.30000305175781]
+2025-04-09 09:40:02,331 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:40:02,332 - INFO - Selected challenge 21 for domain: mathematics
+2025-04-09 09:40:02,332 - INFO - Tested tentacle 1307 on challenge 21: Reward 0.0
+2025-04-09 09:40:02,394 - INFO - Iteration 16179: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 26.200000762939453, 89.4000015258789]
+2025-04-09 09:40:03,396 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:40:03,396 - INFO - Selected challenge 40 for domain: mathematics
+2025-04-09 09:40:03,396 - INFO - Tested tentacle 1307 on challenge 40: Reward 0.0
+2025-04-09 09:40:03,512 - INFO - Iteration 16180: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 35.400001525878906, 89.0999984741211]
+2025-04-09 09:40:04,513 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:40:04,513 - INFO - Selected challenge 41 for domain: data analysis
+2025-04-09 09:40:04,513 - INFO - Tested tentacle 1307 on challenge 41: Reward 0.0
+2025-04-09 09:40:04,565 - INFO - Iteration 16181: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 22.200000762939453, 89.19999694824219]
+2025-04-09 09:40:05,567 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:40:05,567 - INFO - Selected challenge 30 for domain: data analysis
+2025-04-09 09:40:05,568 - INFO - Tested tentacle 1307 on challenge 30: Reward 0.0
+2025-04-09 09:40:05,641 - INFO - Iteration 16182: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 22.100000381469727, 88.80000305175781]
+2025-04-09 09:40:06,644 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:40:06,645 - INFO - Selected challenge 10 for domain: mathematics
+2025-04-09 09:40:06,646 - INFO - Tested tentacle 1307 on challenge 10: Reward 0.0
+2025-04-09 09:40:06,720 - INFO - Iteration 16183: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 23.299999237060547, 88.5999984741211]
+2025-04-09 09:40:07,721 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:40:07,785 - INFO - Iteration 16184: Action=optimize_resources, Reward=0.0, State=[1.0, 864.0, 5.0, 25.0, 88.80000305175781]
+2025-04-09 09:40:08,789 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 09:40:08,855 - INFO - Iteration 16185: Action=optimize_resources, Reward=0.0, State=[1.0, 864.0, 5.0, 19.399999618530273, 88.69999694824219]
+2025-04-09 09:40:09,857 - WARNING - Not enough tentacles to evolve
+2025-04-09 09:40:09,921 - INFO - Iteration 16186: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 864.0, 5.0, 17.0, 88.5]
+2025-04-09 09:40:10,924 - WARNING - Not enough tentacles to evolve
+2025-04-09 09:40:10,994 - INFO - Iteration 16187: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 864.0, 5.0, 17.600000381469727, 88.5]
+2025-04-09 09:40:14,872 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:40:14,888 - INFO - Fetched knowledge for domain: natural language processing
+2025-04-09 09:40:14,964 - INFO - Iteration 16188: Action=fetch_knowledge, Reward=1.0, State=[1.0, 864.0, 5.0, 17.600000381469727, 88.5]
+2025-04-09 09:40:19,096 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:40:19,145 - INFO - Fetched knowledge for domain: natural language processing
+2025-04-09 09:40:19,212 - INFO - Iteration 16189: Action=fetch_knowledge, Reward=1.0, State=[1.0, 864.0, 5.0, 27.700000762939453, 88.0999984741211]
+2025-04-09 09:40:20,213 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:40:20,213 - INFO - Selected challenge 38 for domain: text processing
+2025-04-09 09:40:20,213 - INFO - Tested tentacle 1307 on challenge 38: Reward 0.0
+2025-04-09 09:40:20,263 - INFO - Iteration 16190: Action=test_tentacles, Reward=0.0, State=[1.0, 864.0, 5.0, 17.799999237060547, 88.0999984741211]
+2025-04-09 09:40:24,882 - INFO - HTTP Request: POST https://api.x.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-09 09:40:24,903 - INFO - Fetched knowledge for domain: logic
+2025-04-09 09:40:24,959 - INFO - Iteration 16191: Action=fetch_knowledge, Reward=1.0, State=[1.0, 864.0, 5.0, 18.899999618530273, 88.0]
+2025-04-09 09:40:25,961 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:40:25,962 - INFO - Selected challenge 4 for domain: data analysis
+2025-04-09 09:40:25,979 - INFO - Tested tentacle 1307 on challenge 4: Reward 5.0
+2025-04-09 09:40:26,043 - INFO - Iteration 16192: Action=test_tentacles, Reward=5.0, State=[1.0, 864.0, 5.0, 16.799999237060547, 87.9000015258789]
+2025-04-09 09:40:27,045 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:40:27,045 - INFO - Selected challenge 40 for domain: mathematics
+2025-04-09 09:40:27,046 - INFO - Tested tentacle 1307 on challenge 40: Reward 0.0
+2025-04-09 09:40:27,109 - INFO - Iteration 16193: Action=test_tentacles, Reward=0.0, State=[1.0, 865.0, 5.0, 17.899999618530273, 87.9000015258789]
+2025-04-09 09:40:28,112 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 09:40:28,113 - INFO - Selected challenge 8 for domain: data analysis
+2025-04-09 09:40:28,114 - INFO - Tested tentacle 1307 on challenge 8: Reward 0.0
+2025-04-09 09:40:28,168 - INFO - Iteration 16194: Action=test_tentacles, Reward=0.0, State=[1.0, 865.0, 5.0, 16.899999618530273, 87.9000015258789]
