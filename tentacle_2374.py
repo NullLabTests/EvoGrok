@@ -55,20 +55,14 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Process the input as a string
-            lower_input = input_data.lower()
-            
-            # Check for specific keywords related to Wikipedia topics
-            if 'data analysis' in lower_input:
-                return "potential wikipedia data analysis content detected"
-            elif 'mathematics' in lower_input:
-                return "potential wikipedia mathematics content detected"
-            elif 'text processing' in lower_input:
-                return "potential wikipedia text processing content detected"
-            
-            # Split the input, sort it, remove duplicates, and join it back together
-            sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            return ','.join(sorted_items)
+            # Process string input
+            if ',' in input_data:
+                # Split the input, sort it, remove duplicates, and join it back together
+                sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
+                return ','.join(sorted_items)
+            else:
+                # Return lowercase string and its length
+                return f"{input_data.lower()}, length: {len(input_data)}"
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements, remove duplicates, and join them
             sorted_items = sorted(set(str(item).lower() for item in input_data))
