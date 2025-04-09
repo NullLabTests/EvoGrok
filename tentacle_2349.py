@@ -18,10 +18,12 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
-                elif 'history' in lower_input:
-                    return "wikipedia history html document detected"
-                elif 'technology' in lower_input:
-                    return "wikipedia technology html document detected"
+                elif 'data analysis' in lower_input:
+                    return "wikipedia data analysis html document detected"
+                elif 'mathematics' in lower_input:
+                    return "wikipedia mathematics html document detected"
+                elif 'text processing' in lower_input:
+                    return "wikipedia text processing html document detected"
                 else:
                     return "wikipedia generic html document detected"
             else:

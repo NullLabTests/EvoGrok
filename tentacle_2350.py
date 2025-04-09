@@ -5,11 +5,29 @@ def tentacle(input_data):
         
         # Determine the type of HTML document based on the title and content
         if 'data analysis' in lower_input:
-            return "wikipedia data analysis html document detected"
+            # Additional analysis for Data Analysis HTML
+            if 'statistics' in lower_input:
+                return "wikipedia data analysis (statistics) html document detected"
+            elif 'machine learning' in lower_input:
+                return "wikipedia data analysis (machine learning) html document detected"
+            else:
+                return "wikipedia data analysis html document detected"
         elif 'mathematics' in lower_input:
-            return "wikipedia mathematics html document detected"
+            # Additional analysis for Mathematics HTML
+            if 'algebra' in lower_input:
+                return "wikipedia mathematics (algebra) html document detected"
+            elif 'calculus' in lower_input:
+                return "wikipedia mathematics (calculus) html document detected"
+            else:
+                return "wikipedia mathematics html document detected"
         elif 'text processing' in lower_input:
-            return "wikipedia text processing html document detected"
+            # Additional analysis for Text Processing HTML
+            if 'natural language processing' in lower_input:
+                return "wikipedia text processing (nlp) html document detected"
+            elif 'regular expressions' in lower_input:
+                return "wikipedia text processing (regex) html document detected"
+            else:
+                return "wikipedia text processing html document detected"
         else:
             # Check for specific classes or attributes
             if 'class="mw-page-title-main"' in lower_input:

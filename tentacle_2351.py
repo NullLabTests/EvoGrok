@@ -18,12 +18,6 @@ def tentacle(input_data):
                     return "wikipedia statistics html document detected"
                 elif 'science' in lower_input:
                     return "wikipedia science html document detected"
-                elif 'mathematics' in lower_input:
-                    return "wikipedia mathematics html document detected"
-                elif 'data analysis' in lower_input:
-                    return "wikipedia data analysis html document detected"
-                elif 'text processing' in lower_input:
-                    return "wikipedia text processing html document detected"
                 else:
                     return "wikipedia generic html document detected"
             else:
@@ -40,19 +34,18 @@ def tentacle(input_data):
             sum_of_digits = sum(int(digit) for digit in str(abs(result)) if digit.isdigit())
             return f"{sorted_digits}, sum: {sum_of_digits}, original: {result}"
         elif isinstance(result, str):
-            # For strings, split, sort, remove duplicates, join, and calculate length
+            # For strings, split, sort, remove duplicates, join, and count unique items
             sorted_items = sorted(set(item.strip().lower() for item in result.split(',')))
-            joined_items = ','.join(sorted_items)
-            return f"{joined_items}, length: {len(joined_items)}"
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique items: {unique_count}"
         elif isinstance(result, (list, tuple, set)):
-            # For collections, sort elements, remove duplicates, join, and calculate length
+            # For collections, sort elements, remove duplicates, join, and count unique items
             sorted_items = sorted(set(str(item).lower() for item in result))
-            joined_items = ','.join(sorted_items)
-            return f"{joined_items}, length: {len(joined_items)}"
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique items: {unique_count}"
         else:
             # For other types, return a lowercase string representation, its length, and the original result
-            str_result = str(result).lower()
-            return f"{str_result}, length: {len(str_result)}, original: {result}"
+            return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
     except Exception as e:
         # If evaluation fails, process the input based on its type
         if isinstance(input_data, str):
@@ -64,16 +57,15 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Split the input, sort it, remove duplicates, join it back together, and calculate length
+            # Split the input, sort it, remove duplicates, join it back together, and count unique items
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
-            joined_items = ','.join(sorted_items)
-            return f"{joined_items}, length: {len(joined_items)}"
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique items: {unique_count}"
         elif isinstance(input_data, (list, tuple, set)):
-            # If it's a collection, sort its elements, remove duplicates, join them, and calculate length
+            # If it's a collection, sort its elements, remove duplicates, join them, and count unique items
             sorted_items = sorted(set(str(item).lower() for item in input_data))
-            joined_items = ','.join(sorted_items)
-            return f"{joined_items}, length: {len(joined_items)}"
+            unique_count = len(sorted_items)
+            return f"{','.join(sorted_items)}, unique items: {unique_count}"
         else:
             # For other types, return a lowercase string representation, its length, and the original input
-            str_input = str(input_data).lower()
-            return f"{str_input}, length: {len(str_input)}, original: {input_data}"
+            return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
