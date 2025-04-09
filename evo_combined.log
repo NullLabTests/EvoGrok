@@ -44117,3 +44117,67 @@
 2025-04-09 00:13:49,923 - INFO - Iteration 9804: Action=test_tentacles, Reward=5.0, State=[231.0, 3.753246784210205, 5.0, 3.9000000953674316, 76.80000305175781]
 2025-04-09 00:14:10,950 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/logic (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051c791d0>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
 2025-04-09 00:14:10,991 - INFO - Iteration 9805: Action=fetch_knowledge, Reward=-1.0, State=[231.0, 3.757575750350952, 5.0, 3.9000000953674316, 76.5999984741211]
+2025-04-09 00:14:32,018 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/logic (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051677950>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 00:14:32,061 - INFO - Iteration 9806: Action=fetch_knowledge, Reward=-1.0, State=[231.0, 3.757575750350952, 5.0, 3.0999999046325684, 76.5999984741211]
+2025-04-09 00:14:33,117 - INFO - Deleted tentacle 2173 (domains: ['mathematics', 'text processing', 'data analysis']) due to high resource usage
+2025-04-09 00:14:33,158 - INFO - Iteration 9807: Action=optimize_resources, Reward=1.0, State=[231.0, 3.757575750350952, 5.0, 3.5999999046325684, 76.69999694824219]
+2025-04-09 00:14:34,162 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 00:14:34,162 - INFO - Selected challenge 21 for domain: mathematics
+2025-04-09 00:14:34,162 - INFO - Tested tentacle 8 on challenge 21: Reward 0.0
+2025-04-09 00:14:34,201 - INFO - Iteration 9808: Action=test_tentacles, Reward=0.0, State=[230.0, 3.7739131450653076, 5.0, 3.4000000953674316, 76.69999694824219]
+2025-04-09 00:14:55,230 - INFO - Retrying request to /chat/completions in 0.449264 seconds
+2025-04-09 00:15:15,705 - INFO - Retrying request to /chat/completions in 0.896028 seconds
+2025-04-09 00:15:36,625 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-09 00:15:36,664 - INFO - Iteration 9809: Action=evolve_tentacle, Reward=-1.0, State=[230.0, 3.7739131450653076, 5.0, 3.5999999046325684, 76.69999694824219]
+2025-04-09 00:15:57,690 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/logic (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051dd6550>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 00:15:57,731 - INFO - Iteration 9810: Action=fetch_knowledge, Reward=-1.0, State=[230.0, 3.7739131450653076, 5.0, 3.799999952316284, 76.5999984741211]
+2025-04-09 00:15:58,733 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 00:15:58,734 - INFO - Selected challenge 38 for domain: text processing
+2025-04-09 00:15:58,735 - INFO - Tested tentacle 8 on challenge 38: Reward 0.0
+2025-04-09 00:15:58,769 - INFO - Iteration 9811: Action=test_tentacles, Reward=0.0, State=[230.0, 3.7739131450653076, 5.0, 3.700000047683716, 76.5]
+2025-04-09 00:15:59,771 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 00:15:59,772 - INFO - Selected challenge 28 for domain: text processing
+2025-04-09 00:15:59,773 - INFO - Tested tentacle 8 on challenge 28: Reward 0.0
+2025-04-09 00:15:59,806 - INFO - Iteration 9812: Action=test_tentacles, Reward=0.0, State=[230.0, 3.7739131450653076, 5.0, 3.200000047683716, 76.5999984741211]
+2025-04-09 00:16:00,809 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 00:16:00,809 - INFO - Selected challenge 30 for domain: data analysis
+2025-04-09 00:16:00,810 - INFO - Tested tentacle 1307 on challenge 30: Reward 0.0
+2025-04-09 00:16:00,844 - INFO - Iteration 9813: Action=test_tentacles, Reward=0.0, State=[230.0, 3.7739131450653076, 5.0, 3.200000047683716, 76.5999984741211]
+2025-04-09 00:16:01,847 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 00:16:01,848 - INFO - Selected challenge 29 for domain: mathematics
+2025-04-09 00:16:01,848 - INFO - Tested tentacle 8 on challenge 29: Reward 0.0
+2025-04-09 00:16:01,884 - INFO - Iteration 9814: Action=test_tentacles, Reward=0.0, State=[230.0, 3.7739131450653076, 5.0, 6.099999904632568, 76.69999694824219]
+2025-04-09 00:16:02,887 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 00:16:02,887 - INFO - Selected challenge 35 for domain: mathematics
+2025-04-09 00:16:02,936 - INFO - Tested tentacle 8 on challenge 35: Reward 5.0
+2025-04-09 00:16:02,972 - INFO - Iteration 9815: Action=test_tentacles, Reward=5.0, State=[230.0, 3.7739131450653076, 5.0, 3.0, 76.69999694824219]
+2025-04-09 00:16:03,993 - INFO - Deleted tentacle 2174 (domains: ['mathematics', 'text processing', 'data analysis']) due to high resource usage
+2025-04-09 00:16:04,029 - INFO - Iteration 9816: Action=optimize_resources, Reward=1.0, State=[230.0, 3.7782609462738037, 5.0, 3.799999952316284, 76.5999984741211]
+2025-04-09 00:16:25,055 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/logic (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051dd7990>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 00:16:25,095 - INFO - Iteration 9817: Action=fetch_knowledge, Reward=-1.0, State=[229.0, 3.794759750366211, 5.0, 2.9000000953674316, 76.5999984741211]
+2025-04-09 00:16:26,097 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 00:16:26,098 - INFO - Selected challenge 19 for domain: data analysis
+2025-04-09 00:16:26,099 - INFO - Tested tentacle 1307 on challenge 19: Reward 0.0
+2025-04-09 00:16:26,136 - INFO - Iteration 9818: Action=test_tentacles, Reward=0.0, State=[229.0, 3.794759750366211, 5.0, 3.299999952316284, 76.5]
+2025-04-09 00:16:27,139 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 00:16:27,140 - INFO - Selected challenge 30 for domain: data analysis
+2025-04-09 00:16:27,141 - INFO - Tested tentacle 1307 on challenge 30: Reward 0.0
+2025-04-09 00:16:27,174 - INFO - Iteration 9819: Action=test_tentacles, Reward=0.0, State=[229.0, 3.794759750366211, 5.0, 3.0999999046325684, 76.5]
+2025-04-09 00:16:28,177 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 00:16:28,177 - INFO - Selected challenge 4 for domain: data analysis
+2025-04-09 00:16:28,223 - INFO - Tested tentacle 1307 on challenge 4: Reward 5.0
+2025-04-09 00:16:28,260 - INFO - Iteration 9820: Action=test_tentacles, Reward=5.0, State=[229.0, 3.794759750366211, 5.0, 3.4000000953674316, 76.5999984741211]
+2025-04-09 00:16:29,263 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 00:16:29,263 - INFO - Selected challenge 27 for domain: text processing
+2025-04-09 00:16:29,264 - INFO - Tested tentacle 8 on challenge 27: Reward 0.0
+2025-04-09 00:16:29,302 - INFO - Iteration 9821: Action=test_tentacles, Reward=0.0, State=[229.0, 3.799126625061035, 5.0, 3.5, 76.5999984741211]
+2025-04-09 00:16:30,323 - INFO - Deleted tentacle 2175 (domains: ['mathematics', 'text processing', 'data analysis']) due to high resource usage
+2025-04-09 00:16:30,364 - INFO - Iteration 9822: Action=optimize_resources, Reward=1.0, State=[229.0, 3.799126625061035, 5.0, 3.299999952316284, 76.5999984741211]
+2025-04-09 00:16:51,393 - INFO - Retrying request to /chat/completions in 0.377446 seconds
+2025-04-09 00:17:11,795 - INFO - Retrying request to /chat/completions in 0.918602 seconds
+2025-04-09 00:17:32,738 - ERROR - Evolve tentacle failed: Connection error.
+2025-04-09 00:17:32,778 - INFO - Iteration 9823: Action=evolve_tentacle, Reward=-1.0, State=[228.0, 3.8157894611358643, 5.0, 3.299999952316284, 76.5999984741211]
+2025-04-09 00:17:53,803 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/mathematics (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051aca950>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 00:17:53,840 - INFO - Iteration 9824: Action=fetch_knowledge, Reward=-1.0, State=[228.0, 3.8157894611358643, 5.0, 4.0, 76.5]
+2025-04-09 00:18:14,868 - INFO - Retrying request to /chat/completions in 0.464068 seconds
+2025-04-09 00:18:35,357 - INFO - Retrying request to /chat/completions in 0.927226 seconds
