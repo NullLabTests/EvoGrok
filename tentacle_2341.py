@@ -1,4 +1,9 @@
 def tentacle(input_data):
+    # Function to process collections (list, tuple, set)
+    def process_collection(collection):
+        sorted_items = sorted(set(str(item).lower() for item in collection))
+        return ','.join(sorted_items)
+
     # Check if the input looks like the start of an HTML document
     if isinstance(input_data, str) and input_data.strip().lower().startswith('<!doctype'):
         lower_input = input_data.lower()
@@ -39,8 +44,7 @@ def tentacle(input_data):
             return ','.join(sorted_items)
         elif isinstance(result, (list, tuple, set)):
             # For collections, sort elements, remove duplicates, and join
-            sorted_items = sorted(set(str(item).lower() for item in result))
-            return ','.join(sorted_items)
+            return process_collection(result)
         else:
             # For other types, return a lowercase string representation, its length, and the original result
             return f"{str(result).lower()}, length: {len(str(result))}, original: {result}"
@@ -55,22 +59,12 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Check for specific keywords from the knowledge
-            lower_input = input_data.lower()
-            if 'data analysis' in lower_input:
-                return "data analysis text detected"
-            elif 'mathematics' in lower_input:
-                return "mathematics text detected"
-            elif 'text processing' in lower_input:
-                return "text processing text detected"
-            
             # Split the input, sort it, remove duplicates, and join it back together
             sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
             return ','.join(sorted_items)
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements, remove duplicates, and join them
-            sorted_items = sorted(set(str(item).lower() for item in input_data))
-            return ','.join(sorted_items)
+            return process_collection(input_data)
         else:
             # For other types, return a lowercase string representation, its length, and the original input
             return f"{str(input_data).lower()}, length: {len(str(input_data))}, original: {input_data}"
