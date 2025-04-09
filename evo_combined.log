@@ -59915,3 +59915,143 @@
 2025-04-09 08:28:52,270 - INFO - Iteration 14336: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.299999952316284, 85.30000305175781]
 2025-04-09 08:28:53,273 - INFO - No tentacles deleted; preserving domain coverage
 2025-04-09 08:28:53,309 - INFO - Iteration 14337: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.0, 85.30000305175781]
+2025-04-09 08:28:54,311 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:28:54,312 - INFO - Selected challenge 10 for domain: mathematics
+2025-04-09 08:28:54,312 - INFO - Tested tentacle 1307 on challenge 10: Reward 0.0
+2025-04-09 08:28:54,344 - INFO - Iteration 14338: Action=test_tentacles, Reward=0.0, State=[1.0, 761.0, 5.0, 5.599999904632568, 85.5]
+2025-04-09 08:29:15,367 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/logic (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d0518fb550>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 08:29:15,408 - INFO - Iteration 14339: Action=fetch_knowledge, Reward=-1.0, State=[1.0, 761.0, 5.0, 3.0, 85.5]
+2025-04-09 08:29:16,411 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:29:16,448 - INFO - Iteration 14340: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.0999999046325684, 85.19999694824219]
+2025-04-09 08:29:17,451 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:29:17,488 - INFO - Iteration 14341: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 4.099999904632568, 85.19999694824219]
+2025-04-09 08:29:18,489 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:29:18,489 - INFO - Selected challenge 39 for domain: text processing
+2025-04-09 08:29:18,489 - INFO - Tested tentacle 1307 on challenge 39: Reward 0.0
+2025-04-09 08:29:18,523 - INFO - Iteration 14342: Action=test_tentacles, Reward=0.0, State=[1.0, 761.0, 5.0, 3.4000000953674316, 85.19999694824219]
+2025-04-09 08:29:39,550 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/text_processing (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051c8d1d0>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 08:29:39,588 - INFO - Iteration 14343: Action=fetch_knowledge, Reward=-1.0, State=[1.0, 761.0, 5.0, 6.300000190734863, 85.30000305175781]
+2025-04-09 08:29:40,591 - WARNING - Not enough tentacles to evolve
+2025-04-09 08:29:40,626 - INFO - Iteration 14344: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 761.0, 5.0, 6.0, 85.30000305175781]
+2025-04-09 08:29:41,628 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:29:41,629 - INFO - Selected challenge 6 for domain: text processing
+2025-04-09 08:29:41,629 - INFO - Tested tentacle 1307 on challenge 6: Reward 0.0
+2025-04-09 08:29:41,665 - INFO - Iteration 14345: Action=test_tentacles, Reward=0.0, State=[1.0, 761.0, 5.0, 3.200000047683716, 85.30000305175781]
+2025-04-09 08:29:42,667 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:29:42,701 - INFO - Iteration 14346: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.5, 85.19999694824219]
+2025-04-09 08:29:43,704 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:29:43,745 - INFO - Iteration 14347: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.799999952316284, 85.30000305175781]
+2025-04-09 08:29:44,748 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:29:44,785 - INFO - Iteration 14348: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.4000000953674316, 85.30000305175781]
+2025-04-09 08:29:45,788 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:29:45,823 - INFO - Iteration 14349: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 2.9000000953674316, 85.30000305175781]
+2025-04-09 08:29:46,826 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:29:46,862 - INFO - Iteration 14350: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.299999952316284, 85.30000305175781]
+2025-04-09 08:30:07,889 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/mathematics (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051677690>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 08:30:07,929 - INFO - Iteration 14351: Action=fetch_knowledge, Reward=-1.0, State=[1.0, 761.0, 5.0, 5.5, 85.30000305175781]
+2025-04-09 08:30:28,954 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/natural_language_processing (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051a359d0>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 08:30:28,993 - INFO - Iteration 14352: Action=fetch_knowledge, Reward=-1.0, State=[1.0, 761.0, 5.0, 5.099999904632568, 85.30000305175781]
+2025-04-09 08:30:29,996 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:30:30,033 - INFO - Iteration 14353: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.299999952316284, 85.30000305175781]
+2025-04-09 08:30:31,036 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:30:31,071 - INFO - Iteration 14354: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.0999999046325684, 85.30000305175781]
+2025-04-09 08:30:32,073 - WARNING - Not enough tentacles to evolve
+2025-04-09 08:30:32,110 - INFO - Iteration 14355: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 761.0, 5.0, 3.0, 85.30000305175781]
+2025-04-09 08:30:33,112 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:30:33,148 - INFO - Iteration 14356: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.0999999046325684, 85.30000305175781]
+2025-04-09 08:30:34,152 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:30:34,188 - INFO - Iteration 14357: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.9000000953674316, 85.30000305175781]
+2025-04-09 08:30:35,191 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:30:35,226 - INFO - Iteration 14358: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.200000047683716, 85.30000305175781]
+2025-04-09 08:30:36,229 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:30:36,264 - INFO - Iteration 14359: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.0, 85.30000305175781]
+2025-04-09 08:30:37,267 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:30:37,302 - INFO - Iteration 14360: Action=optimize_resources, Reward=0.0, State=[1.0, 761.0, 5.0, 3.0, 85.30000305175781]
+2025-04-09 08:30:38,305 - WARNING - Not enough tentacles to evolve
+2025-04-09 08:30:38,339 - INFO - Iteration 14361: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 761.0, 5.0, 3.200000047683716, 85.30000305175781]
+2025-04-09 08:30:39,342 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:30:39,343 - INFO - Selected challenge 32 for domain: mathematics
+2025-04-09 08:30:39,343 - INFO - Tested tentacle 1307 on challenge 32: Reward 0.0
+2025-04-09 08:30:39,383 - INFO - Iteration 14362: Action=test_tentacles, Reward=0.0, State=[1.0, 761.0, 5.0, 4.099999904632568, 85.30000305175781]
+2025-04-09 08:31:00,410 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/data_analysis (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051b3c550>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 08:31:00,451 - INFO - Iteration 14363: Action=fetch_knowledge, Reward=-1.0, State=[1.0, 761.0, 5.0, 3.299999952316284, 85.30000305175781]
+2025-04-09 08:31:21,477 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/natural_language_processing (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051dd5c10>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 08:31:21,516 - INFO - Iteration 14364: Action=fetch_knowledge, Reward=-1.0, State=[1.0, 761.0, 5.0, 3.0999999046325684, 85.19999694824219]
+2025-04-09 08:31:42,542 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/data_analysis (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051b175d0>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 08:31:42,582 - INFO - Iteration 14365: Action=fetch_knowledge, Reward=-1.0, State=[1.0, 761.0, 5.0, 4.0, 85.4000015258789]
+2025-04-09 08:31:43,584 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:31:43,585 - INFO - Selected challenge 26 for domain: data analysis
+2025-04-09 08:31:43,632 - INFO - Tested tentacle 1307 on challenge 26: Reward 5.0
+2025-04-09 08:31:43,670 - INFO - Iteration 14366: Action=test_tentacles, Reward=5.0, State=[1.0, 761.0, 5.0, 3.5, 85.4000015258789]
+2025-04-09 08:32:04,696 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/data_analysis (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051a3cd90>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 08:32:04,736 - INFO - Iteration 14367: Action=fetch_knowledge, Reward=-1.0, State=[1.0, 762.0, 5.0, 3.299999952316284, 85.4000015258789]
+2025-04-09 08:32:05,738 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:32:05,739 - INFO - Selected challenge 2 for domain: mathematics
+2025-04-09 08:32:05,739 - INFO - Tested tentacle 1307 on challenge 2: Reward 0.0
+2025-04-09 08:32:05,771 - INFO - Iteration 14368: Action=test_tentacles, Reward=0.0, State=[1.0, 762.0, 5.0, 3.5999999046325684, 85.19999694824219]
+2025-04-09 08:32:06,774 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:32:06,774 - INFO - Selected challenge 40 for domain: mathematics
+2025-04-09 08:32:06,775 - INFO - Tested tentacle 1307 on challenge 40: Reward 0.0
+2025-04-09 08:32:06,815 - INFO - Iteration 14369: Action=test_tentacles, Reward=0.0, State=[1.0, 762.0, 5.0, 2.799999952316284, 85.19999694824219]
+2025-04-09 08:32:07,817 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:32:07,818 - INFO - Selected challenge 39 for domain: text processing
+2025-04-09 08:32:07,818 - INFO - Tested tentacle 1307 on challenge 39: Reward 0.0
+2025-04-09 08:32:07,853 - INFO - Iteration 14370: Action=test_tentacles, Reward=0.0, State=[1.0, 762.0, 5.0, 3.299999952316284, 85.19999694824219]
+2025-04-09 08:32:08,856 - WARNING - Not enough tentacles to evolve
+2025-04-09 08:32:08,891 - INFO - Iteration 14371: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 762.0, 5.0, 4.699999809265137, 85.19999694824219]
+2025-04-09 08:32:09,894 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:32:09,933 - INFO - Iteration 14372: Action=optimize_resources, Reward=0.0, State=[1.0, 762.0, 5.0, 3.4000000953674316, 85.19999694824219]
+2025-04-09 08:32:10,936 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:32:10,936 - INFO - Selected challenge 10 for domain: mathematics
+2025-04-09 08:32:10,937 - INFO - Tested tentacle 1307 on challenge 10: Reward 0.0
+2025-04-09 08:32:11,004 - INFO - Iteration 14373: Action=test_tentacles, Reward=0.0, State=[1.0, 762.0, 5.0, 4.5, 85.19999694824219]
+2025-04-09 08:32:12,007 - WARNING - Not enough tentacles to evolve
+2025-04-09 08:32:12,043 - INFO - Iteration 14374: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 762.0, 5.0, 4.400000095367432, 85.19999694824219]
+2025-04-09 08:32:13,045 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:32:13,046 - INFO - Selected challenge 26 for domain: data analysis
+2025-04-09 08:32:13,092 - INFO - Tested tentacle 1307 on challenge 26: Reward 5.0
+2025-04-09 08:32:13,128 - INFO - Iteration 14375: Action=test_tentacles, Reward=5.0, State=[1.0, 762.0, 5.0, 3.0, 85.19999694824219]
+2025-04-09 08:32:14,130 - WARNING - Not enough tentacles to evolve
+2025-04-09 08:32:14,166 - INFO - Iteration 14376: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 763.0, 5.0, 2.9000000953674316, 85.19999694824219]
+2025-04-09 08:32:35,193 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/natural_language_processing (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051c905d0>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 08:32:35,231 - INFO - Iteration 14377: Action=fetch_knowledge, Reward=-1.0, State=[1.0, 763.0, 5.0, 4.800000190734863, 85.30000305175781]
+2025-04-09 08:32:36,233 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:32:36,234 - INFO - Selected challenge 34 for domain: text processing
+2025-04-09 08:32:36,234 - INFO - Tested tentacle 1307 on challenge 34: Reward 0.0
+2025-04-09 08:32:36,268 - INFO - Iteration 14378: Action=test_tentacles, Reward=0.0, State=[1.0, 763.0, 5.0, 3.0999999046325684, 85.30000305175781]
+2025-04-09 08:32:57,290 - ERROR - Fetch knowledge failed: HTTPSConnectionPool(host='en.wikipedia.org', port=443): Max retries exceeded with url: /wiki/logic (Caused by NameResolutionError("<urllib3.connection.HTTPSConnection object at 0x74d051742210>: Failed to resolve 'en.wikipedia.org' ([Errno -3] Temporary failure in name resolution)"))
+2025-04-09 08:32:57,322 - INFO - Iteration 14379: Action=fetch_knowledge, Reward=-1.0, State=[1.0, 763.0, 5.0, 3.9000000953674316, 85.19999694824219]
+2025-04-09 08:32:58,325 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:32:58,325 - INFO - Selected challenge 35 for domain: mathematics
+2025-04-09 08:32:58,326 - INFO - Tested tentacle 1307 on challenge 35: Reward 0.0
+2025-04-09 08:32:58,361 - INFO - Iteration 14380: Action=test_tentacles, Reward=0.0, State=[1.0, 763.0, 5.0, 2.9000000953674316, 85.30000305175781]
+2025-04-09 08:32:59,363 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:32:59,363 - INFO - Selected challenge 37 for domain: data analysis
+2025-04-09 08:32:59,410 - INFO - Tested tentacle 1307 on challenge 37: Reward 5.0
+2025-04-09 08:32:59,451 - INFO - Iteration 14381: Action=test_tentacles, Reward=5.0, State=[1.0, 763.0, 5.0, 3.200000047683716, 85.30000305175781]
+2025-04-09 08:33:00,453 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:33:00,454 - INFO - Selected challenge 21 for domain: mathematics
+2025-04-09 08:33:00,454 - INFO - Tested tentacle 1307 on challenge 21: Reward 0.0
+2025-04-09 08:33:00,489 - INFO - Iteration 14382: Action=test_tentacles, Reward=0.0, State=[1.0, 764.0, 5.0, 3.0999999046325684, 85.30000305175781]
+2025-04-09 08:33:01,491 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:33:01,492 - INFO - Selected challenge 2 for domain: mathematics
+2025-04-09 08:33:01,493 - INFO - Tested tentacle 1307 on challenge 2: Reward 0.0
+2025-04-09 08:33:01,527 - INFO - Iteration 14383: Action=test_tentacles, Reward=0.0, State=[1.0, 764.0, 5.0, 3.0, 85.30000305175781]
+2025-04-09 08:33:02,531 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:33:02,566 - INFO - Iteration 14384: Action=optimize_resources, Reward=0.0, State=[1.0, 764.0, 5.0, 3.5999999046325684, 85.30000305175781]
+2025-04-09 08:33:03,569 - INFO - No tentacles deleted; preserving domain coverage
+2025-04-09 08:33:03,605 - INFO - Iteration 14385: Action=optimize_resources, Reward=0.0, State=[1.0, 764.0, 5.0, 2.9000000953674316, 85.30000305175781]
+2025-04-09 08:33:04,607 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:33:04,608 - INFO - Selected challenge 35 for domain: mathematics
+2025-04-09 08:33:04,609 - INFO - Tested tentacle 1307 on challenge 35: Reward 0.0
+2025-04-09 08:33:04,644 - INFO - Iteration 14386: Action=test_tentacles, Reward=0.0, State=[1.0, 764.0, 5.0, 3.299999952316284, 85.30000305175781]
+2025-04-09 08:33:05,646 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:33:05,646 - INFO - Selected challenge 35 for domain: mathematics
+2025-04-09 08:33:05,647 - INFO - Tested tentacle 1307 on challenge 35: Reward 0.0
+2025-04-09 08:33:05,681 - INFO - Iteration 14387: Action=test_tentacles, Reward=0.0, State=[1.0, 764.0, 5.0, 3.0, 85.30000305175781]
+2025-04-09 08:33:06,683 - INFO - Available domains: {'mathematics', 'text processing', 'data analysis'}
+2025-04-09 08:33:06,684 - INFO - Selected challenge 7 for domain: mathematics
+2025-04-09 08:33:06,685 - INFO - Tested tentacle 1307 on challenge 7: Reward 0.0
+2025-04-09 08:33:06,721 - INFO - Iteration 14388: Action=test_tentacles, Reward=0.0, State=[1.0, 764.0, 5.0, 3.0, 85.19999694824219]
+2025-04-09 08:33:07,724 - WARNING - Not enough tentacles to evolve
+2025-04-09 08:33:07,761 - INFO - Iteration 14389: Action=evolve_tentacle, Reward=-1.0, State=[1.0, 764.0, 5.0, 3.5999999046325684, 85.19999694824219]
