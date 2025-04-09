@@ -21,7 +21,13 @@ def tentacle(input_data):
                 else:
                     return "wikipedia generic html document detected"
             else:
-                return "generic html document detected"
+                # Check for specific features based on knowledge
+                if 'enabled' in lower_input and 'disabled' in lower_input:
+                    return "wikipedia page with custom feature settings detected"
+                elif 'language' in lower_input:
+                    return "wikipedia page with language settings detected"
+                else:
+                    return "generic html document detected"
     
     try:
         # Attempt to evaluate the input as a mathematical expression
@@ -55,19 +61,8 @@ def tentacle(input_data):
             if any(char in input_data for char in '+-*/()'):
                 return f"unevaluated math expression: {input_data.lower()}"
             
-            # Process the input string
-            processed_input = input_data.lower()
-            
-            # Check for specific keywords related to Wikipedia topics
-            if 'data analysis' in processed_input:
-                return "data analysis text detected"
-            elif 'mathematics' in processed_input:
-                return "mathematics text detected"
-            elif 'text processing' in processed_input:
-                return "text processing text detected"
-            
             # Split the input, sort it, remove duplicates, and join it back together
-            sorted_items = sorted(set(item.strip().lower() for item in processed_input.split(',')))
+            sorted_items = sorted(set(item.strip().lower() for item in input_data.split(',')))
             return ','.join(sorted_items)
         elif isinstance(input_data, (list, tuple, set)):
             # If it's a collection, sort its elements, remove duplicates, and join them
